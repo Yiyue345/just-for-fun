@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:go_deeper/core/network/user_controller.dart';
+import 'package:go_deeper/ui/pages/test_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -10,9 +13,14 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
-  var _pages = [
+  final _pages = [
     Center(
-      child: Text('111'),
+      child: ElevatedButton(
+          onPressed: () {
+            Get.to(TestPage());
+          },
+          child: Text('Go to Test Page')
+      ),
     ),
     Center(
       child: Text('222'),
@@ -25,6 +33,7 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: _selectedIndex);
+    Get.put(UserController());
   }
 
   @override
