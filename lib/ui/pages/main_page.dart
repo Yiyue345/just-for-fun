@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_deeper/core/network/user_auth.dart';
 import 'package:go_deeper/core/network/user_controller.dart';
+import 'package:go_deeper/core/utils/user_utils.dart';
+import 'package:go_deeper/ui/pages/settings_page/settings_page.dart';
 import 'package:go_deeper/ui/pages/test_page.dart';
+import 'package:go_deeper/ui/pages/user_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -13,6 +17,12 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
+
+  final _bottomNavItems = [
+    BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+    BottomNavigationBarItem(icon: Icon(Icons.person), label: 'User'),
+  ];
+
   final _pages = [
     Center(
       child: ElevatedButton(
@@ -22,9 +32,7 @@ class _MainPageState extends State<MainPage> {
           child: Text('Go to Test Page')
       ),
     ),
-    Center(
-      child: Text('222'),
-    )
+    UserPage()
   ];
 
   late PageController _pageController;
@@ -39,17 +47,49 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
 
+    final userController = Get.find<UserController>();
+
     return Scaffold(
+      appBar: AppBar(
+        actions: _selectedIndex == 1
+            ? [
+              IconButton(onPressed: () {
+                Get.to(() => SettingsPage());
+              },
+                  icon: Icon(Icons.settings)
+              ),
+
+            Obx(
+                    () => userController.isLoggedIn.value
+                        ? IconButton(
+                        onPressed: () {
+                          showSignOutDialog(context);
+                          },
+                        icon: Icon(
+                            Icons.logout,
+                          color: Colors.red,
+                        )
+                    )
+                        : IconButton(
+                        onPressed: () {
+                          showSignInDialog(context);
+                          },
+                        icon: Icon(
+                            Icons.login,
+                          color: Colors.blue,
+                        )
+                    )
+            )
+        ]
+            : null,
+      ),
       body: PageView(
         controller: _pageController,
         onPageChanged: _onPageChanged,
         children: _pages,
       ),
       bottomNavigationBar: BottomNavigationBar(
-          items: [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'User'),
-          ],
+          items: _bottomNavItems,
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
       ),
