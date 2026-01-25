@@ -9,6 +9,18 @@ class SettingsPage extends StatelessWidget {
         title: Text('Settings'),
 
       ),
+      body: ListView(
+        children: [
+          ListTile(
+            title: Text('User'),
+            subtitle: Text('User settings and preferences'),
+            // leading: Icon(Icons.person),
+            onTap: () {
+
+            }
+          )
+        ],
+      ),
     );
   }
 }

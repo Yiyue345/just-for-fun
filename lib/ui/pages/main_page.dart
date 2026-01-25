@@ -88,6 +88,15 @@ class _MainPageState extends State<MainPage> {
         onPageChanged: _onPageChanged,
         children: _pages,
       ),
+      floatingActionButton: _selectedIndex == 0
+          ? FloatingActionButton(onPressed: () {
+          
+          },
+        shape: CircleBorder(),
+        child: Icon(Icons.add),
+      )
+          : null
+      ,
       bottomNavigationBar: BottomNavigationBar(
           items: _bottomNavItems,
         currentIndex: _selectedIndex,
