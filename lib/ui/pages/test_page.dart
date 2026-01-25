@@ -33,8 +33,18 @@ class _TestPageState extends State<TestPage> {
               children: <Widget>[
                 Text(userController.user.value!.email ?? 'No Email'),
                 SizedBox(height: 20),
+                Text(userController.user.value!.userMetadata?['display_name'] ?? ''),
+                SizedBox(height: 20),
                 Text(userController.user.value!.id),
                 SizedBox(height: 20,),
+                Text(userController.session.value?.expiresIn.toString() ?? ''),
+                SizedBox(height: 20),
+                ElevatedButton(
+                    onPressed: () async {
+                      await setUserName('1112223333');
+                    },
+                    child: Text('Change display name')
+                ),
                 ElevatedButton(onPressed: () async {
                   signOut();
                 },

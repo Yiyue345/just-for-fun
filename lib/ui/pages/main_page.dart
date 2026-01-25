@@ -17,7 +17,7 @@ class _MainPageState extends State<MainPage> {
     Center(
       child: ElevatedButton(
           onPressed: () {
-            Get.to(TestPage());
+            Get.to(() => TestPage());
           },
           child: Text('Go to Test Page')
       ),
@@ -47,8 +47,8 @@ class _MainPageState extends State<MainPage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
           items: [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
-            BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'settings'),
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'User'),
           ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,

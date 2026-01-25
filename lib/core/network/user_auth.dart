@@ -59,3 +59,23 @@ Future<void> signOut() async {
   userController.isLoggedIn.value = false;
   print('Sign out successful');
 }
+
+Future<bool> setUserMetadata(Map<String, dynamic> metadata) async {
+  final userController = Get.find<UserController>();
+  final supabase = Supabase.instance.client;
+  final response = await supabase.auth.updateUser(
+      UserAttributes(
+        data: metadata,
+      )
+  );
+  if (response.user != null) {
+    userController.user.value = response.user;
+    return true;
+  } else {
+    return false;
+  }
+}
+
+Future<bool> setUserName(String displayName) async {
+  return await setUserMetadata({'display_name': displayName});
+}
