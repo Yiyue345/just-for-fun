@@ -5,12 +5,22 @@ Future<bool> checkForUpdate() async {
   final supabase = Supabase.instance.client;
   final packageInfo = await PackageInfo.fromPlatform();
   String version = packageInfo.version;
-  print(version);
+  // print(version);
   
   final response = await supabase
   .from('versions')
   .select()
   .eq('version_number', version);
-  print(response.toString());
+  // print(response.toString());
   return (response as List<Map>)[0]['can_update'] as bool;
+}
+
+Future<String> getUpdateURL() async {
+  final supabase = Supabase.instance.client;
+
+  final response = await supabase
+  .from('update_links')
+  .select();
+
+  return (response as List<Map>)[0]['link'] as String;
 }
