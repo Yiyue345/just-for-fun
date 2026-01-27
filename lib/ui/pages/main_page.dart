@@ -39,6 +39,7 @@ class _MainPageState extends State<MainPage> {
     _pageController = PageController(initialPage: _selectedIndex);
     Get.put(UserController());
     Get.put(FeedItemController());
+    Get.put(SettingsController());
   }
 
   @override
