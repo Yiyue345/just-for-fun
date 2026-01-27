@@ -1,3 +1,7 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'feeditem.g.dart';
+
 enum FeedType {
   article,
   video,
@@ -9,9 +13,11 @@ abstract class FeedItem {
   final FeedType type;
   final String title;
   final String summary;
+  @JsonKey(name: 'created_at')
   final DateTime publishedTime;
   final String author;
   final String? coverUrl;
+  final bool public;
 
   FeedItem({
     required this.id,
@@ -20,10 +26,12 @@ abstract class FeedItem {
     required this.summary,
     required this.publishedTime,
     required this.author,
+    required this.public,
     this.coverUrl,
   });
 }
 
+@JsonSerializable()
 class ArticleFeed extends FeedItem {
   final String content;
 
@@ -34,10 +42,15 @@ class ArticleFeed extends FeedItem {
     required super.publishedTime,
     super.coverUrl,
     required super.author,
+    required super.public,
     required this.content,
   }) : super(type: FeedType.article);
+
+  factory ArticleFeed.fromJson(Map<String, dynamic> json) => _$ArticleFeedFromJson(json);
+  Map<String, dynamic> toJson() => _$ArticleFeedToJson(this);
 }
 
+@JsonSerializable()
 class VideoFeed extends FeedItem {
   final String videoUrl;
   final Duration duration;
@@ -49,11 +62,16 @@ class VideoFeed extends FeedItem {
     required super.publishedTime,
     required super.author,
     super.coverUrl,
+    required super.public,
     required this.videoUrl,
     required this.duration,
   }) : super(type: FeedType.video);
+
+  factory VideoFeed.fromJson(Map<String, dynamic> json) => _$VideoFeedFromJson(json);
+  Map<String, dynamic> toJson() => _$VideoFeedToJson(this);
 }
 
+@JsonSerializable()
 class QuestionFeed extends FeedItem {
   final String question;
   final List<String> answers;
@@ -65,7 +83,11 @@ class QuestionFeed extends FeedItem {
     required super.publishedTime,
     required super.author,
     super.coverUrl,
+    required super.public,
     required this.question,
     required this.answers,
   }) : super(type: FeedType.question);
+
+  factory QuestionFeed.fromJson(Map<String, dynamic> json) => _$QuestionFeedFromJson(json);
+  Map<String, dynamic> toJson() => _$QuestionFeedToJson(this);
 }

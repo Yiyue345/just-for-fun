@@ -45,6 +45,10 @@ dependencies:
   loading_more_list: ^7.1.0
   # 包括瀑布流在内的多种布局
   flutter_staggered_grid_view: ^0.7.0
+  # 获取版本信息
+  package_info_plus: ^9.0.0
+
+  json_annotation: ^4.9.0
 
 
 
@@ -52,13 +56,15 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  build_runner: ^2.4.15
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
+  # 处理json的好东西
+  json_serializable: ^6.11.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
