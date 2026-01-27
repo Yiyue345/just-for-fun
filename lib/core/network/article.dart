@@ -51,10 +51,11 @@ Future<void> deleteArticle({
       .eq('id', articleID);
 }
 
+/// page is zero based
 Future<List<ArticleFeed>> getArticles({
   String? authorUUID,
-  int startIndex = 0,
-  int count = 20,
+  int page = 0,
+  int perPage = 20,
   bool reserve = false
 }) async {
   final supabase = Supabase.instance.client;
@@ -65,16 +66,17 @@ Future<List<ArticleFeed>> getArticles({
         .select()
         .eq('author', authorUUID)
         .order('created_at', ascending: reserve)
-        .range(startIndex, startIndex + count - 1);
+        .range(page * perPage, page * perPage + perPage - 1);
   }
   else {
     query = supabase
         .from('article')
         .select()
         .order('created_at', ascending: reserve)
-        .range(startIndex, startIndex + count - 1);
+        .range(page * perPage, page * perPage + perPage - 1);
   }
   final response = await query;
+  print(response.toString());
   final data = response as List<dynamic>;
   return data.map((e) => ArticleFeed.fromJson(e as Map<String, dynamic>)).toList();
 }

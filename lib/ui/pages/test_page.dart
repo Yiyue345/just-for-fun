@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:go_deeper/core/network/article.dart';
 import 'package:go_deeper/core/network/user_auth.dart';
 import 'package:go_deeper/core/network/user_controller.dart';
 import 'package:go_deeper/core/utils/user_utils.dart';
@@ -45,6 +46,11 @@ class _TestPageState extends State<TestPage> {
                       await setUserName('1112223333');
                     },
                     child: Text('Change display name')
+                ),
+                ElevatedButton(onPressed: () async {
+                  await getArticles();
+                },
+                  child: Text('Get articles'),
                 ),
                 ElevatedButton(onPressed: () async {
                   signOut();

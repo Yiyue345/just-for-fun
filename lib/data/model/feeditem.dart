@@ -9,7 +9,7 @@ enum FeedType {
 }
 
 abstract class FeedItem {
-  final String id;
+  final int id;
   final FeedType type;
   final String title;
   final String summary;

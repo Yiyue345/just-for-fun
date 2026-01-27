@@ -7,7 +7,7 @@ part of 'feeditem.dart';
 // **************************************************************************
 
 ArticleFeed _$ArticleFeedFromJson(Map<String, dynamic> json) => ArticleFeed(
-  id: json['id'] as String,
+  id: (json['id'] as num).toInt(),
   title: json['title'] as String,
   summary: json['summary'] as String,
   publishedTime: DateTime.parse(json['created_at'] as String),
@@ -30,7 +30,7 @@ Map<String, dynamic> _$ArticleFeedToJson(ArticleFeed instance) =>
     };
 
 VideoFeed _$VideoFeedFromJson(Map<String, dynamic> json) => VideoFeed(
-  id: json['id'] as String,
+  id: (json['id'] as num).toInt(),
   title: json['title'] as String,
   summary: json['summary'] as String,
   publishedTime: DateTime.parse(json['created_at'] as String),
@@ -54,7 +54,7 @@ Map<String, dynamic> _$VideoFeedToJson(VideoFeed instance) => <String, dynamic>{
 };
 
 QuestionFeed _$QuestionFeedFromJson(Map<String, dynamic> json) => QuestionFeed(
-  id: json['id'] as String,
+  id: (json['id'] as num).toInt(),
   title: json['title'] as String,
   summary: json['summary'] as String,
   publishedTime: DateTime.parse(json['created_at'] as String),

@@ -4,7 +4,10 @@ import 'package:get/get.dart';
 import 'package:go_deeper/core/network/user_auth.dart';
 import 'package:go_deeper/core/network/user_controller.dart';
 import 'package:go_deeper/core/utils/user_utils.dart';
+import 'package:go_deeper/data/model/feeditem_controller.dart';
+import 'package:go_deeper/ui/pages/edit_article_page.dart';
 import 'package:go_deeper/ui/pages/settings_page/settings_page.dart';
+import 'package:go_deeper/ui/pages/suggestion_page.dart';
 import 'package:go_deeper/ui/pages/test_page.dart';
 import 'package:go_deeper/ui/pages/user_page.dart';
 
@@ -24,14 +27,7 @@ class _MainPageState extends State<MainPage> {
   ];
 
   final _pages = [
-    Center(
-      child: ElevatedButton(
-          onPressed: () {
-            Get.to(() => TestPage());
-          },
-          child: Text('Go to Test Page')
-      ),
-    ),
+    SuggestionPage(),
     UserPage()
   ];
 
@@ -42,6 +38,7 @@ class _MainPageState extends State<MainPage> {
     super.initState();
     _pageController = PageController(initialPage: _selectedIndex);
     Get.put(UserController());
+    Get.put(FeedItemController());
   }
 
   @override
@@ -88,14 +85,19 @@ class _MainPageState extends State<MainPage> {
         onPageChanged: _onPageChanged,
         children: _pages,
       ),
-      floatingActionButton: _selectedIndex == 0
-          ? FloatingActionButton(onPressed: () {
-          
+      floatingActionButton: Obx(() {
+        if (userController.isLoggedIn.value && _selectedIndex == 0) {
+          return FloatingActionButton(onPressed: () {
+            Get.to(() => EditArticlePage());
           },
-        shape: CircleBorder(),
-        child: Icon(Icons.add),
-      )
-          : null
+            shape: CircleBorder(),
+            child: Icon(Icons.add),
+          );
+        }
+        else {
+          return SizedBox.shrink();
+        }
+      })
       ,
       bottomNavigationBar: BottomNavigationBar(
           items: _bottomNavItems,
