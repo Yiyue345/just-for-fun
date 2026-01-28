@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:go_deeper/data/model/feeditem.dart';
+import 'package:go_deeper/ui/pages/article_page.dart';
 
 import '../../core/network/user_controller.dart';
 import '../../data/model/feeditem_controller.dart';
@@ -48,6 +50,9 @@ class SuggestionPage extends StatelessWidget {
                     return ListTile(
                       title: Text(item.title),
                       subtitle: Text(item.summary),
+                      onTap: () {
+                        Get.to(() => ArticlePage(article: item as ArticleFeed));
+                      },
                     );
                   }
                 }

@@ -28,6 +28,12 @@ class UserPage extends StatelessWidget {
         ListTile(
           subtitle: Text(userController.user.value!.email!),
           minTileHeight: 8,
+        ),
+        ListTile(
+          title: Text('My articles'),
+          onTap: () {
+
+          }
         )
       ]
           : [
