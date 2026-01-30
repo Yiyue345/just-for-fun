@@ -15,6 +15,7 @@ ArticleFeed _$ArticleFeedFromJson(Map<String, dynamic> json) => ArticleFeed(
   author: json['author'] as String,
   public: json['public'] as bool,
   content: json['content'] as String,
+  authorName: json['author_name'] as String?,
 );
 
 Map<String, dynamic> _$ArticleFeedToJson(ArticleFeed instance) =>
@@ -27,6 +28,7 @@ Map<String, dynamic> _$ArticleFeedToJson(ArticleFeed instance) =>
       'coverUrl': instance.coverUrl,
       'public': instance.public,
       'content': instance.content,
+      'author_name': instance.authorName,
     };
 
 VideoFeed _$VideoFeedFromJson(Map<String, dynamic> json) => VideoFeed(

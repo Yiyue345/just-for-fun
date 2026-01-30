@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'feeditem.g.dart';
@@ -34,6 +35,8 @@ abstract class FeedItem {
 @JsonSerializable()
 class ArticleFeed extends FeedItem {
   final String content;
+  @JsonKey(name: 'author_name')
+  final String? authorName;
 
   ArticleFeed({
     required super.id,
@@ -44,6 +47,7 @@ class ArticleFeed extends FeedItem {
     required super.author,
     required super.public,
     required this.content,
+    this.authorName
   }) : super(type: FeedType.article);
 
   factory ArticleFeed.fromJson(Map<String, dynamic> json) => _$ArticleFeedFromJson(json);

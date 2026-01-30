@@ -37,6 +37,7 @@ class _EditArticlePageState extends State<EditArticlePage> {
                 }
                 await createArticle(
                     authorUUID: Supabase.instance.client.auth.currentUser!.id,
+                    authorName: Supabase.instance.client.auth.currentUser!.userMetadata?['display_name'],
                     title: title,
                     content: content,
                     summary: summary

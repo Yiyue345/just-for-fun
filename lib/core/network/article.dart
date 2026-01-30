@@ -6,12 +6,21 @@ Future<void> createArticle({
   required String title,
   required String content,
   String? summary,
+  String? authorName,
   bool public = true
 }) async {
   final supabase = Supabase.instance.client;
   await supabase
       .from('article')
-      .insert({'author': authorUUID, 'title': title, 'content': content, 'summary': summary, 'public': public, 'created_at': DateTime.now().toIso8601String()});
+      .insert({
+    'author': authorUUID,
+    'author_name': authorName,
+    'title': title,
+    'content': content,
+    'summary': summary,
+    'public': public,
+    'created_at': DateTime.now().toIso8601String()
+      });
 }
 
 Future<void> updateArticle({
@@ -42,7 +51,7 @@ Future<void> updateArticle({
 }
 
 Future<void> deleteArticle({
-  required String articleID,
+  required int articleID,
 }) async {
   final supabase = Supabase.instance.client;
   await supabase
