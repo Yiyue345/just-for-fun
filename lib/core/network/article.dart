@@ -27,7 +27,7 @@ Future<ArticleFeed> createArticle({
 }
 
 Future<void> updateArticle({
-  required String articleID,
+  required int articleID,
   String? title,
   String? content,
   String? summary,
@@ -35,6 +35,10 @@ Future<void> updateArticle({
 }) async {
   final supabase = Supabase.instance.client;
   final updates = <String, dynamic>{};
+  // print('articleID: $articleID');
+  // print('title: $title');
+  // print('content: $content');
+  // print('summary: $summary');
   if (title != null) {
     updates['title'] = title;
   }
@@ -47,10 +51,13 @@ Future<void> updateArticle({
   if (public != null) {
     updates['public'] = public;
   }
-  await supabase
+  final response = await supabase
       .from('article')
       .update(updates)
-      .eq('id', articleID);
+      .eq('id', articleID)
+      .select();
+  
+  // print(response.toString());
 }
 
 Future<void> deleteArticle({

@@ -9,6 +9,9 @@ class FeedItemController extends GetxController {
   final hasMore = true.obs;
   final page = 0.obs;
 
+  final isEditingArticle = false.obs;
+  ArticleFeed? editingArticle;
+
   Future<void> loadFeeds({bool refresh = false}) async {
 
   }

@@ -5,7 +5,7 @@ Future<bool> checkForUpdate() async {
   final supabase = Supabase.instance.client;
   final packageInfo = await PackageInfo.fromPlatform();
   String version = packageInfo.version;
-  // print(version);
+  print(version);
   
   final response = await supabase
   .from('versions')

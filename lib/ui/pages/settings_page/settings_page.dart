@@ -36,6 +36,13 @@ class SettingsPage extends StatelessWidget {
             }
           ),
           ListTile(
+            title: Text('Language'),
+            subtitle: Text('Change app language'),
+            onTap: () {
+
+            },
+          ),
+          ListTile(
             title: Text('Check for updates'),
             onTap: () async {
               Fluttertoast.showToast(msg: 'Checking for updates...');

@@ -244,6 +244,7 @@ void showSetUserNameDialog(BuildContext context) {
                 onPressed: () async {
                   await setUserName(displayName);
                   Fluttertoast.showToast(msg: 'Display name updated.');
+                  controller.dispose();
                   Get.back();
                 },
                 child: Text('Set')

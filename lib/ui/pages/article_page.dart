@@ -5,6 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:go_deeper/core/network/article.dart';
 import 'package:go_deeper/data/model/feeditem.dart';
 import 'package:go_deeper/data/model/feeditem_controller.dart';
+import 'package:go_deeper/ui/pages/edit_article_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ArticlePage extends StatelessWidget {
@@ -76,7 +77,10 @@ class ArticlePage extends StatelessWidget {
       onSelected: (value) {
         switch (value) {
           case 'edit':
-            // Get.to(() => EditArticlePage(article: article));
+            final feedController = Get.find<FeedItemController>();
+            feedController.isEditingArticle.value = true;
+            feedController.editingArticle = article;
+            Get.off(() => EditArticlePage());
             break;
           case 'delete':
             _showDeleteDialog(context);
@@ -84,17 +88,29 @@ class ArticlePage extends StatelessWidget {
         }
       },
         itemBuilder: (context) => [
-          if (article.author == Supabase.instance.client.auth.currentUser!.id)
-          PopupMenuItem(
-            value: 'delete',
-              child: Row(
-                children: [
-                  Icon(Icons.delete, color: Colors.red),
-                  SizedBox(width: 8),
-                  Text('Delete', style: TextStyle(color: Colors.red)),
-                ],
-              )
-          )
+          if (article.author == Supabase.instance.client.auth.currentUser!.id) ...[
+            PopupMenuItem(
+              value: 'edit',
+                child: Row(
+                  children: [
+                    Icon(Icons.edit, color: Colors.blue),
+                    SizedBox(width: 8),
+                    Text('Edit'),
+                  ],
+                ),
+            ),
+            PopupMenuItem(
+                value: 'delete',
+                child: Row(
+                  children: [
+                    Icon(Icons.delete, color: Colors.red),
+                    SizedBox(width: 8),
+                    Text('Delete', style: TextStyle(color: Colors.red)),
+                  ],
+                )
+            )
+          ]
+
         ]
     );
   }
