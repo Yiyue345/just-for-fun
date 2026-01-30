@@ -51,7 +51,7 @@ class SettingsPage extends StatelessWidget {
               settingsController.checkingUpdate.value = false;
               if (update) {
                 Fluttertoast.showToast(msg: 'A new update is available!');
-                Map<String, String> updates = await getUpdateURLAndDetails();
+                Map updates = await getUpdateURLAndDetails();
                 String updateUrl = updates['link'] ?? '';
                 showDialog(
                     context: context,

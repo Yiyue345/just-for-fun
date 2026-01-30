@@ -15,12 +15,12 @@ Future<bool> checkForUpdate() async {
   return (response as List<Map>)[0]['can_update'] as bool;
 }
 
-Future<Map<String, String>> getUpdateURLAndDetails() async {
+Future<Map<String, dynamic>> getUpdateURLAndDetails() async {
   final supabase = Supabase.instance.client;
 
   final response = await supabase
   .from('update_links')
   .select();
 
-  return (response as List<Map<String, String>>)[0];
+  return (response as List<Map<String, dynamic>>)[0];
 }
