@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:go_deeper/core/network/article.dart';
+import 'package:go_deeper/data/model/comment.dart';
 import 'package:go_deeper/data/model/feeditem.dart';
 import 'package:go_deeper/data/model/feeditem_controller.dart';
 import 'package:go_deeper/ui/pages/edit_article_page.dart';
@@ -66,9 +67,20 @@ class ArticlePage extends StatelessWidget {
                 height: 1.5,
               ),
             ),
+            Divider(
+
+            )
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            
+          },
+        shape: CircleBorder(),
+        child: Icon(Icons.add_comment),
+      ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
   
@@ -139,6 +151,39 @@ class ArticlePage extends StatelessWidget {
             )
           ],
         )
+    );
+  }
+
+  Future<void> _showPostCommentDialog(BuildContext context, Comment? parentComment) async {
+    String commentContent = '';
+    showDialog(
+      barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              parentComment == null ? 'Post Comment to ${article.authorName}' : 'Reply to ${parentComment.userName}'
+            ),
+            content: TextField(
+              onChanged: (value) {
+                commentContent = value;
+              },
+              maxLines: 5,
+              decoration: InputDecoration(
+                hintText: 'Enter your comment here',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            actions: [
+              TextButton(onPressed: () {
+                Get.back();
+              }, child: Text('Cancel')),
+              TextButton(onPressed: () {
+
+              }, child: Text('Post'))
+            ],
+          );
+        }
     );
   }
 }
