@@ -23,6 +23,7 @@ class _EditArticlePageState extends State<EditArticlePage> {
   String content = '';
   bool publicArticle = true;
   bool isUploading = false;
+  bool isEdited = false;
 
   late FeedItemController _feedItemController;
   late TextEditingController _titleController;
@@ -50,6 +51,10 @@ class _EditArticlePageState extends State<EditArticlePage> {
         title: Text('Edit Article'),
         leading: IconButton(
             onPressed: () {
+              if (!isEdited) {
+                Get.back();
+                return;
+              }
               showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
@@ -103,6 +108,7 @@ class _EditArticlePageState extends State<EditArticlePage> {
               ),
               onChanged: (value) {
                 title = value;
+                isEdited = true;
               },
             ),
             TextField(
@@ -116,6 +122,7 @@ class _EditArticlePageState extends State<EditArticlePage> {
               ),
               onChanged: (value) {
                 summary = value;
+                isEdited = true;
               },
             ),
             CheckboxListTile(
@@ -124,6 +131,7 @@ class _EditArticlePageState extends State<EditArticlePage> {
                 controlAffinity: ListTileControlAffinity.leading,
                 title: Text('Public Article'),
                 onChanged: (value) {
+                  isEdited = true;
                   setState(() {
                     publicArticle = value ?? true;
                   });
@@ -144,6 +152,7 @@ class _EditArticlePageState extends State<EditArticlePage> {
               maxLines: null,
               onChanged: (value) {
                 content = value;
+                isEdited = true;
               },
             ))
           ],
