@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -55,6 +56,10 @@ void showSignUpDialog(BuildContext context) {
             ),
             TextButton(
                 onPressed: () async {
+                  if (password.length < 6) {
+                    Fluttertoast.showToast(msg: 'Password must be at least 6 characters long.');
+                    return;
+                  }
                   try {
                     await signUp(email, password);
                     Fluttertoast.showToast(msg: 'Signed up successfully.');
@@ -155,6 +160,18 @@ void showSignInDialog(BuildContext context) {
                         return;
                       }
                       Fluttertoast.showToast(msg: e.message);
+                      // debug 用
+                      // showDialog(
+                      //     context: context,
+                      //     builder: (context) => AlertDialog(
+                      //       content: TextButton(
+                      //           onPressed: () async {
+                      //             await Clipboard.setData(ClipboardData(text: e.message));
+                      //           },
+                      //           child: Text(e.message)
+                      //       ),
+                      //     )
+                      // );
                     } else {
                       Fluttertoast.showToast(msg: 'An unexpected error occurred.');
                     }

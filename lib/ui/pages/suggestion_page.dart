@@ -46,7 +46,7 @@ class SuggestionPage extends StatelessWidget {
                     }
                   }
                   else {
-                    final item = feedItemController.feedItems[index];
+                    final item = feedItemController.feedItems[feedItemController.feedItems.length - index - 1];
                     return ListTile(
                       title: Text(item.title),
                       subtitle: Text(item.summary),

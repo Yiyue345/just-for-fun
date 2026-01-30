@@ -7,9 +7,6 @@ Future<void> signUp(
     String password
     ) async {
   final userController = Get.find<UserController>();
-  if (email.isEmpty || !email.contains('@') || password.isEmpty || password.length < 6) {
-    return;
-  }
   final supabase = Supabase.instance.client;
   AuthResponse res = await supabase.auth.signUp(
       email: email,
