@@ -1,7 +1,7 @@
 import 'package:go_deeper/data/model/feeditem.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-Future<void> createArticle({
+Future<ArticleFeed> createArticle({
   required String authorUUID,
   required String title,
   required String content,
@@ -10,7 +10,7 @@ Future<void> createArticle({
   bool public = true
 }) async {
   final supabase = Supabase.instance.client;
-  await supabase
+  final article = await supabase
       .from('article')
       .insert({
     'author': authorUUID,
@@ -20,7 +20,10 @@ Future<void> createArticle({
     'summary': summary,
     'public': public,
     'created_at': DateTime.now().toIso8601String()
-      });
+      })
+  .select();
+  final data = (article as List<dynamic>)[0] as Map<String, dynamic>;
+  return ArticleFeed.fromJson(data);
 }
 
 Future<void> updateArticle({

@@ -135,10 +135,19 @@ void showSignInDialog(BuildContext context) {
             ),
             TextButton(
                 onPressed: () async {
+                  if (email.isEmpty || password.isEmpty) {
+                    Fluttertoast.showToast(msg: 'Email and password cannot be empty.');
+                    return;
+                  }
                   try {
                     await signIn(email, password);
-                    Fluttertoast.showToast(msg: 'Signed in successfully.');
-                    Get.back();
+                    if (Supabase.instance.client.auth.currentUser != null) {
+                      Fluttertoast.showToast(msg: 'Signed in successfully.');
+                      Get.back();
+                    }
+                    else {
+                      Fluttertoast.showToast(msg: 'Sign in failed.');
+                    }
                   } catch (e) {
                     if (e is AuthException) {
                       if (e.message == 'Invalid login credentials') {
