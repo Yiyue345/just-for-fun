@@ -26,7 +26,7 @@ Future<ArticleFeed> createArticle({
   return ArticleFeed.fromJson(data);
 }
 
-Future<void> updateArticle({
+Future<ArticleFeed> updateArticle({
   required int articleID,
   String? title,
   String? content,
@@ -58,6 +58,8 @@ Future<void> updateArticle({
       .select();
   
   // print(response.toString());
+  final data = (response as List<dynamic>)[0] as Map<String, dynamic>;
+  return ArticleFeed.fromJson(data);
 }
 
 Future<void> deleteArticle({

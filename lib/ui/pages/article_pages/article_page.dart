@@ -6,7 +6,7 @@ import 'package:go_deeper/core/network/article.dart';
 import 'package:go_deeper/data/model/comment.dart';
 import 'package:go_deeper/data/model/feeditem.dart';
 import 'package:go_deeper/data/model/feeditem_controller.dart';
-import 'package:go_deeper/ui/pages/edit_article_page.dart';
+import 'package:go_deeper/ui/pages/article_pages/edit_article_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ArticlePage extends StatelessWidget {

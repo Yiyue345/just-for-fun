@@ -5,6 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:go_deeper/core/network/article.dart';
 import 'package:go_deeper/data/model/feeditem.dart';
 import 'package:go_deeper/data/model/feeditem_controller.dart';
+import 'package:go_deeper/ui/pages/article_pages/article_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class EditArticlePage extends StatefulWidget {
@@ -184,30 +185,36 @@ class _EditArticlePageState extends State<EditArticlePage> {
           isUploading = true;
           try {
             if (_feedItemController.isEditingArticle.value) {
-              await updateArticle(
+              final newItem = await updateArticle(
                   articleID: _feedItemController.editingArticle!.id,
                   title: title,
                   content: content,
                   summary: summary
               );
+              final index = _feedItemController.feedItems.indexWhere((item) => item.id == newItem.id);
+              if (index != -1) {
+                _feedItemController.feedItems[index] = newItem;
+              }
               Fluttertoast.showToast(msg: 'Article updated successfully.');
+              Get.off(() => ArticlePage(article: newItem));
             }
             else {
-              await createArticle(
+              final newItem = await createArticle(
                   authorUUID: Supabase.instance.client.auth.currentUser!.id,
                   authorName: Supabase.instance.client.auth.currentUser!.userMetadata?['display_name'],
                   title: title,
                   content: content,
                   summary: summary
               );
+              _feedItemController.feedItems.add(newItem);
               Fluttertoast.showToast(msg: 'Article created successfully.');
+              Get.back();
             }
           } catch (e) {
             Fluttertoast.showToast(msg: 'Failed to create article: $e');
             isUploading = false;
             return;
           }
-          Get.back();
         },
         icon: Icon(Icons.send)
     );
