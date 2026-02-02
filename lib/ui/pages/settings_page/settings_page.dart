@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:go_deeper/core/network/update.dart';
+import 'package:go_deeper/ui/pages/settings_page/change_language_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsController extends GetxController {
@@ -39,7 +40,7 @@ class SettingsPage extends StatelessWidget {
             title: Text('Language'),
             subtitle: Text('Change app language'),
             onTap: () {
-
+              Get.to(() => ChangeLanguagePage());
             },
           ),
           ListTile(

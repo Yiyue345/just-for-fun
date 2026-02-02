@@ -1,0 +1,44 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "My Application",
+
+  "home": "Home",
+  "settings": "Settings",
+  "profile": "Profile",
+  "logout": "Logout",
+  "username": "Username",
+  "password": "Password",
+  "signIn": "Sign In",
+  "login": "Login",
+  "signup": "Sign Up",
+
+  "set": "Set",
+  "cancel": "Cancel",
+  "edit": "Edit",
+  "delete": "Delete",
+  "save": "Save",
+  "search": "Search",
+  "loading": "Loading...",
+
+  "settingsTitle": "Settings",
+  "checkForUpdates": "Check for Updates",
+  "checkingForUpdates": "Checking for updates...",
+  "updateAvailable": "An update is available!",
+  "noUpdateAvailable": "Your application is up to date.",
+
+  "languageTitle": "Language",
+  "languageSubtitle": "Change app language",
+  "followSystemLanguage": "Follow System Language",
+
+  "language_en": "English",
+  "@language_en": {
+    "description": "Language and language code to represent it"
+  },
+  "language_fr": "French",
+  "language_de": "German",
+  "language_zh_CN": "Simplified Chinese",
+
+  "myArticles": "My Articles"
+
+}
