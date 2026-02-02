@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:go_deeper/core/network/user_controller.dart';
 import 'package:go_deeper/core/utils/user_utils.dart';
+import 'package:go_deeper/ui/pages/article_pages/user_articles_page.dart';
 
 class UserPage extends StatelessWidget {
 
@@ -32,7 +33,10 @@ class UserPage extends StatelessWidget {
         ListTile(
           title: Text('My articles'),
           onTap: () {
-
+            final userFeedController = Get.find<UserFeedItemsController>();
+            userFeedController.userUUID = userController.user.value!.id;
+            userFeedController.userName = getUserName();
+            Get.to(() => UserArticlesPage());
           }
         )
       ]

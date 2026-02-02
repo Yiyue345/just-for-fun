@@ -6,6 +6,7 @@ import 'package:go_deeper/core/network/user_controller.dart';
 import 'package:go_deeper/core/utils/user_utils.dart';
 import 'package:go_deeper/data/model/feeditem_controller.dart';
 import 'package:go_deeper/ui/pages/article_pages/edit_article_page.dart';
+import 'package:go_deeper/ui/pages/article_pages/user_articles_page.dart';
 import 'package:go_deeper/ui/pages/settings_page/settings_page.dart';
 import 'package:go_deeper/ui/pages/suggestion_page.dart';
 import 'package:go_deeper/ui/pages/test_page.dart';
@@ -40,6 +41,7 @@ class _MainPageState extends State<MainPage> {
     Get.put(UserController());
     Get.put(FeedItemController());
     Get.put(SettingsController());
+    Get.put(UserFeedItemsController());
   }
 
   @override
