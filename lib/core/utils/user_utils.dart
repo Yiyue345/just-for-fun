@@ -213,14 +213,13 @@ void showSignOutDialog(BuildContext context) {
   );
 }
 
-void showSetUserNameDialog(BuildContext context) {
-  TextEditingController controller = TextEditingController();
+Future<void> showSetUserNameDialog(BuildContext context, TextEditingController controller) async {
   controller.text = getUserName() ?? '';
 
-  showDialog(
+  await showDialog(
       context: context,
       builder: (context) {
-        String displayName = '';
+        String displayName = controller.text;
         return AlertDialog(
           title: Text('Set Display Name'),
           content: TextField(
@@ -242,10 +241,14 @@ void showSetUserNameDialog(BuildContext context) {
             ),
             TextButton(
                 onPressed: () async {
+                  if (displayName == getUserName()) {
+                    Fluttertoast.showToast(msg: 'Display name is unchanged.');
+                    return;
+                  }
                   await setUserName(displayName);
                   Fluttertoast.showToast(msg: 'Display name updated.');
-                  controller.dispose();
                   Get.back();
+
                 },
                 child: Text('Set')
             ),
@@ -253,4 +256,5 @@ void showSetUserNameDialog(BuildContext context) {
         );
       }
   );
+
 }

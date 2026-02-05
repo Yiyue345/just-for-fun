@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -7,6 +8,8 @@ class UserController extends GetxController {
 
   var isLoggedIn = false.obs;
 
+  final TextEditingController usernameController = TextEditingController();
+
   @override
   void onInit() {
     super.onInit();
@@ -14,5 +17,11 @@ class UserController extends GetxController {
     user.value = supabase.auth.currentUser;
     session.value = supabase.auth.currentSession;
     isLoggedIn.value = user.value != null;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    usernameController.dispose();
   }
 }

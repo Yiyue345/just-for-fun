@@ -7,8 +7,6 @@ import 'package:go_deeper/ui/pages/article_pages/user_articles_page.dart';
 
 class UserPage extends StatelessWidget {
 
-
-
   @override
   Widget build(BuildContext context) {
     final userController = Get.find<UserController>();
@@ -22,7 +20,9 @@ class UserPage extends StatelessWidget {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)
           ),
           trailing: IconButton(
-              onPressed: () => showSetUserNameDialog(context),
+              onPressed: () async {
+                await showSetUserNameDialog(context, userController.usernameController);
+              },
               icon: Icon(Icons.edit)
           ),
         ),
@@ -31,7 +31,7 @@ class UserPage extends StatelessWidget {
           minTileHeight: 8,
         ),
         ListTile(
-          title: Text('My articles'),
+          title: Text('Articles'),
           onTap: () {
             final userFeedController = Get.find<UserFeedItemsController>();
             userFeedController.userUUID = userController.user.value!.id;
@@ -45,4 +45,5 @@ class UserPage extends StatelessWidget {
       ],
     ));
   }
+
 }
