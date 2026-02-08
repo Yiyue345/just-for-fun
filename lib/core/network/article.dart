@@ -6,7 +6,7 @@ Future<ArticleFeed> createArticle({
   required String title,
   required String content,
   String? summary,
-  String? authorName,
+  // String? authorName,
   bool public = true
 }) async {
   final supabase = Supabase.instance.client;
@@ -14,7 +14,7 @@ Future<ArticleFeed> createArticle({
       .from('article')
       .insert({
     'author': authorUUID,
-    'author_name': authorName,
+    // 'author_name': authorName,
     'title': title,
     'content': content,
     'summary': summary,
@@ -84,7 +84,19 @@ Future<List<ArticleFeed>> getArticles({
   if (authorUUID != null) {
     query = supabase
         .from('article')
-        .select()
+        .select('''
+        id,
+        created_at,
+        title,
+        summary,
+        content,
+        public,
+        author,
+        profiles(
+          id,
+          username
+        )
+        ''')
         .eq('author', authorUUID)
         .order('created_at', ascending: reserve)
         .range(page * perPage, page * perPage + perPage - 1);
@@ -92,7 +104,19 @@ Future<List<ArticleFeed>> getArticles({
   else {
     query = supabase
         .from('article')
-        .select()
+        .select('''
+        id,
+        created_at,
+        title,
+        summary,
+        content,
+        public,
+        author,
+        profiles(
+          id,
+          username
+        )
+        ''')
         .order('created_at', ascending: reserve)
         .range(page * perPage, page * perPage + perPage - 1);
   }

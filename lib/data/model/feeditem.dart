@@ -35,8 +35,14 @@ abstract class FeedItem {
 @JsonSerializable()
 class ArticleFeed extends FeedItem {
   final String content;
-  @JsonKey(name: 'author_name')
+  @JsonKey(
+    name: 'author_name',
+    readValue: _readAuthorNameFromProfiles,
+  )
   final String? authorName;
+
+  @JsonKey(includeFromJson: true, includeToJson: false)
+  final Map<String, dynamic>? profiles;
 
   ArticleFeed({
     required super.id,
@@ -47,8 +53,18 @@ class ArticleFeed extends FeedItem {
     required super.author,
     required super.public,
     required this.content,
-    this.authorName
+    this.authorName,
+    this.profiles
   }) : super(type: FeedType.article);
+
+  static Object? _readAuthorNameFromProfiles(
+      Map<dynamic, dynamic> json,
+      String key,
+      ) {
+    final p = json['profiles'];
+    if (p is Map) return p['username'];
+    return null;
+  }
 
   factory ArticleFeed.fromJson(Map<String, dynamic> json) => _$ArticleFeedFromJson(json);
   Map<String, dynamic> toJson() => _$ArticleFeedToJson(this);

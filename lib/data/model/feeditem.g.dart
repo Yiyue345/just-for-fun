@@ -15,7 +15,9 @@ ArticleFeed _$ArticleFeedFromJson(Map<String, dynamic> json) => ArticleFeed(
   author: json['author'] as String,
   public: json['public'] as bool,
   content: json['content'] as String,
-  authorName: json['author_name'] as String?,
+  authorName:
+      ArticleFeed._readAuthorNameFromProfiles(json, 'author_name') as String?,
+  profiles: json['profiles'] as Map<String, dynamic>?,
 );
 
 Map<String, dynamic> _$ArticleFeedToJson(ArticleFeed instance) =>

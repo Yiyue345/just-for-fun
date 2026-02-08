@@ -201,7 +201,8 @@ class _EditArticlePageState extends State<EditArticlePage> {
             else {
               final newItem = await createArticle(
                   authorUUID: Supabase.instance.client.auth.currentUser!.id,
-                  authorName: Supabase.instance.client.auth.currentUser!.userMetadata?['display_name'],
+                  // 已经……不需要了
+                  // authorName: Supabase.instance.client.auth.currentUser!.userMetadata?['display_name'],
                   title: title,
                   content: content,
                   summary: summary
