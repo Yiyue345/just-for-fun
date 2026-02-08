@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:go_deeper/core/network/update.dart';
+import 'package:go_deeper/l10n/app_localizations.dart';
 import 'package:go_deeper/ui/pages/settings_page/change_language_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -20,49 +21,50 @@ class SettingsPage extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final settingsController = Get.find<SettingsController>();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
+        title: Text(l10n.settingsTitle),
 
       ),
       body: ListView(
         children: [
           ListTile(
-            title: Text('User'),
-            subtitle: Text('User settings and preferences'),
+            title: Text(l10n.user),
+            subtitle: Text(l10n.settingUserSubtitle),
             // leading: Icon(Icons.person),
             onTap: () {
 
             }
           ),
           ListTile(
-            title: Text('Language'),
-            subtitle: Text('Change app language'),
+            title: Text(l10n.languageTitle),
+            subtitle: Text(l10n.languageSubtitle),
             onTap: () {
               Get.to(() => ChangeLanguagePage());
             },
           ),
           ListTile(
-            title: Text('Check for updates'),
+            title: Text(l10n.checkForUpdates),
             onTap: () async {
-              Fluttertoast.showToast(msg: 'Checking for updates...');
+              Fluttertoast.showToast(msg: l10n.checkingForUpdates);
               settingsController.checkingUpdate.value = true;
               bool update = await checkForUpdate();
               settingsController.checkingUpdate.value = false;
               if (update) {
-                Fluttertoast.showToast(msg: 'A new update is available!');
+                Fluttertoast.showToast(msg: l10n.updateAvailable);
                 Map updates = await getUpdateURLAndDetails();
                 String updateUrl = updates['link'] ?? '';
                 showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
-                      title: Text('Update available'),
+                      title: Text(l10n.updateAvailableDialogTitle),
                       content: Text(updates['details'] ?? 'A new version of the app is available. Would you like to download it now?'),
                       actions: [
                         TextButton(
                             onPressed: () => Get.back(), 
-                            child: Text('Cancel')
+                            child: Text(l10n.cancel)
                         ),
                         TextButton(
                             onPressed: () {
@@ -70,14 +72,14 @@ class SettingsPage extends StatelessWidget {
                               
                               _launchURL(updateUrl);
                             }, 
-                            child: Text('Download')
+                            child: Text(l10n.download)
                         )
                       ],
                     )
                 );
               }
               else {
-                Fluttertoast.showToast(msg: 'You are using the latest version.');
+                Fluttertoast.showToast(msg: l10n.noUpdateAvailable);
               }
             },
             trailing: Obx(() {

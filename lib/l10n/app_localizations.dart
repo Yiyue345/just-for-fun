@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
+import 'app_localizations_zh.dart';
 
 // ignore_for_file: type=lint
 
@@ -92,7 +93,10 @@ abstract class AppLocalizations {
       ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[Locale('en')];
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('en'),
+    Locale('zh'),
+  ];
 
   /// No description provided for @appTitle.
   ///
@@ -124,6 +128,12 @@ abstract class AppLocalizations {
   /// **'Logout'**
   String get logout;
 
+  /// No description provided for @user.
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get user;
+
   /// No description provided for @username.
   ///
   /// In en, this message translates to:
@@ -153,6 +163,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign Up'**
   String get signup;
+
+  /// No description provided for @noDisplayName.
+  ///
+  /// In en, this message translates to:
+  /// **'No display name'**
+  String get noDisplayName;
+
+  /// No description provided for @noLoggedIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Not logged in'**
+  String get noLoggedIn;
 
   /// No description provided for @set.
   ///
@@ -196,11 +218,23 @@ abstract class AppLocalizations {
   /// **'Loading...'**
   String get loading;
 
+  /// No description provided for @download.
+  ///
+  /// In en, this message translates to:
+  /// **'Download'**
+  String get download;
+
   /// No description provided for @settingsTitle.
   ///
   /// In en, this message translates to:
   /// **'Settings'**
   String get settingsTitle;
+
+  /// No description provided for @settingUserSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'User settings and preferences'**
+  String get settingUserSubtitle;
 
   /// No description provided for @checkForUpdates.
   ///
@@ -225,6 +259,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your application is up to date.'**
   String get noUpdateAvailable;
+
+  /// No description provided for @updateAvailableDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Available'**
+  String get updateAvailableDialogTitle;
 
   /// No description provided for @languageTitle.
   ///
@@ -268,11 +308,11 @@ abstract class AppLocalizations {
   /// **'Simplified Chinese'**
   String get language_zh_CN;
 
-  /// No description provided for @myArticles.
+  /// No description provided for @articles.
   ///
   /// In en, this message translates to:
-  /// **'My Articles'**
-  String get myArticles;
+  /// **'Articles'**
+  String get articles;
 }
 
 class _AppLocalizationsDelegate
@@ -286,7 +326,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en'].contains(locale.languageCode);
+      <String>['en', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -297,6 +337,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'en':
       return AppLocalizationsEn();
+    case 'zh':
+      return AppLocalizationsZh();
   }
 
   throw FlutterError(

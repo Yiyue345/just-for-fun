@@ -7,11 +7,15 @@
   "settings": "Settings",
   "profile": "Profile",
   "logout": "Logout",
+  "user": "User",
   "username": "Username",
   "password": "Password",
   "signIn": "Sign In",
   "login": "Login",
   "signup": "Sign Up",
+
+  "noDisplayName": "No display name",
+  "noLoggedIn": "Not logged in",
 
   "set": "Set",
   "cancel": "Cancel",
@@ -20,12 +24,15 @@
   "save": "Save",
   "search": "Search",
   "loading": "Loading...",
+  "download": "Download",
 
   "settingsTitle": "Settings",
+  "settingUserSubtitle": "User settings and preferences",
   "checkForUpdates": "Check for Updates",
   "checkingForUpdates": "Checking for updates...",
   "updateAvailable": "An update is available!",
   "noUpdateAvailable": "Your application is up to date.",
+  "updateAvailableDialogTitle": "Update Available",
 
   "languageTitle": "Language",
   "languageSubtitle": "Change app language",
@@ -39,6 +46,6 @@
   "language_de": "German",
   "language_zh_CN": "Simplified Chinese",
 
-  "myArticles": "My Articles"
+  "articles": "Articles"
 
 }

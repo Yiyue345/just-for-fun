@@ -5,6 +5,7 @@ import 'package:go_deeper/core/network/user_auth.dart';
 import 'package:go_deeper/core/network/user_controller.dart';
 import 'package:go_deeper/core/utils/user_utils.dart';
 import 'package:go_deeper/data/model/feeditem_controller.dart';
+import 'package:go_deeper/l10n/app_localizations.dart';
 import 'package:go_deeper/ui/pages/article_pages/edit_article_page.dart';
 import 'package:go_deeper/ui/pages/article_pages/user_articles_page.dart';
 import 'package:go_deeper/ui/pages/settings_page/settings_page.dart';
@@ -22,10 +23,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
 
-  final _bottomNavItems = [
-    BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-    BottomNavigationBarItem(icon: Icon(Icons.person), label: 'User'),
-  ];
+
 
   final _pages = [
     SuggestionPage(),
@@ -46,6 +44,10 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    final bottomNavItems = [
+      BottomNavigationBarItem(icon: Icon(Icons.home), label: AppLocalizations.of(context)!.home),
+      BottomNavigationBarItem(icon: Icon(Icons.person), label: AppLocalizations.of(context)!.user),
+    ];
 
     final userController = Get.find<UserController>();
 
@@ -103,7 +105,7 @@ class _MainPageState extends State<MainPage> {
       })
       ,
       bottomNavigationBar: BottomNavigationBar(
-          items: _bottomNavItems,
+          items: bottomNavItems,
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
       ),

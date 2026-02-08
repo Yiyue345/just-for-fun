@@ -9,10 +9,11 @@ part of 'comment.dart';
 Comment _$CommentFromJson(Map<String, dynamic> json) => Comment(
   id: (json['id'] as num).toInt(),
   userId: (json['user_id'] as num).toInt(),
-  userName: json['user_name'] as String,
+  userName: Comment._readUserNameFromProfiles(json, 'user_name') as String,
   content: json['content'] as String,
   createdAt: DateTime.parse(json['created_at'] as String),
   parentId: (json['parent_id'] as num?)?.toInt(),
+  profiles: json['profiles'] as Map<String, dynamic>?,
 );
 
 Map<String, dynamic> _$CommentToJson(Comment instance) => <String, dynamic>{

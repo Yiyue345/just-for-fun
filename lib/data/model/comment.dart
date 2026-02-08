@@ -7,13 +7,21 @@ class Comment {
   final int id;
   @JsonKey(name: 'user_id')
   final int userId;
-  @JsonKey(name: 'user_name')
+
+  @JsonKey(
+      name: 'user_name',
+      readValue: _readUserNameFromProfiles
+  )
   final String userName;
+
   final String content;
   @JsonKey(name: 'created_at')
   final DateTime createdAt;
   @JsonKey(name: 'parent_id')
   final int? parentId;
+
+  @JsonKey(includeFromJson: true, includeToJson: false)
+  final Map<String, dynamic>? profiles;
 
   Comment({
     required this.id,
@@ -22,7 +30,17 @@ class Comment {
     required this.content,
     required this.createdAt,
     this.parentId,
+    this.profiles
   });
+
+  static Object? _readUserNameFromProfiles(
+      Map<dynamic, dynamic> json,
+      String key,
+  ) {
+    final p = json['profiles'];
+    if (p is Map) return p['username'];
+    return null;
+  }
 
   factory Comment.fromJson(Map<String, dynamic> json) => _$CommentFromJson(json);
   Map<String, dynamic> toJson() => _$CommentToJson(this);

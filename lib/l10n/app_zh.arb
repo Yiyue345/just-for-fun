@@ -1,0 +1,51 @@
+{
+  "@@locale": "zh",
+
+  "appTitle": "My Application",
+
+  "home": "主页",
+  "settings": "设置",
+  "profile": "个人资料",
+  "logout": "退出",
+  "user": "用户",
+  "username": "用户名",
+  "password": "密码",
+  "signIn": "登录",
+  "login": "登录",
+  "signup": "注册",
+
+  "noDisplayName": "无用户名",
+  "noLoggedIn": "未登录",
+
+  "set": "设定",
+  "cancel": "取消",
+  "edit": "编辑",
+  "delete": "删除",
+  "save": "保存",
+  "search": "搜索",
+  "loading": "加载中...",
+  "download": "下载",
+
+  "settingsTitle": "设置",
+  "settingUserSubtitle": "用户设置和偏好",
+  "checkForUpdates": "检查更新",
+  "checkingForUpdates": "正在检查更新...",
+  "updateAvailable": "发现新版本！",
+  "noUpdateAvailable": "您的应用已是最新版本。",
+  "updateAvailableDialogTitle": "发现新版本",
+
+  "languageTitle": "语言",
+  "languageSubtitle": "更改应用语言",
+  "followSystemLanguage": "跟随系统",
+
+  "language_en": "英语",
+  "@language_en": {
+    "description": "Language and language code to represent it"
+  },
+  "language_fr": "法语",
+  "language_de": "德语",
+  "language_zh_CN": "简体中文",
+
+  "articles": "文章"
+
+}

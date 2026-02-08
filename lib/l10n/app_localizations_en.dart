@@ -24,6 +24,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get logout => 'Logout';
 
   @override
+  String get user => 'User';
+
+  @override
   String get username => 'Username';
 
   @override
@@ -37,6 +40,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signup => 'Sign Up';
+
+  @override
+  String get noDisplayName => 'No display name';
+
+  @override
+  String get noLoggedIn => 'Not logged in';
 
   @override
   String get set => 'Set';
@@ -60,7 +69,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loading => 'Loading...';
 
   @override
+  String get download => 'Download';
+
+  @override
   String get settingsTitle => 'Settings';
+
+  @override
+  String get settingUserSubtitle => 'User settings and preferences';
 
   @override
   String get checkForUpdates => 'Check for Updates';
@@ -73,6 +88,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noUpdateAvailable => 'Your application is up to date.';
+
+  @override
+  String get updateAvailableDialogTitle => 'Update Available';
 
   @override
   String get languageTitle => 'Language';
@@ -96,5 +114,5 @@ class AppLocalizationsEn extends AppLocalizations {
   String get language_zh_CN => 'Simplified Chinese';
 
   @override
-  String get myArticles => 'My Articles';
+  String get articles => 'Articles';
 }
