@@ -27,6 +27,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get user => '用户';
 
   @override
+  String get displayName => '用户名称';
+
+  @override
+  String get email => '电子邮件';
+
+  @override
+  String get emailAddress => '电子邮件地址';
+
+  @override
   String get username => '用户名';
 
   @override
@@ -40,6 +49,15 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get signup => '注册';
+
+  @override
+  String get signOut => '退出';
+
+  @override
+  String get signOutTitle => '退出登录';
+
+  @override
+  String get signOutMessage => '您确定要退出登录吗？';
 
   @override
   String get noDisplayName => '无用户名';
@@ -70,6 +88,12 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get download => '下载';
+
+  @override
+  String get post => '发布';
+
+  @override
+  String get setDisplayNameTitle => '设置用户名';
 
   @override
   String get settingsTitle => '设置';
@@ -115,4 +139,28 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get articles => '文章';
+
+  @override
+  String whoseArticles(Object who) {
+    return '$who的文章';
+  }
+
+  @override
+  String get deleteArticleTitle => '删除文章';
+
+  @override
+  String get deleteArticleMessage => '您确定要删除此文章吗？这个操作无法撤销。';
+
+  @override
+  String get commentHint => '在此输入评论内容...';
+
+  @override
+  String postCommentTo(Object entityName) {
+    return '回复$entityName';
+  }
+
+  @override
+  String replyTo(Object userName) {
+    return '回复$userName';
+  }
 }

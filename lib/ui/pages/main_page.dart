@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:go_deeper/core/network/user_auth.dart';
 import 'package:go_deeper/core/network/user_controller.dart';
 import 'package:go_deeper/core/utils/user_utils.dart';
 import 'package:go_deeper/data/model/feeditem_controller.dart';
@@ -65,7 +64,7 @@ class _MainPageState extends State<MainPage> {
                     () => userController.isLoggedIn.value
                         ? IconButton(
                         onPressed: () {
-                          showSignOutDialog(context);
+                          showSignOutDialog();
                           },
                         icon: Icon(
                             Icons.logout,
@@ -74,7 +73,7 @@ class _MainPageState extends State<MainPage> {
                     )
                         : IconButton(
                         onPressed: () {
-                          showSignInDialog(context);
+                          showSignInDialog();
                           },
                         icon: Icon(
                             Icons.login,

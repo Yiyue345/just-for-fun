@@ -22,5 +22,5 @@ Future<Map<String, dynamic>> getUpdateURLAndDetails() async {
   .from('update_links')
   .select();
 
-  return (response as List<Map<String, dynamic>>)[0];
+  return response[0];
 }

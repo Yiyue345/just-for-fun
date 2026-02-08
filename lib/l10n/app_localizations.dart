@@ -134,6 +134,24 @@ abstract class AppLocalizations {
   /// **'User'**
   String get user;
 
+  /// No description provided for @displayName.
+  ///
+  /// In en, this message translates to:
+  /// **'Display Name'**
+  String get displayName;
+
+  /// No description provided for @email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get email;
+
+  /// No description provided for @emailAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Email Address'**
+  String get emailAddress;
+
   /// No description provided for @username.
   ///
   /// In en, this message translates to:
@@ -163,6 +181,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign Up'**
   String get signup;
+
+  /// No description provided for @signOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Out'**
+  String get signOut;
+
+  /// No description provided for @signOutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Out'**
+  String get signOutTitle;
+
+  /// No description provided for @signOutMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to sign out?'**
+  String get signOutMessage;
 
   /// No description provided for @noDisplayName.
   ///
@@ -223,6 +259,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Download'**
   String get download;
+
+  /// No description provided for @post.
+  ///
+  /// In en, this message translates to:
+  /// **'Post'**
+  String get post;
+
+  /// No description provided for @setDisplayNameTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set Display Name'**
+  String get setDisplayNameTitle;
 
   /// No description provided for @settingsTitle.
   ///
@@ -313,6 +361,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Articles'**
   String get articles;
+
+  /// No description provided for @whoseArticles.
+  ///
+  /// In en, this message translates to:
+  /// **'{who}\'s Articles'**
+  String whoseArticles(Object who);
+
+  /// No description provided for @deleteArticleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Article'**
+  String get deleteArticleTitle;
+
+  /// No description provided for @deleteArticleMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this article? This action cannot be undone.'**
+  String get deleteArticleMessage;
+
+  /// No description provided for @commentHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your comment here...'**
+  String get commentHint;
+
+  /// No description provided for @postCommentTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Post comment to {entityName}'**
+  String postCommentTo(Object entityName);
+
+  /// No description provided for @replyTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply to {userName}'**
+  String replyTo(Object userName);
 }
 
 class _AppLocalizationsDelegate

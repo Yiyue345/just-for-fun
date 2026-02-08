@@ -4,6 +4,8 @@ import 'package:go_deeper/core/network/article.dart';
 import 'package:go_deeper/data/model/feeditem.dart';
 import 'package:go_deeper/ui/pages/article_pages/article_page.dart';
 
+import '../../../l10n/app_localizations.dart';
+
 class UserFeedItemsController extends GetxController {
   final feedItems = <FeedItem>[].obs;
   final loading = false.obs;
@@ -41,14 +43,15 @@ class UserFeedItemsController extends GetxController {
 class UserArticlesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final userFeedItemsController = Get.find<UserFeedItemsController>();
     userFeedItemsController.loadUserFeedItems(refresh: true);
     return Scaffold(
       appBar: AppBar(
         title: Text(
             userFeedItemsController.userName != null
-                ? "${userFeedItemsController.userName}'s Articles"
-                : "User's Articles"
+                ? l10n.whoseArticles(userFeedItemsController.userName!)
+                : l10n.whoseArticles(l10n.user)
         ),
       ),
       body: Obx(() => RefreshIndicator(

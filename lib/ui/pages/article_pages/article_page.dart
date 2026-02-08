@@ -6,6 +6,7 @@ import 'package:go_deeper/core/network/article.dart';
 import 'package:go_deeper/data/model/comment.dart';
 import 'package:go_deeper/data/model/feeditem.dart';
 import 'package:go_deeper/data/model/feeditem_controller.dart';
+import 'package:go_deeper/l10n/app_localizations.dart';
 import 'package:go_deeper/ui/pages/article_pages/edit_article_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -22,7 +23,7 @@ class ArticlePage extends StatelessWidget {
       appBar: AppBar(
         title: Text(article.title),
         actions: [
-          _popupMenuButton(context)
+          _popupMenuButton()
         ],
       ),
       body: Padding(
@@ -84,7 +85,9 @@ class ArticlePage extends StatelessWidget {
     );
   }
   
-  PopupMenuButton<String> _popupMenuButton(BuildContext context) {
+  PopupMenuButton<String> _popupMenuButton() {
+    final context = Get.context!;
+    final l10n = AppLocalizations.of(context)!;
     return PopupMenuButton(
       onSelected: (value) {
         switch (value) {
@@ -95,7 +98,7 @@ class ArticlePage extends StatelessWidget {
             Get.off(() => EditArticlePage());
             break;
           case 'delete':
-            _showDeleteDialog(context);
+            _showDeleteDialog();
             break;
         }
       },
@@ -107,7 +110,7 @@ class ArticlePage extends StatelessWidget {
                   children: [
                     Icon(Icons.edit, color: Colors.blue),
                     SizedBox(width: 8),
-                    Text('Edit'),
+                    Text(l10n.edit),
                   ],
                 ),
             ),
@@ -117,7 +120,7 @@ class ArticlePage extends StatelessWidget {
                   children: [
                     Icon(Icons.delete, color: Colors.red),
                     SizedBox(width: 8),
-                    Text('Delete', style: TextStyle(color: Colors.red)),
+                    Text(l10n.delete, style: TextStyle(color: Colors.red)),
                   ],
                 )
             )
@@ -127,16 +130,18 @@ class ArticlePage extends StatelessWidget {
     );
   }
 
-  Future<void> _showDeleteDialog(BuildContext context) async {
+  Future<void> _showDeleteDialog() async {
+    final context = Get.context!;
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Delete Article'),
-          content: Text('Are you sure you want to delete this article? This action cannot be undone.'),
+          title: Text(l10n.deleteArticleTitle),
+          content: Text(l10n.deleteArticleMessage),
           actions: [
             TextButton(
                 onPressed: () => Get.back(),
-                child: Text('Cancel')
+                child: Text(l10n.cancel)
             ),
             TextButton(
                 onPressed: () async {
@@ -147,14 +152,16 @@ class ArticlePage extends StatelessWidget {
                   Get.back();
                   Get.back();
                 },
-                child: Text('Delete', style: TextStyle(color: Colors.red))
+                child: Text(l10n.delete, style: TextStyle(color: Colors.red))
             )
           ],
         )
     );
   }
 
-  Future<void> _showPostCommentDialog(BuildContext context, Comment? parentComment) async {
+  Future<void> _showPostCommentDialog(Comment? parentComment) async {
+    final context = Get.context!;
+    final l10n = AppLocalizations.of(context)!;
     String commentContent = '';
     showDialog(
       barrierDismissible: false,
@@ -162,7 +169,7 @@ class ArticlePage extends StatelessWidget {
         builder: (context) {
           return AlertDialog(
             title: Text(
-              parentComment == null ? 'Post Comment to ${article.authorName}' : 'Reply to ${parentComment.userName}'
+              parentComment == null ? l10n.postCommentTo(article.authorName ?? '') : l10n.replyTo(parentComment.userName)
             ),
             content: TextField(
               onChanged: (value) {
@@ -170,17 +177,17 @@ class ArticlePage extends StatelessWidget {
               },
               maxLines: 5,
               decoration: InputDecoration(
-                hintText: 'Enter your comment here',
+                hintText: l10n.commentHint,
                 border: OutlineInputBorder(),
               ),
             ),
             actions: [
               TextButton(onPressed: () {
                 Get.back();
-              }, child: Text('Cancel')),
+              }, child: Text(l10n.cancel)),
               TextButton(onPressed: () {
 
-              }, child: Text('Post'))
+              }, child: Text(l10n.post))
             ],
           );
         }

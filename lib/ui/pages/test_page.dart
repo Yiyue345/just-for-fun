@@ -78,12 +78,12 @@ class _TestPageState extends State<TestPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 ElevatedButton(
-                    onPressed: () => showSignUpDialog(context),
+                    onPressed: () => showSignUpDialog(),
                     child: Text('Sign up')
                 ),
                 SizedBox(height: 20),
                 ElevatedButton(
-                    onPressed: () => showSignInDialog(context),
+                    onPressed: () => showSignInDialog(),
                     child: Text('Sign in')
                 ),
                 ElevatedButton(onPressed: () {

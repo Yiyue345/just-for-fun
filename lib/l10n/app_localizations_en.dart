@@ -27,6 +27,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get user => 'User';
 
   @override
+  String get displayName => 'Display Name';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get emailAddress => 'Email Address';
+
+  @override
   String get username => 'Username';
 
   @override
@@ -40,6 +49,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signup => 'Sign Up';
+
+  @override
+  String get signOut => 'Sign Out';
+
+  @override
+  String get signOutTitle => 'Sign Out';
+
+  @override
+  String get signOutMessage => 'Are you sure you want to sign out?';
 
   @override
   String get noDisplayName => 'No display name';
@@ -70,6 +88,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get download => 'Download';
+
+  @override
+  String get post => 'Post';
+
+  @override
+  String get setDisplayNameTitle => 'Set Display Name';
 
   @override
   String get settingsTitle => 'Settings';
@@ -115,4 +139,29 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get articles => 'Articles';
+
+  @override
+  String whoseArticles(Object who) {
+    return '$who\'s Articles';
+  }
+
+  @override
+  String get deleteArticleTitle => 'Delete Article';
+
+  @override
+  String get deleteArticleMessage =>
+      'Are you sure you want to delete this article? This action cannot be undone.';
+
+  @override
+  String get commentHint => 'Enter your comment here...';
+
+  @override
+  String postCommentTo(Object entityName) {
+    return 'Post comment to $entityName';
+  }
+
+  @override
+  String replyTo(Object userName) {
+    return 'Reply to $userName';
+  }
 }

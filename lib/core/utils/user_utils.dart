@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:go_deeper/l10n/app_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../network/user_auth.dart';
@@ -17,20 +18,22 @@ String? getUserName() {
 }
 
 // 注册对话框
-void showSignUpDialog(BuildContext context) {
+void showSignUpDialog() {
+  final context = Get.context!;
+  final l10n = AppLocalizations.of(context)!;
   showDialog(
       context: context,
       builder: (context) {
         String email = '';
         String password = '';
         return AlertDialog(
-          title: Text('Sign up'),
+          title: Text(l10n.signup),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 decoration: InputDecoration(
-                  labelText: 'Email',
+                  labelText: l10n.emailAddress,
                 ),
                 onChanged: (value) {
                   email = value;
@@ -38,7 +41,7 @@ void showSignUpDialog(BuildContext context) {
               ),
               TextField(
                 decoration: InputDecoration(
-                  labelText: 'Password',
+                  labelText: l10n.password,
                 ),
                 obscureText: true,
                 onChanged: (value) {
@@ -52,7 +55,7 @@ void showSignUpDialog(BuildContext context) {
                 onPressed: () {
                   Get.back();
                 },
-                child: Text('Cancel')
+                child: Text(l10n.cancel)
             ),
             TextButton(
                 onPressed: () async {
@@ -81,7 +84,7 @@ void showSignUpDialog(BuildContext context) {
                     }
                   }
                 },
-                child: Text('Sign up')
+                child: Text(l10n.signup)
             ),
           ],
         );
@@ -89,20 +92,22 @@ void showSignUpDialog(BuildContext context) {
   );
 }
 
-void showSignInDialog(BuildContext context) {
+void showSignInDialog() {
+  final context = Get.context!;
+  final l10n = AppLocalizations.of(context)!;
   showDialog(
       context: context,
       builder: (context) {
         String email = '';
         String password = '';
         return AlertDialog(
-          title: Text('Sign in'),
+          title: Text(l10n.signIn),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 decoration: InputDecoration(
-                  labelText: 'Email',
+                  labelText: l10n.emailAddress,
                 ),
                 onChanged: (value) {
                   email = value;
@@ -110,7 +115,7 @@ void showSignInDialog(BuildContext context) {
               ),
               TextField(
                 decoration: InputDecoration(
-                  labelText: 'Password',
+                  labelText: l10n.password,
                 ),
                 obscureText: true,
                 onChanged: (value) {
@@ -123,7 +128,7 @@ void showSignInDialog(BuildContext context) {
             TextButton(
                 onPressed: () {
                   Get.back();
-                  showSignUpDialog(context);
+                  showSignUpDialog();
                 },
                 child: Text(
                   'Sign up',
@@ -136,7 +141,7 @@ void showSignInDialog(BuildContext context) {
                 onPressed: () {
                   Get.back();
                 },
-                child: Text('Cancel')
+                child: Text(l10n.cancel)
             ),
             TextButton(
                 onPressed: () async {
@@ -177,7 +182,7 @@ void showSignInDialog(BuildContext context) {
                     }
                   }
                 },
-                child: Text('Sign in')
+                child: Text(l10n.signIn)
             ),
           ],
         );
@@ -185,19 +190,21 @@ void showSignInDialog(BuildContext context) {
   );
 }
 
-void showSignOutDialog(BuildContext context) {
+void showSignOutDialog() {
+  final context = Get.context!;
+  final l10n = AppLocalizations.of(context)!;
   showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Sign out'),
-          content: Text('Are you sure you want to sign out?'),
+          title: Text(l10n.signOutTitle),
+          content: Text(l10n.signOutMessage),
           actions: [
             TextButton(
                 onPressed: () {
                   Get.back();
                 },
-                child: Text('Cancel')
+                child: Text(l10n.cancel)
             ),
             TextButton(
                 onPressed: () async {
@@ -205,7 +212,7 @@ void showSignOutDialog(BuildContext context) {
                   Fluttertoast.showToast(msg: 'Signed out successfully.');
                   Get.back();
                 },
-                child: Text('Sign out')
+                child: Text(l10n.signOut)
             ),
           ],
         );
@@ -215,18 +222,19 @@ void showSignOutDialog(BuildContext context) {
 
 Future<void> showSetUserNameDialog(BuildContext context, TextEditingController controller) async {
   controller.text = getUserName() ?? '';
+  final l10n = AppLocalizations.of(context)!;
 
   await showDialog(
       context: context,
       builder: (context) {
         String displayName = controller.text;
         return AlertDialog(
-          title: Text('Set Display Name'),
+          title: Text(l10n.setDisplayNameTitle),
           content: TextField(
             controller: controller,
             autofocus: true,
             decoration: InputDecoration(
-              labelText: 'Display Name',
+              labelText: l10n.displayName,
             ),
             onChanged: (value) {
               displayName = value;
@@ -237,7 +245,7 @@ Future<void> showSetUserNameDialog(BuildContext context, TextEditingController c
                 onPressed: () {
                   Get.back();
                 },
-                child: Text('Cancel')
+                child: Text(l10n.cancel)
             ),
             TextButton(
                 onPressed: () async {
@@ -250,7 +258,7 @@ Future<void> showSetUserNameDialog(BuildContext context, TextEditingController c
                   Get.back();
 
                 },
-                child: Text('Set')
+                child: Text(l10n.set)
             ),
           ],
         );

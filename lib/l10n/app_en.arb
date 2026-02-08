@@ -8,11 +8,17 @@
   "profile": "Profile",
   "logout": "Logout",
   "user": "User",
+  "displayName": "Display Name",
+  "email": "Email",
+  "emailAddress": "Email Address",
   "username": "Username",
   "password": "Password",
   "signIn": "Sign In",
   "login": "Login",
   "signup": "Sign Up",
+  "signOut": "Sign Out",
+  "signOutTitle": "Sign Out",
+  "signOutMessage": "Are you sure you want to sign out?",
 
   "noDisplayName": "No display name",
   "noLoggedIn": "Not logged in",
@@ -25,6 +31,9 @@
   "search": "Search",
   "loading": "Loading...",
   "download": "Download",
+  "post": "Post",
+
+  "setDisplayNameTitle": "Set Display Name",
 
   "settingsTitle": "Settings",
   "settingUserSubtitle": "User settings and preferences",
@@ -46,6 +55,14 @@
   "language_de": "German",
   "language_zh_CN": "Simplified Chinese",
 
-  "articles": "Articles"
+  "articles": "Articles",
+  "whoseArticles": "{who}'s Articles",
+
+  "deleteArticleTitle": "Delete Article",
+  "deleteArticleMessage": "Are you sure you want to delete this article? This action cannot be undone.",
+
+  "commentHint": "Enter your comment here...",
+  "postCommentTo": "Post comment to {entityName}",
+  "replyTo": "Reply to {userName}"
 
 }

@@ -8,11 +8,17 @@
   "profile": "个人资料",
   "logout": "退出",
   "user": "用户",
+  "displayName": "用户名称",
+  "email": "电子邮件",
+  "emailAddress": "电子邮件地址",
   "username": "用户名",
   "password": "密码",
   "signIn": "登录",
   "login": "登录",
   "signup": "注册",
+  "signOut": "退出",
+  "signOutTitle": "退出登录",
+  "signOutMessage": "您确定要退出登录吗？",
 
   "noDisplayName": "无用户名",
   "noLoggedIn": "未登录",
@@ -25,6 +31,9 @@
   "search": "搜索",
   "loading": "加载中...",
   "download": "下载",
+  "post": "发布",
+
+  "setDisplayNameTitle": "设置用户名",
 
   "settingsTitle": "设置",
   "settingUserSubtitle": "用户设置和偏好",
@@ -46,6 +55,14 @@
   "language_de": "德语",
   "language_zh_CN": "简体中文",
 
-  "articles": "文章"
+  "articles": "文章",
+  "whoseArticles": "{who}的文章",
+
+  "deleteArticleTitle": "删除文章",
+  "deleteArticleMessage": "您确定要删除此文章吗？这个操作无法撤销。",
+
+  "commentHint": "在此输入评论内容...",
+  "postCommentTo": "向{entityName}的文章评论",
+  "replyTo": "回复{userName}"
 
 }
