@@ -7,6 +7,7 @@ import 'package:go_deeper/data/model/comment.dart';
 import 'package:go_deeper/data/model/feeditem.dart';
 import 'package:go_deeper/data/model/feeditem_controller.dart';
 import 'package:go_deeper/l10n/app_localizations.dart';
+import 'package:go_deeper/ui/pages/article_pages/comment_controller.dart';
 import 'package:go_deeper/ui/pages/article_pages/edit_article_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -16,8 +17,11 @@ class ArticlePage extends StatelessWidget {
 
   ArticlePage({super.key, required this.article});
 
+
+
   @override
   Widget build(BuildContext context) {
+    final CommentController commentController = Get.put(CommentController());
     // print(article.toJson());
     return Scaffold(
       appBar: AppBar(

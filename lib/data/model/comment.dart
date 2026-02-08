@@ -23,6 +23,8 @@ class Comment {
   @JsonKey(includeFromJson: true, includeToJson: false)
   final Map<String, dynamic>? profiles;
 
+  List<Comment> replies = [];
+
   Comment({
     required this.id,
     required this.userId,
