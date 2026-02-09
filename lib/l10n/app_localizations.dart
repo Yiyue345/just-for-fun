@@ -397,6 +397,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reply to {userName}'**
   String replyTo(Object userName);
+
+  /// No description provided for @userProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'User Profile'**
+  String get userProfile;
 }
 
 class _AppLocalizationsDelegate

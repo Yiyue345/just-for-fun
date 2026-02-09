@@ -264,5 +264,4 @@ Future<void> showSetUserNameDialog(BuildContext context, TextEditingController c
         );
       }
   );
-
 }

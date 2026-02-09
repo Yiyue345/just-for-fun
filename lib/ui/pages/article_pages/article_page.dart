@@ -9,6 +9,8 @@ import 'package:go_deeper/data/model/feeditem_controller.dart';
 import 'package:go_deeper/l10n/app_localizations.dart';
 import 'package:go_deeper/ui/pages/article_pages/comment_controller.dart';
 import 'package:go_deeper/ui/pages/article_pages/edit_article_page.dart';
+import 'package:go_deeper/ui/pages/other_user_page/controller.dart';
+import 'package:go_deeper/ui/pages/other_user_page/other_user_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ArticlePage extends StatelessWidget {
@@ -46,13 +48,42 @@ class ArticlePage extends StatelessWidget {
               SizedBox(height: 16),
             ],
             if (article.authorName != null && article.authorName!.isNotEmpty) ...[
-              Text(
-                'By ${article.authorName}',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontStyle: FontStyle.italic,
-                  color: Colors.grey[600],
-                ),
+              GestureDetector(
+                onTap: () {
+                  final otherUsersController = Get.find<OtherUsersController>();
+                  otherUsersController.updateWatchUserProfile(article.author);
+                  Get.to(OtherUserPage());
+                },
+                child: Text.rich(
+                  TextSpan(
+                    text: 'By ',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontStyle: FontStyle.italic,
+                      color: Colors.grey[600],
+                    ),
+                    children: [
+                      TextSpan(
+                        text: article.authorName,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontStyle: FontStyle.italic,
+                          color: Colors.blue,
+                          decoration: TextDecoration.underline,
+                        ),
+                      )
+                    ]
+                  )
+                )
+
+                // Text(
+                //   'By ${article.authorName}',
+                //   style: TextStyle(
+                //     fontSize: 14,
+                //     fontStyle: FontStyle.italic,
+                //     color: Colors.grey[600],
+                //   ),
+                // ),
               ),
             ]
             else ...[

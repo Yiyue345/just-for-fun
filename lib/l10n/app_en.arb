@@ -63,6 +63,8 @@
 
   "commentHint": "Enter your comment here...",
   "postCommentTo": "Post comment to {entityName}",
-  "replyTo": "Reply to {userName}"
+  "replyTo": "Reply to {userName}",
+
+  "userProfile": "User Profile"
 
 }

@@ -164,4 +164,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String replyTo(Object userName) {
     return 'Reply to $userName';
   }
+
+  @override
+  String get userProfile => 'User Profile';
 }

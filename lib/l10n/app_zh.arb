@@ -63,6 +63,8 @@
 
   "commentHint": "在此输入评论内容...",
   "postCommentTo": "向{entityName}的文章评论",
-  "replyTo": "回复{userName}"
+  "replyTo": "回复{userName}",
+
+  "userProfile": "用户资料"
 
 }

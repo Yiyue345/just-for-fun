@@ -156,11 +156,14 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String postCommentTo(Object entityName) {
-    return '回复$entityName';
+    return '向$entityName的文章评论';
   }
 
   @override
   String replyTo(Object userName) {
     return '回复$userName';
   }
+
+  @override
+  String get userProfile => '用户资料';
 }
