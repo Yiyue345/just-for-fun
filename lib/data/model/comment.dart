@@ -6,7 +6,7 @@ part 'comment.g.dart';
 class Comment {
   final int id;
   @JsonKey(name: 'user_id')
-  final int userId;
+  final String userId;
 
   @JsonKey(
       name: 'user_name',

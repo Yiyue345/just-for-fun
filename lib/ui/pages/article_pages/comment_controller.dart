@@ -21,25 +21,43 @@ class CommentController extends GetxController {
 
     final List<Comment> roots = [];
 
+    // 清空所有评论的 replies
     for (var c in flatComments) {
       c.replies = [];
     }
 
+    // 辅助函数：递归查找顶层评论
+    Comment? findRootComment(Comment comment) {
+      if (comment.parentId == null) {
+        return comment;
+      }
+      final parent = commentMap[comment.parentId];
+      if (parent == null) {
+        return null;
+      }
+      return findRootComment(parent);
+    }
+
+    // 先找出所有顶层评论
     for (var c in flatComments) {
       if (c.parentId == null) {
-        // 如果没有父ID，则是顶级评论
         roots.add(c);
-      } else {
-        // 如果有父ID，找到父评论并加入其 replies 列表
-        final parent = commentMap[c.parentId];
-        if (parent != null) {
-          parent.replies.add(c);
+      }
+    }
+
+    // 将所有非顶层评论归属到对应的顶层评论
+    for (var c in flatComments) {
+      if (c.parentId != null) {
+        final root = findRootComment(c);
+        if (root != null) {
+          root.replies.add(c);
         } else {
-          // 如果找不到父评论（可能被删了），可以选择作为顶级评论显示或丢弃
+          // 如果找不到顶层评论（可能被删了），作为顶级评论显示
           roots.add(c);
         }
       }
     }
+
     return roots;
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:go_deeper/data/model/comment.dart';
+import 'package:go_deeper/ui/pages/article_pages/comment_controller.dart';
 
 class CommentTile extends StatelessWidget {
 
@@ -11,9 +13,12 @@ class CommentTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final commentController = Get.find<CommentController>();
     return InkWell(
       onTap: () {
-
+        if (comment.replies.isNotEmpty) {
+          commentController.currentComment.value = comment;
+        }
       },
       child: Column(
         mainAxisSize: MainAxisSize.min,

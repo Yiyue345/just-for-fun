@@ -62,7 +62,7 @@ class _TestPageState extends State<TestPage> {
                 SizedBox(height: 16,),
                 CommentTile(comment: Comment(
                     id: 123,
-                    userId: 66666,
+                    userId: '123456',
                     userName: '测试用户',
                     content: '下面是最小改动方案：在 ArticleFeed 里增加 profiles 字段并用 readValue 把 profiles.username 映射到 authorName，然后重新生成 feeditem.g.dart。',
                     createdAt: DateTime.now())
