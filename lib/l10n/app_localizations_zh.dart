@@ -117,6 +117,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get updateAvailableDialogTitle => '发现新版本';
 
   @override
+  String get about => '关于';
+
+  @override
   String get languageTitle => '语言';
 
   @override
@@ -190,4 +193,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get userProfile => '用户资料';
+
+  @override
+  String currentVersion(Object version) {
+    return '当前版本：$version';
+  }
 }

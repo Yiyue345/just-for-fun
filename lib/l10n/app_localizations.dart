@@ -314,6 +314,12 @@ abstract class AppLocalizations {
   /// **'Update Available'**
   String get updateAvailableDialogTitle;
 
+  /// No description provided for @about.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get about;
+
   /// No description provided for @languageTitle.
   ///
   /// In en, this message translates to:
@@ -451,6 +457,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'User Profile'**
   String get userProfile;
+
+  /// No description provided for @currentVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Version: {version}'**
+  String currentVersion(Object version);
 }
 
 class _AppLocalizationsDelegate

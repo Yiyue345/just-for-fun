@@ -117,6 +117,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get updateAvailableDialogTitle => 'Update Available';
 
   @override
+  String get about => 'About';
+
+  @override
   String get languageTitle => 'Language';
 
   @override
@@ -192,4 +195,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get userProfile => 'User Profile';
+
+  @override
+  String currentVersion(Object version) {
+    return 'Version: $version';
+  }
 }

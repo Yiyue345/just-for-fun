@@ -42,6 +42,7 @@
   "updateAvailable": "An update is available!",
   "noUpdateAvailable": "Your application is up to date.",
   "updateAvailableDialogTitle": "Update Available",
+  "about": "About",
 
   "languageTitle": "Language",
   "languageSubtitle": "Change app language",
@@ -74,6 +75,7 @@
   "postCommentTo": "Post comment to {entityName}",
   "replyTo": "Reply to {userName}",
 
-  "userProfile": "User Profile"
+  "userProfile": "User Profile",
+  "currentVersion": "Version: {version}"
 
 }
