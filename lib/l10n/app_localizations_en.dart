@@ -146,6 +146,31 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get title => 'Title';
+
+  @override
+  String get summary => 'Summary';
+
+  @override
+  String get content => 'Content';
+
+  @override
+  String get editArticle => 'Edit Article';
+
+  @override
+  String get publicArticle => 'Public Article';
+
+  @override
+  String get discardChangesTitle => 'Discard Changes?';
+
+  @override
+  String get discardChangesMessage =>
+      'Leave without saving will lost all changes.';
+
+  @override
+  String get discard => 'Discard';
+
+  @override
   String get deleteArticleTitle => 'Delete Article';
 
   @override

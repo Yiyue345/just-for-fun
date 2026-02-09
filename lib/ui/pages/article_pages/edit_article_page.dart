@@ -5,6 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:go_deeper/core/network/article.dart';
 import 'package:go_deeper/data/model/feeditem.dart';
 import 'package:go_deeper/data/model/feeditem_controller.dart';
+import 'package:go_deeper/l10n/app_localizations.dart';
 import 'package:go_deeper/ui/pages/article_pages/article_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -38,6 +39,8 @@ class _EditArticlePageState extends State<EditArticlePage> {
     _summaryController = TextEditingController();
     _contentController = TextEditingController();
 
+    final l10n = AppLocalizations.of(context)!;
+
     if (_feedItemController.isEditingArticle.value) {
       _titleController.text = _feedItemController.editingArticle!.title;
       _summaryController.text = _feedItemController.editingArticle!.summary;
@@ -49,7 +52,7 @@ class _EditArticlePageState extends State<EditArticlePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Article'),
+        title: Text(l10n.editArticle),
         leading: IconButton(
             onPressed: () {
               if (!isEdited) {
@@ -59,14 +62,14 @@ class _EditArticlePageState extends State<EditArticlePage> {
               showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
-                    title: Text('Discard changes?'),
-                    content: Text('Leave without saving will lost all changes.'),
+                    title: Text(l10n.discardChangesTitle),
+                    content: Text(l10n.discardChangesMessage),
                     actions: [
                       TextButton(
                           onPressed: () {
                             Get.back();
                           },
-                          child: Text('Cancel')
+                          child: Text(l10n.cancel)
                       ),
                       TextButton(
                           onPressed: () {
@@ -74,7 +77,7 @@ class _EditArticlePageState extends State<EditArticlePage> {
                             Get.back();
                           },
                           child: Text(
-                              'Discard',
+                              l10n.discard,
                             style: TextStyle(
                               color: Colors.red
                             ),
@@ -102,7 +105,7 @@ class _EditArticlePageState extends State<EditArticlePage> {
               ),
               decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Title',
+                  hintText: l10n.title,
                   hintStyle: TextStyle(
                       color: Colors.grey
                   )
@@ -115,7 +118,7 @@ class _EditArticlePageState extends State<EditArticlePage> {
             TextField(
               controller: _summaryController,
               decoration: InputDecoration(
-                hintText: 'Summary',
+                hintText: l10n.summary,
                 border: InputBorder.none,
                 hintStyle: TextStyle(
                   color: Colors.grey
@@ -130,7 +133,7 @@ class _EditArticlePageState extends State<EditArticlePage> {
                 value: publicArticle,
                 contentPadding: EdgeInsets.zero,
                 controlAffinity: ListTileControlAffinity.leading,
-                title: Text('Public Article'),
+                title: Text(l10n.publicArticle),
                 onChanged: (value) {
                   isEdited = true;
                   setState(() {
@@ -144,7 +147,7 @@ class _EditArticlePageState extends State<EditArticlePage> {
               autofocus: true,
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: 'Content',
+                hintText: l10n.content,
                 hintStyle: TextStyle(
                   color: Colors.grey,
                   fontSize: 16

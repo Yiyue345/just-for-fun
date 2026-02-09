@@ -146,6 +146,30 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
+  String get title => '标题';
+
+  @override
+  String get summary => '摘要';
+
+  @override
+  String get content => '内容';
+
+  @override
+  String get editArticle => '编辑文章';
+
+  @override
+  String get publicArticle => '公开文章';
+
+  @override
+  String get discardChangesTitle => '是否放弃更改？';
+
+  @override
+  String get discardChangesMessage => '退出将丢失所有更改。您确定要放弃更改吗？';
+
+  @override
+  String get discard => '放弃';
+
+  @override
   String get deleteArticleTitle => '删除文章';
 
   @override

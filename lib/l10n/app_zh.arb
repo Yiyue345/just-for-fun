@@ -58,6 +58,15 @@
   "articles": "文章",
   "whoseArticles": "{who}的文章",
 
+  "title": "标题",
+  "summary": "摘要",
+  "content": "内容",
+  "editArticle": "编辑文章",
+  "publicArticle": "公开文章",
+  "discardChangesTitle": "是否放弃更改？",
+  "discardChangesMessage": "退出将丢失所有更改。您确定要放弃更改吗？",
+  "discard": "放弃",
+
   "deleteArticleTitle": "删除文章",
   "deleteArticleMessage": "您确定要删除此文章吗？这个操作无法撤销。",
 

@@ -368,6 +368,54 @@ abstract class AppLocalizations {
   /// **'{who}\'s Articles'**
   String whoseArticles(Object who);
 
+  /// No description provided for @title.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get title;
+
+  /// No description provided for @summary.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary'**
+  String get summary;
+
+  /// No description provided for @content.
+  ///
+  /// In en, this message translates to:
+  /// **'Content'**
+  String get content;
+
+  /// No description provided for @editArticle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Article'**
+  String get editArticle;
+
+  /// No description provided for @publicArticle.
+  ///
+  /// In en, this message translates to:
+  /// **'Public Article'**
+  String get publicArticle;
+
+  /// No description provided for @discardChangesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard Changes?'**
+  String get discardChangesTitle;
+
+  /// No description provided for @discardChangesMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave without saving will lost all changes.'**
+  String get discardChangesMessage;
+
+  /// No description provided for @discard.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard'**
+  String get discard;
+
   /// No description provided for @deleteArticleTitle.
   ///
   /// In en, this message translates to:
