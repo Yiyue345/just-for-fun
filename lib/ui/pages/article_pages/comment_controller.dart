@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:go_deeper/core/network/comment.dart';
 import 'package:go_deeper/data/model/comment.dart';
 
 class CommentController extends GetxController {
@@ -10,7 +11,10 @@ class CommentController extends GetxController {
 
   Rx<Comment?> currentComment = Rx<Comment?>(null);
 
+  int articleID = 0;
+
   void loadComments() async {
+    _allComments.value = await getComments(articleID: articleID);
     comments.assignAll(_buildCommentTree(_allComments));
   }
 
@@ -55,6 +59,16 @@ class CommentController extends GetxController {
           // 如果找不到顶层评论（可能被删了），作为顶级评论显示
           roots.add(c);
         }
+      }
+    }
+
+    for (var c in _allComments) {
+      if (c.parentId == null) {
+        continue;
+      }
+      final parent = commentMap[c.parentId];
+      if (parent != null) {
+        c.parentUserName = parent.userName;
       }
     }
 

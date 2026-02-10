@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:go_deeper/core/network/article.dart';
+import 'package:go_deeper/core/network/comment.dart';
 import 'package:go_deeper/data/model/comment.dart';
 import 'package:go_deeper/data/model/feeditem.dart';
 import 'package:go_deeper/data/model/feeditem_controller.dart';
@@ -24,6 +25,7 @@ class ArticlePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CommentController commentController = Get.put(CommentController());
+    commentController.articleID = article.id;
     // print(article.toJson());
     return Scaffold(
       appBar: AppBar(
@@ -110,8 +112,56 @@ class ArticlePage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            
+          onPressed: () async {
+            String content = '';
+            await showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                builder: (context) {
+                  return Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        TextField(
+                          autofocus: true,
+                          keyboardType: TextInputType.multiline,
+                          textInputAction: TextInputAction.newline,
+                          onChanged: (value) {
+                            content = value;
+                          },
+                          minLines: 1,
+                          maxLines: 5,
+                          decoration: InputDecoration(
+                            hintText: AppLocalizations.of(context)!.commentHint,
+                            // border: OutlineInputBorder(),
+                          ),
+                        ),
+                        SizedBox(height: 4,),
+                        ElevatedButton(
+                            onPressed: () async {
+                              final newComment = await createComment(
+                                articleID: article.id,
+                                userID: Supabase.instance.client.auth.currentUser!.id,
+                                content: content
+                              );
+                              commentController.comments.add(newComment);
+                            },
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(Colors.blue),
+                              foregroundColor: MaterialStateProperty.all(Colors.white),
+                              padding: MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: 24, vertical: 12)),
+
+                            ),
+                            child: Text(AppLocalizations.of(context)!.post)
+                        )
+                      ],
+                    ),
+                  );
+                }
+            );
+
           },
         shape: CircleBorder(),
         child: Icon(Icons.add_comment),

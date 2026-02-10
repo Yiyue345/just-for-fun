@@ -78,7 +78,7 @@ class AboutPage extends StatelessWidget {
               }),
             ),
             Padding(
-                padding: EdgeInsets.only(left: 16),
+                padding: EdgeInsets.only(left: 16, top: 4),
               child: Obx(() => Text(
                 l10n.currentVersion(settingsController.version.value),
                 style: TextStyle(

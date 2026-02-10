@@ -3,7 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<Comment> createComment({
   required int articleID,
-  required int userID,
+  required String userID,
   required String content,
   int? parentID,
 }) async {

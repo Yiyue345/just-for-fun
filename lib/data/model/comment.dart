@@ -19,6 +19,7 @@ class Comment {
   final DateTime createdAt;
   @JsonKey(name: 'parent_id')
   final int? parentId;
+  String? parentUserName;
 
   @JsonKey(includeFromJson: true, includeToJson: false)
   final Map<String, dynamic>? profiles;
@@ -32,7 +33,8 @@ class Comment {
     required this.content,
     required this.createdAt,
     this.parentId,
-    this.profiles
+    this.profiles,
+    this.parentUserName,
   });
 
   static Object? _readUserNameFromProfiles(
