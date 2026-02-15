@@ -41,6 +41,18 @@ class Comment {
     this.parentUserName,
   });
 
+  Comment.empty({
+    this.id = -1,
+    this.articleId = 0,
+    this.userId = '',
+    this.userName = '',
+    this.content = '',
+    DateTime? createdAt,
+    this.parentId,
+    this.profiles,
+    this.parentUserName,
+  }) : createdAt = createdAt ?? DateTime.now();
+
   static Object? _readUserNameFromProfiles(
       Map<dynamic, dynamic> json,
       String key,

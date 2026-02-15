@@ -56,6 +56,15 @@ class _MainPageState extends State<MainPage> {
       appBar: AppBar(
         actions: _selectedIndex == 1
             ? [
+              Obx(() => userController.isLoggedIn.value
+                  ? IconButton(
+                  onPressed: () {
+
+                  },
+                  icon: Icon(Icons.notifications)
+              )
+                  : SizedBox.shrink()
+              ),
               IconButton(onPressed: () {
                 Get.to(() => SettingsPage());
               },

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_deeper/core/utils/comment.dart';
 import 'package:go_deeper/ui/pages/article_pages/comment_controller.dart';
 import 'package:go_deeper/ui/widgets/comment_tile.dart';
 
@@ -24,7 +25,10 @@ class CommentPage extends GetView<CommentController> {
               return CommentTile(
                   comment: controller.currentComment.value!,
                   isTopLevelComment: false,
-                  showTrailingButton: false
+                  showTrailingButton: false,
+                  onReply: () async {
+                    await showPostCommentDialog(parentComment: controller.currentComment.value!);
+                  }
               );
             } else {
               // 展示回复内容
@@ -32,7 +36,10 @@ class CommentPage extends GetView<CommentController> {
               return CommentTile(
                   comment: reply,
                   isTopLevelComment: false,
-                  showTrailingButton: false
+                  showTrailingButton: false,
+                onReply: () async {
+                    await showPostCommentDialog(parentComment: reply);
+                },
               );
             }
           }

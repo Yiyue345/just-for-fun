@@ -10,20 +10,23 @@ class CommentTile extends StatelessWidget {
   final Comment comment;
   final bool showTrailingButton;
   final bool isTopLevelComment;
+  final Future<void> Function()? onReply;
 
   CommentTile({
     required this.comment,
     this.showTrailingButton = true,
-    required this.isTopLevelComment
+    required this.isTopLevelComment,
+    this.onReply
   });
 
   @override
   Widget build(BuildContext context) {
     final commentController = Get.find<CommentController>();
     return InkWell(
-      onTap: () {
+      onTap: () async {
         if (!isTopLevelComment) {
           // 回复逻辑
+          if (onReply != null) await onReply!();
           return;
         }
         if (comment.replies.isNotEmpty) {
@@ -46,6 +49,7 @@ class CommentTile extends StatelessWidget {
         }
         else {
           // 回复逻辑
+          if (onReply != null) await onReply!();
         }
       },
       child: Column(
