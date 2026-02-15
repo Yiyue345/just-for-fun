@@ -181,6 +181,15 @@ class AppLocalizationsEn extends AppLocalizations {
       'Are you sure you want to delete this article? This action cannot be undone.';
 
   @override
+  String get comment => 'Comment';
+
+  @override
+  String get comments => 'Comments';
+
+  @override
+  String get noComments => 'No comments yet.';
+
+  @override
   String get commentHint => 'Enter your comment here...';
 
   @override
@@ -192,6 +201,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String replyTo(Object userName) {
     return 'Reply to $userName';
   }
+
+  @override
+  String get commentPostedToast => 'Comment posted';
 
   @override
   String get userProfile => 'User Profile';

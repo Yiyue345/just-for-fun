@@ -71,9 +71,13 @@
   "deleteArticleTitle": "删除文章",
   "deleteArticleMessage": "您确定要删除此文章吗？这个操作无法撤销。",
 
+  "comment": "评论",
+  "comments": "评论",
+  "noComments": "还没有评论",
   "commentHint": "在此输入评论内容...",
   "postCommentTo": "向{entityName}的文章评论",
   "replyTo": "回复{userName}",
+  "commentPostedToast": "评论已发布",
 
   "userProfile": "用户资料",
   "currentVersion": "当前版本：{version}"

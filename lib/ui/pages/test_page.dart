@@ -24,7 +24,7 @@ class _TestPageState extends State<TestPage> {
   @override
   Widget build(BuildContext context) {
 
-    Get.put(CommentController());
+    // Get.put(CommentController());
 
     return Scaffold(
       appBar: AppBar(
@@ -34,6 +34,7 @@ class _TestPageState extends State<TestPage> {
         if (userController.isLoggedIn.value) {
           final testComment = Comment(
             id: 123,
+            articleId: 222,
             userId: '123456',
             userName: '测试用户',
             content: '下面是最小改动方案：在 ArticleFeed 里增加 profiles 字段并用 readValue 把 profiles.username 映射到 authorName，然后重新生成 feeditem.g.dart。',
@@ -41,6 +42,7 @@ class _TestPageState extends State<TestPage> {
           );
           final reply = Comment(
             id: 456,
+            articleId: 222,
             userId: '654321',
             userName: '回复用户',
             content: '这是回复内容',

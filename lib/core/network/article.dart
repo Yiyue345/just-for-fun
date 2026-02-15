@@ -125,3 +125,34 @@ Future<List<ArticleFeed>> getArticles({
   final data = response as List<dynamic>;
   return data.map((e) => ArticleFeed.fromJson(e as Map<String, dynamic>)).toList();
 }
+
+Future<ArticleFeed?> getArticleByID({
+  required int articleID
+}) async {
+  try {
+    final supabase = Supabase.instance.client;
+    final response = await supabase
+        .from('article')
+        .select('''
+        id,
+        created_at,
+        title,
+        summary,
+        content,
+        public,
+        author,
+        profiles(
+          id,
+          username
+        )
+        ''')
+        .eq('id', articleID)
+        .single();
+    print(response.toString());
+    final data = response;
+    return ArticleFeed.fromJson(data);
+  } catch(e) {
+    print('Error fetching article by ID: $e');
+    return null;
+  }
+}

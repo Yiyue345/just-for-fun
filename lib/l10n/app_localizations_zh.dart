@@ -179,6 +179,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get deleteArticleMessage => '您确定要删除此文章吗？这个操作无法撤销。';
 
   @override
+  String get comment => '评论';
+
+  @override
+  String get comments => '评论';
+
+  @override
+  String get noComments => '还没有评论';
+
+  @override
   String get commentHint => '在此输入评论内容...';
 
   @override
@@ -190,6 +199,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String replyTo(Object userName) {
     return '回复$userName';
   }
+
+  @override
+  String get commentPostedToast => '评论已发布';
 
   @override
   String get userProfile => '用户资料';

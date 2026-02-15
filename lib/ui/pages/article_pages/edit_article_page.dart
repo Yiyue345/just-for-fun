@@ -199,7 +199,8 @@ class _EditArticlePageState extends State<EditArticlePage> {
                 _feedItemController.feedItems[index] = newItem;
               }
               Fluttertoast.showToast(msg: 'Article updated successfully.');
-              Get.off(() => ArticlePage(article: newItem));
+              _feedItemController.currentArticle.value = newItem;
+              Get.off(() => ArticlePage());
             }
             else {
               final newItem = await createArticle(

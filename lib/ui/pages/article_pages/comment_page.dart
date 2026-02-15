@@ -12,7 +12,11 @@ class CommentPage extends GetView<CommentController> {
 
     return Padding(
         padding: EdgeInsets.symmetric(vertical: 8),
-      child: Obx(() => ListView.builder(
+      child: Obx(() => controller.isLoading.value
+          ? Center(
+        child: CircularProgressIndicator(),
+      )
+          : ListView.builder(
           itemCount: controller.currentComment.value!.replies.length + 1,
           itemBuilder: (context, index) {
             if (index == 0) {
@@ -32,7 +36,8 @@ class CommentPage extends GetView<CommentController> {
               );
             }
           }
-      )),
+      )
+      ),
     );
   }
 }

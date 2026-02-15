@@ -11,11 +11,29 @@ class CommentController extends GetxController {
 
   Rx<Comment?> currentComment = Rx<Comment?>(null);
 
-  int articleID = 0;
+  var isLoading = false.obs;
+  var isSubmitting = false.obs;
 
-  void loadComments() async {
+  int articleID;
+
+  CommentController({required this.articleID});
+
+  @override
+  void onInit() {
+    super.onInit();
+    loadComments();
+  }
+
+  Future<void> loadComments() async {
+    isLoading.value = true;
+    if (articleID <= 0) {
+      comments.clear();
+      isLoading.value = false;
+      return;
+    }
     _allComments.value = await getComments(articleID: articleID);
     comments.assignAll(_buildCommentTree(_allComments));
+    isLoading.value = false;
   }
 
   List<Comment> _buildCommentTree(List<Comment> flatComments) {

@@ -7,6 +7,8 @@ class Comment {
   final int id;
   @JsonKey(name: 'user_id')
   final String userId;
+  @JsonKey(name: 'article_id')
+  final int articleId;
 
   @JsonKey(
       name: 'user_name',
@@ -24,10 +26,12 @@ class Comment {
   @JsonKey(includeFromJson: true, includeToJson: false)
   final Map<String, dynamic>? profiles;
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   List<Comment> replies = [];
 
   Comment({
     required this.id,
+    required this.articleId,
     required this.userId,
     required this.userName,
     required this.content,

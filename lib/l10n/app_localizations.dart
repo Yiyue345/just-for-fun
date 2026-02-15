@@ -434,6 +434,24 @@ abstract class AppLocalizations {
   /// **'Are you sure you want to delete this article? This action cannot be undone.'**
   String get deleteArticleMessage;
 
+  /// No description provided for @comment.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment'**
+  String get comment;
+
+  /// No description provided for @comments.
+  ///
+  /// In en, this message translates to:
+  /// **'Comments'**
+  String get comments;
+
+  /// No description provided for @noComments.
+  ///
+  /// In en, this message translates to:
+  /// **'No comments yet.'**
+  String get noComments;
+
   /// No description provided for @commentHint.
   ///
   /// In en, this message translates to:
@@ -451,6 +469,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reply to {userName}'**
   String replyTo(Object userName);
+
+  /// No description provided for @commentPostedToast.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment posted'**
+  String get commentPostedToast;
 
   /// No description provided for @userProfile.
   ///

@@ -51,7 +51,8 @@ class SuggestionPage extends StatelessWidget {
                       title: Text(item.title),
                       subtitle: Text(item.summary),
                       onTap: () {
-                        Get.to(() => ArticlePage(article: item as ArticleFeed));
+                        feedItemController.currentArticle.value = item as ArticleFeed;
+                        Get.to(() => ArticlePage());
                       },
                     );
                   }

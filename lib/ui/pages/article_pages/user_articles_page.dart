@@ -4,6 +4,7 @@ import 'package:go_deeper/core/network/article.dart';
 import 'package:go_deeper/data/model/feeditem.dart';
 import 'package:go_deeper/ui/pages/article_pages/article_page.dart';
 
+import '../../../data/model/feeditem_controller.dart';
 import '../../../l10n/app_localizations.dart';
 
 class UserFeedItemsController extends GetxController {
@@ -99,7 +100,9 @@ class UserArticlesPage extends StatelessWidget {
                     title: Text(item.title),
                     subtitle: Text(item.summary),
                     onTap: () {
-                      Get.to(() => ArticlePage(article: item as ArticleFeed));
+                      final feedItemController = Get.find<FeedItemController>();
+                      feedItemController.currentArticle.value = item as ArticleFeed;
+                      Get.to(() => ArticlePage());
                     },
                   );
                 }
