@@ -19,7 +19,12 @@ Future<void> showPostCommentDialog({Comment? parentComment}) async {
       isScrollControlled: true,
       builder: (context) {
         return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+          padding: EdgeInsets.only(
+              left: 12,
+              right: 12,
+              top: 12,
+              bottom: MediaQuery.of(context).viewInsets.bottom + 12
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.end,
