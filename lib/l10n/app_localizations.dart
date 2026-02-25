@@ -467,8 +467,14 @@ abstract class AppLocalizations {
   /// No description provided for @replyTo.
   ///
   /// In en, this message translates to:
-  /// **'Reply to {userName}'**
+  /// **'Reply to @{userName}'**
   String replyTo(Object userName);
+
+  /// No description provided for @replyingTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Replying to @{userName}'**
+  String replyingTo(Object userName);
 
   /// No description provided for @commentPostedToast.
   ///

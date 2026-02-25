@@ -4,6 +4,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:go_deeper/l10n/app_localizations.dart';
+import 'package:go_deeper/ui/pages/other_user_page/controller.dart';
+import 'package:go_deeper/ui/pages/other_user_page/other_user_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../network/user_auth.dart';
@@ -15,6 +17,12 @@ String? getUserName() {
     return null;
   }
   return user.userMetadata?['display_name'] as String?;
+}
+
+void goToOtherUserPage({required String userUUID}) {
+  Get.put(OtherUsersController(), tag: userUUID);
+  Get.find<OtherUsersController>(tag: userUUID).updateWatchUserProfile(userUUID);
+  Get.to(() => OtherUserPage(userUUID: userUUID));
 }
 
 // 注册对话框

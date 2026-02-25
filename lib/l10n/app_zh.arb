@@ -76,7 +76,8 @@
   "noComments": "还没有评论",
   "commentHint": "在此输入评论内容...",
   "postCommentTo": "向{entityName}的文章评论",
-  "replyTo": "回复{userName}",
+  "replyTo": "回复@{userName}",
+  "replyingTo": "回复@{userName}",
   "commentPostedToast": "评论已发布",
 
   "userProfile": "用户资料",

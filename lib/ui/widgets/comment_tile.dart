@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_deeper/core/utils/user_utils.dart';
 import 'package:go_deeper/data/model/comment.dart';
 import 'package:go_deeper/ui/pages/article_pages/comment_controller.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../pages/article_pages/comment_page.dart';
 
 class CommentTile extends StatelessWidget {
@@ -22,6 +24,7 @@ class CommentTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final commentController = Get.find<CommentController>();
+    final l10n = AppLocalizations.of(context)!;
     return InkWell(
       onTap: () async {
         if (!isTopLevelComment) {
@@ -64,10 +67,10 @@ class CommentTile extends StatelessWidget {
                 SizedBox(width: 8,),
                 if (comment.parentUserName != null) GestureDetector(
                   onTap: () {
-                    // 点击跳转到被回复用户的主页
+                    goToOtherUserPage(userUUID: comment.userId);
                   },
                   child: Text(
-                    'Replying to @${comment.parentUserName}',
+                    l10n.replyTo(comment.parentUserName!),
                     style: TextStyle(
                       color: Colors.blue,
                     ),

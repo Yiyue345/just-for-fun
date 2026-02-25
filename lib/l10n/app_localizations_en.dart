@@ -199,7 +199,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String replyTo(Object userName) {
-    return 'Reply to $userName';
+    return 'Reply to @$userName';
+  }
+
+  @override
+  String replyingTo(Object userName) {
+    return 'Replying to @$userName';
   }
 
   @override

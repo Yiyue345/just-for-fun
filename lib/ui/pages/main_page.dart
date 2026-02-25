@@ -40,7 +40,7 @@ class _MainPageState extends State<MainPage> {
     Get.put(FeedItemController());
     Get.put(SettingsController());
     Get.put(UserFeedItemsController());
-    Get.put(OtherUsersController());
+    // Get.put(OtherUsersController());
   }
 
   @override

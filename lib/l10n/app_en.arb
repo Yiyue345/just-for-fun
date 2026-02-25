@@ -76,7 +76,8 @@
   "noComments": "No comments yet.",
   "commentHint": "Enter your comment here...",
   "postCommentTo": "Post comment to {entityName}",
-  "replyTo": "Reply to {userName}",
+  "replyTo": "Reply to @{userName}",
+  "replyingTo": "Replying to @{userName}",
   "commentPostedToast": "Comment posted",
 
   "userProfile": "User Profile",

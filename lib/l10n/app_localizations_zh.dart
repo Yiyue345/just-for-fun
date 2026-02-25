@@ -197,7 +197,12 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String replyTo(Object userName) {
-    return '回复$userName';
+    return '回复@$userName';
+  }
+
+  @override
+  String replyingTo(Object userName) {
+    return '回复@$userName';
   }
 
   @override

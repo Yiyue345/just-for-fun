@@ -5,6 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:go_deeper/core/network/article.dart';
 import 'package:go_deeper/core/network/comment.dart';
 import 'package:go_deeper/core/utils/comment.dart';
+import 'package:go_deeper/core/utils/user_utils.dart';
 import 'package:go_deeper/data/model/comment.dart';
 import 'package:go_deeper/data/model/feeditem.dart';
 import 'package:go_deeper/data/model/feeditem_controller.dart';
@@ -18,6 +19,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../widgets/comment_tile.dart';
 
 class ArticlePage extends StatelessWidget {
+
+  // TODO: 给 commentController 加上 tag
+  // TODO: 将 currentArticle 一并合入 commentController，实现一个页面一个 controller
 
   @override
   Widget build(BuildContext context) {
@@ -60,9 +64,7 @@ class ArticlePage extends StatelessWidget {
             if (feedItemController.currentArticle.value!.authorName != null && feedItemController.currentArticle.value!.authorName!.isNotEmpty) ...[
               GestureDetector(
                   onTap: () {
-                    final otherUsersController = Get.find<OtherUsersController>();
-                    otherUsersController.updateWatchUserProfile(feedItemController.currentArticle.value!.author);
-                    Get.to(OtherUserPage());
+                    goToOtherUserPage(userUUID: feedItemController.currentArticle.value!.author);
                   },
                   child: Text.rich(
                       TextSpan(

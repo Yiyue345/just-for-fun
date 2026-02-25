@@ -6,10 +6,18 @@ import 'package:go_deeper/ui/pages/other_user_page/controller.dart';
 
 import '../article_pages/user_articles_page.dart';
 
-class OtherUserPage extends GetView<OtherUsersController> {
+class OtherUserPage extends StatelessWidget {
+
+  final String userUUID;
+
+  OtherUserPage({super.key, required this.userUUID});
+
+  // 获取对应 tag 的 Controller
+  OtherUsersController get controller => Get.find<OtherUsersController>(tag: userUUID);
 
   @override
   Widget build(BuildContext context) {
+    // final controller = Get.find<OtherUsersController>();
     final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(

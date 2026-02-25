@@ -37,10 +37,10 @@ Future<void> showPostCommentDialog({Comment? parentComment}) async {
                   hintText: parentComment == null
                       ? feedItemController.currentArticle.value!.authorName == null
                         ? AppLocalizations.of(context)!.commentHint
-                        : AppLocalizations.of(context)!.replyTo(feedItemController.currentArticle.value!.authorName!)
+                        : AppLocalizations.of(context)!.replyingTo(feedItemController.currentArticle.value!.authorName!)
                       : parentComment.parentUserName == null
                         ? AppLocalizations.of(context)!.commentHint
-                        : AppLocalizations.of(context)!.replyTo(parentComment.parentUserName!)
+                        : AppLocalizations.of(context)!.replyingTo(parentComment.parentUserName!)
                   ,
                   // border: OutlineInputBorder(),
                 ),
@@ -90,8 +90,8 @@ Future<void> showPostCommentDialog({Comment? parentComment}) async {
                               );
                             }
 
-                            Fluttertoast.showToast(msg: AppLocalizations.of(
-                                context)!.commentPostedToast);
+                            Fluttertoast.showToast(msg: AppLocalizations.of(context)!.commentPostedToast);
+
                             Get.back();
                           } catch (e) {
                             commentController.isSubmitting.value = false;
