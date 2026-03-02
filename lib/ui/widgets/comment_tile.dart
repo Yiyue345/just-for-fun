@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_deeper/core/utils/datetime_utils.dart';
 import 'package:go_deeper/core/utils/user_utils.dart';
 import 'package:go_deeper/data/model/comment.dart';
 import 'package:go_deeper/ui/pages/article_pages/article_controller.dart';
@@ -102,7 +103,7 @@ class CommentTile extends StatelessWidget {
               padding: EdgeInsets.only(left: 16, right: 16, bottom: 4),
             child: Row(
               children: [
-                Text(comment.createdAt.toLocal().toString())
+                Text(howLongTimeAgo(comment.createdAt.toLocal()))
               ],
             ),
           ),

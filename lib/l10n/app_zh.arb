@@ -82,6 +82,13 @@
 
   "loadArticleFailedRetry": "加载文章失败，点击重试。",
 
+  "secondsAgo": "{seconds}秒前",
+  "minutesAgo": "{minutes}分钟前",
+  "hoursAgo": "{hours}小时前",
+  "daysAgo": "{days}天前",
+  "justNow": "刚刚",
+  "onDate": "{year}年{month}月{day}日",
+
   "userProfile": "用户资料",
   "currentVersion": "当前版本：{version}"
 

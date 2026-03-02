@@ -214,6 +214,34 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loadArticleFailedRetry => 'Load article failed, tap to retry.';
 
   @override
+  String secondsAgo(Object seconds) {
+    return '$seconds seconds ago';
+  }
+
+  @override
+  String minutesAgo(Object minutes) {
+    return '$minutes minutes ago';
+  }
+
+  @override
+  String hoursAgo(Object hours) {
+    return '$hours hours ago';
+  }
+
+  @override
+  String daysAgo(Object days) {
+    return '$days days ago';
+  }
+
+  @override
+  String get justNow => 'Just now';
+
+  @override
+  String onDate(Object day, Object month, Object year) {
+    return '$month-$day-$year';
+  }
+
+  @override
   String get userProfile => 'User Profile';
 
   @override

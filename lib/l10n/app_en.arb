@@ -82,6 +82,13 @@
 
   "loadArticleFailedRetry": "Load article failed, tap to retry.",
 
+  "secondsAgo": "{seconds} seconds ago",
+  "minutesAgo": "{minutes} minutes ago",
+  "hoursAgo": "{hours} hours ago",
+  "daysAgo": "{days} days ago",
+  "justNow": "Just now",
+  "onDate": "{month}-{day}-{year}",
+
   "userProfile": "User Profile",
   "currentVersion": "Version: {version}"
 

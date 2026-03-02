@@ -488,6 +488,42 @@ abstract class AppLocalizations {
   /// **'Load article failed, tap to retry.'**
   String get loadArticleFailedRetry;
 
+  /// No description provided for @secondsAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{seconds} seconds ago'**
+  String secondsAgo(Object seconds);
+
+  /// No description provided for @minutesAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} minutes ago'**
+  String minutesAgo(Object minutes);
+
+  /// No description provided for @hoursAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours} hours ago'**
+  String hoursAgo(Object hours);
+
+  /// No description provided for @daysAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} days ago'**
+  String daysAgo(Object days);
+
+  /// No description provided for @justNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Just now'**
+  String get justNow;
+
+  /// No description provided for @onDate.
+  ///
+  /// In en, this message translates to:
+  /// **'{month}-{day}-{year}'**
+  String onDate(Object day, Object month, Object year);
+
   /// No description provided for @userProfile.
   ///
   /// In en, this message translates to:

@@ -212,6 +212,34 @@ class AppLocalizationsZh extends AppLocalizations {
   String get loadArticleFailedRetry => '加载文章失败，点击重试。';
 
   @override
+  String secondsAgo(Object seconds) {
+    return '$seconds秒前';
+  }
+
+  @override
+  String minutesAgo(Object minutes) {
+    return '$minutes分钟前';
+  }
+
+  @override
+  String hoursAgo(Object hours) {
+    return '$hours小时前';
+  }
+
+  @override
+  String daysAgo(Object days) {
+    return '$days天前';
+  }
+
+  @override
+  String get justNow => '刚刚';
+
+  @override
+  String onDate(Object day, Object month, Object year) {
+    return '$year年$month月$day日';
+  }
+
+  @override
   String get userProfile => '用户资料';
 
   @override
