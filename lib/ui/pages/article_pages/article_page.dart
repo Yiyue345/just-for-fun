@@ -20,9 +20,6 @@ import '../../widgets/comment_tile.dart';
 
 class ArticlePage extends StatelessWidget {
 
-  // TODO: 给 commentController 加上 tag
-  // TODO: 将 currentArticle 一并合入 commentController，实现一个页面一个 controller
-
   final int articleID;
   ArticlePage({required this.articleID});
 
