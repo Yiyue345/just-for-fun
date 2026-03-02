@@ -4,16 +4,14 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../data/model/comment.dart';
-import '../../data/model/feeditem_controller.dart';
 import '../../l10n/app_localizations.dart';
-import '../../ui/pages/article_pages/comment_controller.dart';
+import '../../ui/pages/article_pages/article_controller.dart';
 import '../network/comment.dart';
 
-Future<void> showPostCommentDialog({Comment? parentComment}) async {
+Future<void> showPostCommentDialog({required int articleID, Comment? parentComment}) async {
   String content = '';
   final context = Get.context!;
-  final commentController = Get.find<CommentController>();
-  final feedItemController = Get.find<FeedItemController>();
+  final articleController = Get.find<ArticleController>(tag: articleID.toString());
   await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -40,9 +38,9 @@ Future<void> showPostCommentDialog({Comment? parentComment}) async {
                 maxLines: 5,
                 decoration: InputDecoration(
                   hintText: parentComment == null
-                      ? feedItemController.currentArticle.value!.authorName == null
+                      ? articleController.article.value!.authorName == null
                         ? AppLocalizations.of(context)!.commentHint
-                        : AppLocalizations.of(context)!.replyingTo(feedItemController.currentArticle.value!.authorName!)
+                        : AppLocalizations.of(context)!.replyingTo(articleController.article.value!.authorName!)
                       : parentComment.parentUserName == null
                         ? AppLocalizations.of(context)!.commentHint
                         : AppLocalizations.of(context)!.replyingTo(parentComment.parentUserName!)
@@ -54,7 +52,7 @@ Future<void> showPostCommentDialog({Comment? parentComment}) async {
               SizedBox(
                 height: 40,
                 child: Obx(() {
-                  if (commentController.isSubmitting.value) {
+                  if (articleController.isSubmitting.value) {
                     return Align(
                       alignment: Alignment.centerRight,
                       child: SizedBox(
@@ -74,22 +72,22 @@ Future<void> showPostCommentDialog({Comment? parentComment}) async {
                             return;
                           }
                           try {
-                            commentController.isSubmitting.value = true;
+                            articleController.isSubmitting.value = true;
                             final newComment = await createComment(
-                                articleID: feedItemController.currentArticle
+                                articleID: articleController.article
                                     .value!.id,
                                 parentID: parentComment?.id,
                                 userID: Supabase.instance.client.auth.currentUser!
                                     .id,
                                 content: content
                             );
-                            commentController.isSubmitting.value = false;
+                            articleController.isSubmitting.value = false;
                             if (parentComment == null) {
-                              commentController.comments.add(newComment);
+                              articleController.comments.add(newComment);
                             }
                             else {
                               // print(newComment.toJson());
-                              commentController.addReply(
+                              articleController.addReply(
                                   parent: parentComment,
                                   reply: newComment
                               );
@@ -99,7 +97,7 @@ Future<void> showPostCommentDialog({Comment? parentComment}) async {
 
                             Get.back();
                           } catch (e) {
-                            commentController.isSubmitting.value = false;
+                            articleController.isSubmitting.value = false;
                             // todo: 修改为更友好的错误提示
                             Fluttertoast.showToast(msg: e.toString());
                           }

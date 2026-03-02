@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:go_deeper/core/network/article.dart';
+import 'package:go_deeper/core/utils/article_utils.dart';
 import 'package:go_deeper/data/model/feeditem.dart';
 import 'package:go_deeper/data/model/feeditem_controller.dart';
 import 'package:go_deeper/l10n/app_localizations.dart';
@@ -199,8 +200,7 @@ class _EditArticlePageState extends State<EditArticlePage> {
                 _feedItemController.feedItems[index] = newItem;
               }
               Fluttertoast.showToast(msg: 'Article updated successfully.');
-              _feedItemController.currentArticle.value = newItem;
-              Get.off(() => ArticlePage());
+              goToArticlePage(articleID: newItem.id, replace: true);
             }
             else {
               final newItem = await createArticle(

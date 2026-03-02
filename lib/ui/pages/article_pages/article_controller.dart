@@ -2,7 +2,11 @@ import 'package:get/get.dart';
 import 'package:go_deeper/core/network/comment.dart';
 import 'package:go_deeper/data/model/comment.dart';
 
-class CommentController extends GetxController {
+import '../../../core/network/article.dart';
+import '../../../data/model/feeditem.dart';
+
+class ArticleController extends GetxController {
+  Rx<ArticleFeed?> article = Rx<ArticleFeed?>(null);
   // 所有评论，包括子评论
   final RxList<Comment> allComments = <Comment>[].obs;
 
@@ -16,18 +20,29 @@ class CommentController extends GetxController {
 
   int articleID;
 
-  CommentController({required this.articleID});
+  ArticleController({required this.articleID});
 
   @override
   void onInit() {
     super.onInit();
     loadComments();
+    loadArticle(articleID: articleID);
   }
 
   @override
   void refresh() {
     super.refresh();
     loadComments();
+    loadArticle(articleID: articleID);
+  }
+
+  Future<void> loadArticle({required int articleID}) async {
+    isLoading.value = true;
+    final updatedArticle = await getArticleByID(articleID: articleID);
+    if (updatedArticle != null) {
+      article.value = updatedArticle;
+    }
+    isLoading.value = false;
   }
 
 

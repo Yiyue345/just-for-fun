@@ -7,7 +7,7 @@ import 'package:go_deeper/core/network/user_auth.dart';
 import 'package:go_deeper/core/network/user_controller.dart';
 import 'package:go_deeper/core/utils/user_utils.dart';
 import 'package:go_deeper/data/model/comment.dart';
-import 'package:go_deeper/ui/pages/article_pages/comment_controller.dart';
+import 'package:go_deeper/ui/pages/article_pages/article_controller.dart';
 import 'package:go_deeper/ui/widgets/comment_tile.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

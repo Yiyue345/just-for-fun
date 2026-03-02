@@ -482,6 +482,12 @@ abstract class AppLocalizations {
   /// **'Comment posted'**
   String get commentPostedToast;
 
+  /// No description provided for @loadArticleFailedRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Load article failed, tap to retry.'**
+  String get loadArticleFailedRetry;
+
   /// No description provided for @userProfile.
   ///
   /// In en, this message translates to:

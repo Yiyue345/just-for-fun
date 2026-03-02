@@ -93,7 +93,17 @@ class _MainPageState extends State<MainPage> {
                     )
             )
         ]
-            : null,
+            : [
+              Obx(() => userController.isLoggedIn.value
+                  ? IconButton(
+                  onPressed: () {
+
+                  },
+                  icon: Icon(Icons.search)
+              )
+                  : SizedBox.shrink()
+              ),
+        ],
       ),
       body: PageView(
         controller: _pageController,

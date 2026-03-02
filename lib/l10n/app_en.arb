@@ -80,6 +80,8 @@
   "replyingTo": "Replying to @{userName}",
   "commentPostedToast": "Comment posted",
 
+  "loadArticleFailedRetry": "Load article failed, tap to retry.",
+
   "userProfile": "User Profile",
   "currentVersion": "Version: {version}"
 

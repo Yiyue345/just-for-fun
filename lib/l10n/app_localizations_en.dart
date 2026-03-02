@@ -211,6 +211,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get commentPostedToast => 'Comment posted';
 
   @override
+  String get loadArticleFailedRetry => 'Load article failed, tap to retry.';
+
+  @override
   String get userProfile => 'User Profile';
 
   @override

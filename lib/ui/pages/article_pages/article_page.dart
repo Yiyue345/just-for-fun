@@ -10,7 +10,7 @@ import 'package:go_deeper/data/model/comment.dart';
 import 'package:go_deeper/data/model/feeditem.dart';
 import 'package:go_deeper/data/model/feeditem_controller.dart';
 import 'package:go_deeper/l10n/app_localizations.dart';
-import 'package:go_deeper/ui/pages/article_pages/comment_controller.dart';
+import 'package:go_deeper/ui/pages/article_pages/article_controller.dart';
 import 'package:go_deeper/ui/pages/article_pages/edit_article_page.dart';
 import 'package:go_deeper/ui/pages/other_user_page/controller.dart';
 import 'package:go_deeper/ui/pages/other_user_page/other_user_page.dart';
@@ -23,17 +23,18 @@ class ArticlePage extends StatelessWidget {
   // TODO: 给 commentController 加上 tag
   // TODO: 将 currentArticle 一并合入 commentController，实现一个页面一个 controller
 
+  final int articleID;
+  ArticlePage({required this.articleID});
+
   @override
   Widget build(BuildContext context) {
-    final feedItemController = Get.find<FeedItemController>();
-    final CommentController commentController = Get.put(CommentController(articleID: feedItemController.currentArticle.value!.id));
-    commentController.articleID = feedItemController.currentArticle.value!.id;
-    commentController.loadComments();
-    feedItemController.reloadCurrentArticle();
+    final ArticleController articleController = Get.find<ArticleController>(tag: articleID.toString());
+    // commentController.loadComments();
+    // feedItemController.reloadCurrentArticle();
     // print(article.toJson());
     return Scaffold(
       appBar: AppBar(
-        title: Text(feedItemController.currentArticle.value!.title),
+        title: Obx(() => Text(articleController.article.value?.title ?? '')),
         actions: [
           _popupMenuButton()
         ],
@@ -41,18 +42,30 @@ class ArticlePage extends StatelessWidget {
       body: RefreshIndicator(
           onRefresh: () async {
             final futures = [
-              commentController.loadComments(),
-              feedItemController.reloadCurrentArticle()
+              articleController.loadComments(),
+              articleController.loadArticle(articleID: articleID)
             ];
             await Future.wait(futures);
           },
           child: Padding(
         padding: EdgeInsets.all(16),
-        child: Obx(() => ListView(
+        child: Obx(() => articleController.isLoading.value 
+            ? Center(
+          child: CircularProgressIndicator(),
+        )
+            : articleController.article.value == null 
+              ? Center(
+          child: TextButton(onPressed: () {
+            articleController.refresh();
+          }, 
+              child: Text(AppLocalizations.of(context)!.loadArticleFailedRetry)
+          ),
+        )
+              : ListView(
           children: [
-            if (feedItemController.currentArticle.value!.summary.isNotEmpty) ...[
+            if (articleController.article.value!.summary.isNotEmpty) ...[
               Text(
-                feedItemController.currentArticle.value!.summary,
+                articleController.article.value!.summary,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
@@ -61,10 +74,10 @@ class ArticlePage extends StatelessWidget {
               ),
               SizedBox(height: 16),
             ],
-            if (feedItemController.currentArticle.value!.authorName != null && feedItemController.currentArticle.value!.authorName!.isNotEmpty) ...[
+            if (articleController.article.value!.authorName != null && articleController.article.value!.authorName!.isNotEmpty) ...[
               GestureDetector(
                   onTap: () {
-                    goToOtherUserPage(userUUID: feedItemController.currentArticle.value!.author);
+                    goToOtherUserPage(userUUID: articleController.article.value!.author);
                   },
                   child: Text.rich(
                       TextSpan(
@@ -76,7 +89,7 @@ class ArticlePage extends StatelessWidget {
                           ),
                           children: [
                             TextSpan(
-                              text: feedItemController.currentArticle.value!.authorName,
+                              text: articleController.article.value!.authorName,
                               style: TextStyle(
                                 fontSize: 14,
                                 fontStyle: FontStyle.italic,
@@ -109,7 +122,7 @@ class ArticlePage extends StatelessWidget {
             ],
             SizedBox(height: 16),
             Text(
-              feedItemController.currentArticle.value!.content,
+              articleController.article.value!.content,
               style: TextStyle(
                 fontSize: 16,
                 height: 1.5,
@@ -119,11 +132,11 @@ class ArticlePage extends StatelessWidget {
               height: 16,
             ),
 
-            if (commentController.isLoading.value)
+            if (articleController.isLoading.value)
               Center(
                 child: CircularProgressIndicator(),
               )
-            else if (commentController.comments.isNotEmpty) ...[
+            else if (articleController.comments.isNotEmpty) ...[
               Text(
                 AppLocalizations.of(context)!.comments,
                 style: TextStyle(
@@ -136,17 +149,17 @@ class ArticlePage extends StatelessWidget {
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  final comment = commentController.comments[index];
+                  final comment = articleController.comments[index];
                   return CommentTile(
                     comment: comment,
                     isTopLevelComment: true,
                     showTrailingButton: false,
                     onReply: () async {
-                      await showPostCommentDialog(parentComment: comment);
+                      await showPostCommentDialog(articleID: articleID, parentComment: comment);
                     },
                   );
                 },
-                itemCount: commentController.comments.length,
+                itemCount: articleController.comments.length,
               )
             ]
             else ...[
@@ -159,12 +172,13 @@ class ArticlePage extends StatelessWidget {
                 )
               ]
           ],
-        )),
+        )
+        ),
       )
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            await showPostCommentDialog();
+            await showPostCommentDialog(articleID: articleID);
           },
         shape: CircleBorder(),
         child: Icon(Icons.add_comment),
@@ -177,14 +191,14 @@ class ArticlePage extends StatelessWidget {
   PopupMenuButton<String> _popupMenuButton() {
     final context = Get.context!;
     final l10n = AppLocalizations.of(context)!;
-    final feedItemController = Get.find<FeedItemController>();
+    final articleController = Get.find<ArticleController>(tag: articleID.toString());
     return PopupMenuButton(
       onSelected: (value) {
         switch (value) {
           case 'edit':
             final feedController = Get.find<FeedItemController>();
             feedController.isEditingArticle.value = true;
-            feedController.editingArticle = feedItemController.currentArticle.value!;
+            feedController.editingArticle = articleController.article.value!;
             Get.off(() => EditArticlePage());
             break;
           case 'delete':
@@ -193,7 +207,7 @@ class ArticlePage extends StatelessWidget {
         }
       },
         itemBuilder: (context) => [
-          if (feedItemController.currentArticle.value!.author == Supabase.instance.client.auth.currentUser!.id) ...[
+          if (articleController.article.value!.author == Supabase.instance.client.auth.currentUser!.id) ...[
             PopupMenuItem(
               value: 'edit',
                 child: Row(
@@ -224,7 +238,8 @@ class ArticlePage extends StatelessWidget {
     final context = Get.context!;
     final l10n = AppLocalizations.of(context)!;
     final feedItemController = Get.find<FeedItemController>();
-    var article = feedItemController.currentArticle.value!;
+    final articleController = Get.find<ArticleController>(tag: articleID.toString());
+    var article = articleController.article.value!;
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -237,7 +252,7 @@ class ArticlePage extends StatelessWidget {
             ),
             TextButton(
                 onPressed: () async {
-                  await deleteArticle(articleID: feedItemController.currentArticle.value!.id);
+                  await deleteArticle(articleID: articleController.article.value!.id);
                   final feedController = Get.find<FeedItemController>();
                   feedController.feedItems.remove(article);
                   Fluttertoast.showToast(msg: 'Deleted article successfully.');

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_deeper/core/network/article.dart';
+import 'package:go_deeper/core/utils/article_utils.dart';
 import 'package:go_deeper/data/model/feeditem.dart';
 import 'package:go_deeper/ui/pages/article_pages/article_page.dart';
 
@@ -100,9 +101,7 @@ class UserArticlesPage extends StatelessWidget {
                     title: Text(item.title),
                     subtitle: Text(item.summary),
                     onTap: () {
-                      final feedItemController = Get.find<FeedItemController>();
-                      feedItemController.currentArticle.value = item as ArticleFeed;
-                      Get.to(() => ArticlePage());
+                      goToArticlePage(articleID: item.id);
                     },
                   );
                 }

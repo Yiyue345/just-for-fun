@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_deeper/core/utils/user_utils.dart';
 import 'package:go_deeper/data/model/comment.dart';
-import 'package:go_deeper/ui/pages/article_pages/comment_controller.dart';
+import 'package:go_deeper/ui/pages/article_pages/article_controller.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../pages/article_pages/comment_page.dart';
@@ -23,7 +23,7 @@ class CommentTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final commentController = Get.find<CommentController>();
+    final articleController = Get.find<ArticleController>(tag: comment.articleId.toString());
     final l10n = AppLocalizations.of(context)!;
     return InkWell(
       onTap: () async {
@@ -33,7 +33,7 @@ class CommentTile extends StatelessWidget {
           return;
         }
         if (comment.replies.isNotEmpty) {
-          commentController.currentComment.value = comment;
+          articleController.currentComment.value = comment;
           showModalBottomSheet(
               context: context,
               // 解放尺寸
@@ -44,7 +44,7 @@ class CommentTile extends StatelessWidget {
                   child: Material(
                     clipBehavior: Clip.antiAlias,
                     borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-                    child: CommentPage(),
+                    child: CommentPage(articleID: comment.articleId,),
                   ),
                 );
               }

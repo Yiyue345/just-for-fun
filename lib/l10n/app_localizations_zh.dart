@@ -209,6 +209,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get commentPostedToast => '评论已发布';
 
   @override
+  String get loadArticleFailedRetry => '加载文章失败，点击重试。';
+
+  @override
   String get userProfile => '用户资料';
 
   @override

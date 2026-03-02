@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:go_deeper/core/utils/article_utils.dart';
 import 'package:go_deeper/data/model/feeditem.dart';
 import 'package:go_deeper/ui/pages/article_pages/article_page.dart';
 
@@ -51,8 +52,7 @@ class SuggestionPage extends StatelessWidget {
                       title: Text(item.title),
                       subtitle: Text(item.summary),
                       onTap: () {
-                        feedItemController.currentArticle.value = item as ArticleFeed;
-                        Get.to(() => ArticlePage());
+                        goToArticlePage(articleID: item.id);
                       },
                     );
                   }

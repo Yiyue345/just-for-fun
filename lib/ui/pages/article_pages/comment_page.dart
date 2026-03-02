@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_deeper/core/utils/comment.dart';
-import 'package:go_deeper/ui/pages/article_pages/comment_controller.dart';
+import 'package:go_deeper/ui/pages/article_pages/article_controller.dart';
 import 'package:go_deeper/ui/widgets/comment_tile.dart';
 
 
 // 展示评论及其回复的页面
-class CommentPage extends GetView<CommentController> {
+class CommentPage extends StatelessWidget {
+
+  final int articleID;
+
+  CommentPage({required this.articleID});
 
   @override
   Widget build(BuildContext context) {
+    final ArticleController controller = Get.find<ArticleController>(tag: articleID.toString());
 
     return Padding(
         padding: EdgeInsets.symmetric(vertical: 8),
@@ -27,7 +32,7 @@ class CommentPage extends GetView<CommentController> {
                   isTopLevelComment: false,
                   showTrailingButton: false,
                   onReply: () async {
-                    await showPostCommentDialog(parentComment: controller.currentComment.value!);
+                    await showPostCommentDialog(articleID: articleID, parentComment: controller.currentComment.value!);
                   }
               );
             } else {
@@ -38,7 +43,7 @@ class CommentPage extends GetView<CommentController> {
                   isTopLevelComment: false,
                   showTrailingButton: false,
                 onReply: () async {
-                    await showPostCommentDialog(parentComment: reply);
+                    await showPostCommentDialog(articleID: articleID, parentComment: reply);
                 },
               );
             }

@@ -12,7 +12,7 @@ class FeedItemController extends GetxController {
   final isEditingArticle = false.obs;
   ArticleFeed? editingArticle;
   
-  Rx<ArticleFeed?> currentArticle = Rx<ArticleFeed?>(null);
+  // Rx<ArticleFeed?> currentArticle = Rx<ArticleFeed?>(null);
 
   Future<void> loadFeeds({bool refresh = false}) async {
 
@@ -48,17 +48,5 @@ class FeedItemController extends GetxController {
     loading.value = false;
   }
   
-  Future<void> reloadCurrentArticle() async {
-    if (currentArticle.value == null) {
-      return;
-    }
-    final updatedArticle = await getArticleByID(articleID: currentArticle.value!.id);
-    if (updatedArticle != null) {
-      currentArticle.value = updatedArticle;
-      final replaceIndex = feedItems.indexWhere((article) => article.id == updatedArticle.id);
-      if (replaceIndex != -1) {
-        feedItems[replaceIndex] = updatedArticle;
-      }
-    }
-  }
+
 }
