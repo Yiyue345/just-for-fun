@@ -63,7 +63,17 @@ class CommentTile extends StatelessWidget {
           ListTile(
             title: Row(
               children: [
-                Text(comment.userName),
+                GestureDetector(
+                  onTap: () {
+                    goToOtherUserPage(userUUID: comment.userId);
+                  },
+                  child: Text(
+                       comment.userName,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
                 SizedBox(width: 8,),
                 if (comment.parentUserName != null) GestureDetector(
                   onTap: () {

@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:go_deeper/core/network/article.dart';
 import 'package:go_deeper/data/model/feeditem.dart';
 
+/// 应该是全局存在的
 class FeedItemController extends GetxController {
   final feedItems = <FeedItem>[].obs;
 
