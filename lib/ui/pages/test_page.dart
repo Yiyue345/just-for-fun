@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:go_deeper/core/network/agent.dart';
 import 'package:go_deeper/core/network/article.dart';
 import 'package:go_deeper/core/network/user_auth.dart';
 import 'package:go_deeper/core/network/user_controller.dart';
@@ -87,9 +88,18 @@ class _TestPageState extends State<TestPage> {
                     child: Text('Sign out')
                 ),
                 SizedBox(height: 16,),
-                CommentTile(
-                    comment: testComment,
-                  isTopLevelComment: true,
+                // CommentTile(
+                //     comment: testComment,
+                //   isTopLevelComment: true,
+                // ),
+                ElevatedButton(
+                    onPressed: () async {
+                      // final supabase = Supabase.instance.client;
+                      // print(supabase.auth.currentSession);
+                      final res = await getReply('解释一下 Kotlin Flow');
+                      print(res);
+                      },
+                    child: Text('问ai')
                 )
               ],
             ),

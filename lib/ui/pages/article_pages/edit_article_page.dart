@@ -91,6 +91,11 @@ class _EditArticlePageState extends State<EditArticlePage> {
             icon: Icon(Icons.arrow_back)
         ),
         actions: [
+          IconButton(onPressed: () {
+
+          }, 
+              icon: Icon(Icons.auto_awesome)
+          ),
           _updateArticleButton()
         ],
       ),

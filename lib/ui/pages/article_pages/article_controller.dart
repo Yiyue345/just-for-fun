@@ -25,29 +25,33 @@ class ArticleController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    loadComments();
-    loadArticle(articleID: articleID);
+    loadArticleAndComments(articleID: articleID);
   }
 
   @override
   void refresh() {
     super.refresh();
-    loadComments();
-    loadArticle(articleID: articleID);
+    loadArticleAndComments(articleID: articleID);
+  }
+
+  Future<void> loadArticleAndComments({required int articleID}) async {
+    isLoading.value = true;
+    await Future.wait([
+      loadArticle(articleID: articleID),
+      loadComments(),
+    ]);
+    isLoading.value = false;
   }
 
   Future<void> loadArticle({required int articleID}) async {
-    isLoading.value = true;
     final updatedArticle = await getArticleByID(articleID: articleID);
     if (updatedArticle != null) {
       article.value = updatedArticle;
     }
-    isLoading.value = false;
   }
 
 
   Future<void> loadComments() async {
-    isLoading.value = true;
     if (articleID <= 0) {
       comments.clear();
       isLoading.value = false;
@@ -56,7 +60,6 @@ class ArticleController extends GetxController {
     allComments.value = await getComments(articleID: articleID);
     comments.assignAll(_buildCommentTree(allComments));
     comments.refresh();
-    isLoading.value = false;
   }
 
   List<Comment> _buildCommentTree(List<Comment> flatComments) {

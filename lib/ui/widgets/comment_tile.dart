@@ -39,6 +39,7 @@ class CommentTile extends StatelessWidget {
               context: context,
               // 解放尺寸
               isScrollControlled: true,
+              // showDragHandle: true,
               builder: (context) {
                 return FractionallySizedBox(
                   heightFactor: 0.8,

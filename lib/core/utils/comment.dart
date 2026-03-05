@@ -65,51 +65,61 @@ Future<void> showPostCommentDialog({required int articleID, Comment? parentComme
                     );
                   }
                   else {
-                    return ElevatedButton(
-                        onPressed: () async {
-                          if (content.isEmpty) {
-                            Fluttertoast.showToast(msg: '评论不能为空！');
-                            return;
-                          }
-                          try {
-                            articleController.isSubmitting.value = true;
-                            final newComment = await createComment(
-                                articleID: articleController.article
-                                    .value!.id,
-                                parentID: parentComment?.id,
-                                userID: Supabase.instance.client.auth.currentUser!
-                                    .id,
-                                content: content
-                            );
-                            articleController.isSubmitting.value = false;
-                            if (parentComment == null) {
-                              articleController.comments.add(newComment);
-                            }
-                            else {
-                              // print(newComment.toJson());
-                              articleController.addReply(
-                                  parent: parentComment,
-                                  reply: newComment
-                              );
-                            }
+                    return Row(
+                      mainAxisAlignment:  MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.auto_awesome)
+                        ),
+                        // TODO: 把按钮改得好看一点
+                        ElevatedButton(
+                            onPressed: () async {
+                              if (content.isEmpty) {
+                                Fluttertoast.showToast(msg: '评论不能为空！');
+                                return;
+                              }
+                              try {
+                                articleController.isSubmitting.value = true;
+                                final newComment = await createComment(
+                                    articleID: articleController.article
+                                        .value!.id,
+                                    parentID: parentComment?.id,
+                                    userID: Supabase.instance.client.auth.currentUser!
+                                        .id,
+                                    content: content
+                                );
+                                articleController.isSubmitting.value = false;
+                                if (parentComment == null) {
+                                  articleController.comments.add(newComment);
+                                }
+                                else {
+                                  // print(newComment.toJson());
+                                  articleController.addReply(
+                                      parent: parentComment,
+                                      reply: newComment
+                                  );
+                                }
 
-                            Fluttertoast.showToast(msg: AppLocalizations.of(context)!.commentPostedToast);
+                                Fluttertoast.showToast(msg: AppLocalizations.of(context)!.commentPostedToast);
 
-                            Get.back();
-                          } catch (e) {
-                            articleController.isSubmitting.value = false;
-                            // todo: 修改为更友好的错误提示
-                            Fluttertoast.showToast(msg: e.toString());
-                          }
-                        },
-                        style: ButtonStyle(
+                                Get.back();
+                              } catch (e) {
+                                articleController.isSubmitting.value = false;
+                                // todo: 修改为更友好的错误提示
+                                Fluttertoast.showToast(msg: e.toString());
+                              }
+                            },
+                          style: ButtonStyle(
                           backgroundColor: WidgetStateProperty.all(Colors.blue),
                           foregroundColor: WidgetStateProperty.all(Colors.white),
                           padding: WidgetStateProperty.all(
-                              EdgeInsets.symmetric(horizontal: 24, vertical: 12)),
+                          EdgeInsets.symmetric(horizontal: 24, vertical: 12)),
 
-                        ),
-                        child: Text(AppLocalizations.of(context)!.post)
+                          ),
+                          child: Text(AppLocalizations.of(context)!.post)
+                        )
+                      ],
                     );
                   }
                 }),
