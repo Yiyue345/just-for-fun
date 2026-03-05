@@ -8,6 +8,8 @@ import 'package:go_deeper/data/model/feeditem.dart';
 import 'package:go_deeper/data/model/feeditem_controller.dart';
 import 'package:go_deeper/l10n/app_localizations.dart';
 import 'package:go_deeper/ui/pages/article_pages/article_page.dart';
+import 'package:go_deeper/ui/pages/agent_page/agent_chat_page.dart';
+import 'package:go_deeper/ui/pages/agent_page/agent_controller.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class EditArticlePage extends StatefulWidget {
@@ -29,19 +31,18 @@ class _EditArticlePageState extends State<EditArticlePage> {
   bool isEdited = false;
 
   late FeedItemController _feedItemController;
-  late TextEditingController _titleController;
-  late TextEditingController _summaryController;
-  late TextEditingController _contentController;
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _summaryController = TextEditingController();
+  final TextEditingController _contentController = TextEditingController();
+  late AgentController _agentController;
+  late String _agentTag;
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     _feedItemController = Get.find<FeedItemController>();
-    _titleController = TextEditingController();
-    _summaryController = TextEditingController();
-    _contentController = TextEditingController();
 
-    final l10n = AppLocalizations.of(context)!;
-
+    // 初始化编辑内容
     if (_feedItemController.isEditingArticle.value) {
       _titleController.text = _feedItemController.editingArticle!.title;
       _summaryController.text = _feedItemController.editingArticle!.summary;
@@ -50,6 +51,36 @@ class _EditArticlePageState extends State<EditArticlePage> {
       summary = _feedItemController.editingArticle!.summary;
       content = _feedItemController.editingArticle!.content;
     }
+
+    _agentTag = 'agent_edit_${DateTime.now().millisecondsSinceEpoch}';
+    _agentController = Get.put(
+      AgentController(contextType: 'article_edit'),
+      tag: _agentTag,
+    );
+
+    // 设置回调：agent 工具调用时填充编辑器
+    _agentController.onFillArticle = (agentTitle, agentContent, agentSummary) {
+      setState(() {
+        if (agentTitle.isNotEmpty) {
+          title = agentTitle;
+          _titleController.text = agentTitle;
+        }
+        if (agentContent.isNotEmpty) {
+          content = agentContent;
+          _contentController.text = agentContent;
+        }
+        if (agentSummary != null && agentSummary.isNotEmpty) {
+          summary = agentSummary;
+          _summaryController.text = agentSummary;
+        }
+        isEdited = true;
+      });
+    };
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
@@ -92,8 +123,8 @@ class _EditArticlePageState extends State<EditArticlePage> {
         ),
         actions: [
           IconButton(onPressed: () {
-
-          }, 
+            _showAgentSheet(context);
+          },
               icon: Icon(Icons.auto_awesome)
           ),
           _updateArticleButton()
@@ -173,8 +204,41 @@ class _EditArticlePageState extends State<EditArticlePage> {
 
   @override
   void dispose() {
-    super.dispose();
+    _titleController.dispose();
+    _summaryController.dispose();
+    _contentController.dispose();
+    Get.delete<AgentController>(tag: _agentTag);
     _feedItemController.isEditingArticle.value = false;
+    super.dispose();
+  }
+
+  void _showAgentSheet(BuildContext context) {
+    // 更新页面上下文为当前编辑器内容
+    final sb = StringBuffer();
+    if (_feedItemController.isEditingArticle.value) {
+      sb.writeln('当前正在编辑文章（ID: ${_feedItemController.editingArticle!.id}）');
+    } else {
+      sb.writeln('当前正在撰写新文章');
+    }
+    sb.writeln('标题: $title');
+    sb.writeln('摘要: $summary');
+    sb.writeln('正文: $content');
+    _agentController.setPageContext(sb.toString());
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        return FractionallySizedBox(
+          heightFactor: 0.85,
+          child: AgentChatPage(controllerTag: _agentTag),
+        );
+      },
+    );
   }
 
   Widget _updateArticleButton() {

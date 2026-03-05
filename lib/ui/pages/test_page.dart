@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:go_deeper/core/network/agent.dart';
+import 'package:go_deeper/core/agent/agent.dart';
 import 'package:go_deeper/core/network/article.dart';
 import 'package:go_deeper/core/network/user_auth.dart';
 import 'package:go_deeper/core/network/user_controller.dart';

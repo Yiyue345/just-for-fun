@@ -8,10 +8,11 @@ import '../../l10n/app_localizations.dart';
 import '../../ui/pages/article_pages/article_controller.dart';
 import '../network/comment.dart';
 
-Future<void> showPostCommentDialog({required int articleID, Comment? parentComment}) async {
-  String content = '';
+Future<void> showPostCommentDialog({required int articleID, Comment? parentComment, String? initialContent}) async {
+  String content = initialContent ?? '';
   final context = Get.context!;
   final articleController = Get.find<ArticleController>(tag: articleID.toString());
+  final textController = TextEditingController(text: initialContent);
   await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -28,6 +29,7 @@ Future<void> showPostCommentDialog({required int articleID, Comment? parentComme
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               TextField(
+                controller: textController,
                 autofocus: true,
                 keyboardType: TextInputType.multiline,
                 textInputAction: TextInputAction.newline,
@@ -69,7 +71,9 @@ Future<void> showPostCommentDialog({required int articleID, Comment? parentComme
                       mainAxisAlignment:  MainAxisAlignment.end,
                       children: [
                         IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+
+                            },
                             icon: Icon(Icons.auto_awesome)
                         ),
                         // TODO: 把按钮改得好看一点

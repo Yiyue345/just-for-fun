@@ -3,7 +3,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:go_deeper/core/network/article.dart';
-import 'package:go_deeper/core/network/comment.dart';
 import 'package:go_deeper/core/utils/comment.dart';
 import 'package:go_deeper/core/utils/user_utils.dart';
 import 'package:go_deeper/data/model/comment.dart';
@@ -11,9 +10,10 @@ import 'package:go_deeper/data/model/feeditem.dart';
 import 'package:go_deeper/data/model/feeditem_controller.dart';
 import 'package:go_deeper/l10n/app_localizations.dart';
 import 'package:go_deeper/ui/pages/article_pages/article_controller.dart';
+import 'package:go_deeper/ui/pages/agent_page/agent_chat_page.dart';
+import 'package:go_deeper/ui/pages/agent_page/agent_controller.dart';
 import 'package:go_deeper/ui/pages/article_pages/edit_article_page.dart';
 import 'package:go_deeper/ui/pages/other_user_page/controller.dart';
-import 'package:go_deeper/ui/pages/other_user_page/other_user_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../widgets/comment_tile.dart';
@@ -26,13 +26,18 @@ class ArticlePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ArticleController articleController = Get.find<ArticleController>(tag: articleID.toString());
-    // commentController.loadComments();
-    // feedItemController.reloadCurrentArticle();
-    // print(article.toJson());
+    final agentTag = 'agent_article_$articleID';
+    final AgentController agentController = Get.find<AgentController>(tag: agentTag);
     return Scaffold(
       appBar: AppBar(
         title: Obx(() => Text(articleController.article.value?.title ?? '')),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.auto_awesome),
+            onPressed: () {
+              _showAgentSheet(context, agentController, agentTag);
+            },
+          ),
           _popupMenuButton()
         ],
       ),
@@ -185,6 +190,47 @@ class ArticlePage extends StatelessWidget {
   }
 
   
+  void _showAgentSheet(BuildContext context, AgentController agentController, String agentTag) {
+    // 更新页面上下文
+    final articleController = Get.find<ArticleController>(tag: articleID.toString());
+    final article = articleController.article.value;
+    if (article != null) {
+      agentController.setPageContext(
+        '当前正在查看文章（ID: ${article.id}）\n'
+        '标题: ${article.title}\n'
+        '摘要: ${article.summary}\n'
+        '正文: ${article.content}',
+      );
+    }
+
+    // 设置评论填充回调：将 agent 草稿评论通过 toast 提示用户
+    agentController.onFillComment = (commentContent) {
+      // 关闭 agent sheet，然后打开评论对话框并预填
+      Get.back(); // 关闭 ModalBottomSheet
+      _showPrefilledCommentDialog(commentContent);
+    };
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        return FractionallySizedBox(
+          heightFactor: 0.85,
+          child: AgentChatPage(controllerTag: agentTag),
+        );
+      },
+    );
+  }
+
+  /// 打开预填内容的评论对话框
+  void _showPrefilledCommentDialog(String prefillContent) {
+    showPostCommentDialog(articleID: articleID, initialContent: prefillContent);
+  }
+
   PopupMenuButton<String> _popupMenuButton() {
     final context = Get.context!;
     final l10n = AppLocalizations.of(context)!;

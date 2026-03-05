@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:go_deeper/core/agent/agent_tools.dart';
 import 'package:go_deeper/core/network/article.dart';
 import 'package:go_deeper/core/network/comment.dart' as comment_api;
 import 'package:go_deeper/core/network/dio_client.dart';
@@ -111,133 +112,52 @@ class AgentDone extends AgentEvent {
   AgentDone(this.fullText);
 }
 
-/// 工具定义 ─ 传给 DeepSeek 的 function schema
-const List<Map<String, dynamic>> _agentTools = [
-  {
-    'type': 'function',
-    'function': {
-      'name': 'write_article',
-      'description': '撰写并发布一篇新文章。返回新文章的 ID。',
-      'parameters': {
-        'type': 'object',
-        'properties': {
-          'title': {
-            'type': 'string',
-            'description': '文章标题',
-          },
-          'content': {
-            'type': 'string',
-            'description': '文章正文内容',
-          },
-          'summary': {
-            'type': 'string',
-            'description': '文章摘要（可选）',
-          },
-          'public': {
-            'type': 'boolean',
-            'description': '是否公开，默认 true',
-          },
-        },
-        'required': ['title', 'content'],
-      },
-    },
-  },
-  {
-    'type': 'function',
-    'function': {
-      'name': 'edit_article',
-      'description': '修改一篇已有的文章。需要提供文章 ID 和要修改的字段。',
-      'parameters': {
-        'type': 'object',
-        'properties': {
-          'article_id': {
-            'type': 'integer',
-            'description': '要修改的文章 ID',
-          },
-          'title': {
-            'type': 'string',
-            'description': '新标题（可选）',
-          },
-          'content': {
-            'type': 'string',
-            'description': '新正文（可选）',
-          },
-          'summary': {
-            'type': 'string',
-            'description': '新摘要（可选）',
-          },
-          'public': {
-            'type': 'boolean',
-            'description': '是否公开（可选）',
-          },
-        },
-        'required': ['article_id'],
-      },
-    },
-  },
-  {
-    'type': 'function',
-    'function': {
-      'name': 'write_comment',
-      'description': '在指定文章下发布一条评论。',
-      'parameters': {
-        'type': 'object',
-        'properties': {
-          'article_id': {
-            'type': 'integer',
-            'description': '目标文章 ID',
-          },
-          'content': {
-            'type': 'string',
-            'description': '评论内容',
-          },
-          'parent_id': {
-            'type': 'integer',
-            'description': '要回复的评论 ID（可选，不填则为顶级评论）',
-          },
-        },
-        'required': ['article_id', 'content'],
-      },
-    },
-  },
-];
+/// 工具执行回调集合
+class AgentToolCallbacks {
+  /// 文章草稿回调：(title, content, summary) → 填充到编辑器
+  final void Function(String title, String content, String? summary)? onFillArticle;
+
+  /// 评论草稿回调：(content) → 填充到评论输入框
+  final void Function(String content)? onFillComment;
+
+  const AgentToolCallbacks({this.onFillArticle, this.onFillComment});
+}
 
 /// 执行工具调用并返回结果字符串
-Future<String> _executeTool(String name, Map<String, dynamic> args) async {
-  final supabase = Supabase.instance.client;
-  final userID = supabase.auth.currentUser?.id;
-  if (userID == null) return '错误：用户未登录';
-
+Future<String> _executeTool(
+  String name,
+  Map<String, dynamic> args, {
+  AgentToolCallbacks callbacks = const AgentToolCallbacks(),
+}) async {
   try {
     switch (name) {
-      case 'write_article':
-        final article = await createArticle(
-          authorUUID: userID,
-          title: args['title'] as String,
-          content: args['content'] as String,
-          summary: args['summary'] as String?,
-          public: args['public'] as bool? ?? true,
-        );
-        return '文章创建成功。ID: ${article.id}，标题: ${article.title}';
+      case 'draft_article':
+        final title = args['title'] as String;
+        final content = args['content'] as String;
+        final summary = args['summary'] as String?;
+        if (callbacks.onFillArticle != null) {
+          callbacks.onFillArticle!(title, content, summary);
+          return '已将文章草稿填充到编辑器，标题: $title。请用户审核后决定是否发布。';
+        }
+        return '草稿已生成，但当前页面不支持填充文章。标题: $title';
 
-      case 'edit_article':
-        final article = await updateArticle(
-          articleID: args['article_id'] as int,
-          title: args['title'] as String?,
-          content: args['content'] as String?,
-          summary: args['summary'] as String?,
-          public: args['public'] as bool?,
-        );
-        return '文章修改成功。ID: ${article.id}，标题: ${article.title}';
+      case 'draft_edit_article':
+        final title = args['title'] as String?;
+        final content = args['content'] as String?;
+        final summary = args['summary'] as String?;
+        if (callbacks.onFillArticle != null && (title != null || content != null)) {
+          callbacks.onFillArticle!(title ?? '', content ?? '', summary);
+          return '已将修改后的内容填充到编辑器。请用户审核后决定是否保存。';
+        }
+        return '草稿已生成，但当前页面不支持填充文章。';
 
-      case 'write_comment':
-        final comment = await comment_api.createComment(
-          articleID: args['article_id'] as int,
-          userID: userID,
-          content: args['content'] as String,
-          parentID: args['parent_id'] as int?,
-        );
-        return '评论发布成功。ID: ${comment.id}，内容: ${comment.content}';
+      case 'draft_comment':
+        final content = args['content'] as String;
+        if (callbacks.onFillComment != null) {
+          callbacks.onFillComment!(content);
+          return '已将评论草稿填充到输入框: "$content"。请用户审核后决定是否发布。';
+        }
+        return '草稿已生成，但当前页面不支持填充评论。内容: $content';
 
       default:
         return '未知工具: $name';
@@ -259,10 +179,13 @@ Future<String> _executeTool(String name, Map<String, dynamic> args) async {
 /// [maxRounds] 限制最大工具调用轮次，防止无限循环。
 Stream<AgentEvent> runAgent({
   required List<ChatMessage> messages,
+  String? systemPrompt,
+  AgentToolCallbacks callbacks = const AgentToolCallbacks(),
   int maxRounds = 5,
 }) async* {
   // 系统提示
   final systemMsg = ChatMessage.system(
+    systemPrompt ??
     '你是一个智能助手，可以帮助用户撰写文章、修改文章、发布评论。'
     '当用户要求你执行这些操作时，请调用对应的工具。'
     '当不需要调用工具时，直接用文字回复用户。',
@@ -281,7 +204,7 @@ Stream<AgentEvent> runAgent({
 
     await for (final event in _chatCompletionStream(
       messages: history,
-      tools: _agentTools,
+      tools: agentTools,
     )) {
       // 文本 token → 直接转发给 UI
       if (event.content != null) {
@@ -337,7 +260,7 @@ Stream<AgentEvent> runAgent({
         yield AgentToolCallStart(tc.function.name);
 
         final args = jsonDecode(tc.function.arguments) as Map<String, dynamic>;
-        final result = await _executeTool(tc.function.name, args);
+        final result = await _executeTool(tc.function.name, args, callbacks: callbacks);
 
         yield AgentToolCallResult(tc.function.name, result);
 
