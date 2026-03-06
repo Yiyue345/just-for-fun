@@ -52,7 +52,7 @@ Stream<SseEvent> _chatCompletionStream({
     body['tools'] = tools;
   }
 
-  final response = await client.dio.post<ResponseBody>(
+  final response = await client.streamDio.post<ResponseBody>(
     url,
     data: body,
     options: Options(
@@ -123,50 +123,6 @@ class AgentToolCallbacks {
   const AgentToolCallbacks({this.onFillArticle, this.onFillComment});
 }
 
-/// 执行工具调用并返回结果字符串
-Future<String> _executeTool(
-  String name,
-  Map<String, dynamic> args, {
-  AgentToolCallbacks callbacks = const AgentToolCallbacks(),
-}) async {
-  try {
-    switch (name) {
-      case 'draft_article':
-        final title = args['title'] as String;
-        final content = args['content'] as String;
-        final summary = args['summary'] as String?;
-        if (callbacks.onFillArticle != null) {
-          callbacks.onFillArticle!(title, content, summary);
-          return '已将文章草稿填充到编辑器，标题: $title。请用户审核后决定是否发布。';
-        }
-        return '草稿已生成，但当前页面不支持填充文章。标题: $title';
-
-      case 'draft_edit_article':
-        final title = args['title'] as String?;
-        final content = args['content'] as String?;
-        final summary = args['summary'] as String?;
-        if (callbacks.onFillArticle != null && (title != null || content != null)) {
-          callbacks.onFillArticle!(title ?? '', content ?? '', summary);
-          return '已将修改后的内容填充到编辑器。请用户审核后决定是否保存。';
-        }
-        return '草稿已生成，但当前页面不支持填充文章。';
-
-      case 'draft_comment':
-        final content = args['content'] as String;
-        if (callbacks.onFillComment != null) {
-          callbacks.onFillComment!(content);
-          return '已将评论草稿填充到输入框: "$content"。请用户审核后决定是否发布。';
-        }
-        return '草稿已生成，但当前页面不支持填充评论。内容: $content';
-
-      default:
-        return '未知工具: $name';
-    }
-  } catch (e) {
-    return '工具执行失败: $e';
-  }
-}
-
 /// 带 function calling 的 Agent 入口。
 ///
 /// 传入完整的多轮 [messages]，Agent 会自动：
@@ -186,7 +142,7 @@ Stream<AgentEvent> runAgent({
   // 系统提示
   final systemMsg = ChatMessage.system(
     systemPrompt ??
-    '你是一个智能助手，可以帮助用户撰写文章、修改文章、发布评论。'
+    '你是一个智能助手，可以帮助用户撰写文章、修改文章、发布评论、以及帮忙用户进行一些应用设置。'
     '当用户要求你执行这些操作时，请调用对应的工具。'
     '当不需要调用工具时，直接用文字回复用户。',
   );
@@ -260,7 +216,7 @@ Stream<AgentEvent> runAgent({
         yield AgentToolCallStart(tc.function.name);
 
         final args = jsonDecode(tc.function.arguments) as Map<String, dynamic>;
-        final result = await _executeTool(tc.function.name, args, callbacks: callbacks);
+        final result = await executeTool(tc.function.name, args, callbacks: callbacks);
 
         yield AgentToolCallResult(tc.function.name, result);
 
@@ -355,22 +311,43 @@ Stream<SseEvent> _parseSseStream(Stream<List<int>> byteStream) async* {
     buffer = parts.removeLast();
 
     for (final part in parts) {
-      final line = part.trim();
-      if (!line.startsWith('data: ')) continue;
-
-      final data = line.substring(6);
-      if (data == '[DONE]') return;
-
-      try {
-        final json = jsonDecode(data) as Map<String, dynamic>;
-        yield SseEvent(
-          content: json['content'] as String?,
-          toolCallDeltas: (json['tool_calls'] as List<dynamic>?)
-              ?.map((e) => e as Map<String, dynamic>)
-              .toList(),
-          finishReason: json['finish_reason'] as String?,
-        );
-      } catch (_) {}
+      final event = _parseSsePart(part);
+      if (event == null) continue; // [DONE] 或空
+      if (event == _doneSignal) return;
+      yield event;
     }
+  }
+
+  // 处理流关闭后 buffer 中残留的数据
+  if (buffer.trim().isNotEmpty) {
+    final event = _parseSsePart(buffer);
+    if (event != null && event != _doneSignal) {
+      yield event;
+    }
+  }
+}
+
+/// 哨兵对象，表示收到 [DONE]
+final _doneSignal = SseEvent();
+
+/// 解析单个 SSE 段落，返回 null 表示跳过，返回 _doneSignal 表示结束
+SseEvent? _parseSsePart(String part) {
+  final line = part.trim();
+  if (!line.startsWith('data: ')) return null;
+
+  final data = line.substring(6);
+  if (data == '[DONE]') return _doneSignal;
+
+  try {
+    final json = jsonDecode(data) as Map<String, dynamic>;
+    return SseEvent(
+      content: json['content'] as String?,
+      toolCallDeltas: (json['tool_calls'] as List<dynamic>?)
+          ?.map((e) => e as Map<String, dynamic>)
+          .toList(),
+      finishReason: json['finish_reason'] as String?,
+    );
+  } catch (_) {
+    return null;
   }
 }

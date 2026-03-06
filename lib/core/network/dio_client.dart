@@ -11,6 +11,12 @@ class DioClient {
     receiveTimeout: const Duration(seconds: 60),
   ));
 
+  /// 用于 SSE 流式请求的 Dio 实例（不设置 receiveTimeout，因为 SSE 流可能长时间没有数据）
+  final Dio streamDio = Dio(BaseOptions(
+    connectTimeout: const Duration(seconds: 30),
+    receiveTimeout: Duration.zero, // 0 = 不限制
+  ));
+
   /// 获取 Supabase Edge Function 的基础 URL
   String get functionsBaseUrl {
     final restUrl = Supabase.instance.client.rest.url;
