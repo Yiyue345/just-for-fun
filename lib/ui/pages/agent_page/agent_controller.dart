@@ -90,7 +90,7 @@ class AgentController extends GetxController {
 
     // 添加一条占位 assistant 消息用于流式更新
     chatItems.add(AgentChatItem(role: 'assistant', content: ''));
-    final assistantIndex = chatItems.length - 1;
+    var assistantIndex = chatItems.length - 1;
 
     try {
       final stream = runAgent(
@@ -130,11 +130,16 @@ class AgentController extends GetxController {
               content: result,
               toolName: toolName,
             ));
+            chatItems.add(AgentChatItem(role: 'assistant', content: ''));
+            assistantIndex = chatItems.length - 1; // 更新占位消息索引
+            textBuffer.clear();
             break;
 
           case AgentDone(:final fullText):
             // 确保最终文本完整
             if (fullText.isNotEmpty) {
+              // 你怎么说也要把总结输出放到后面来吧
+              // chatItems.removeAt(assistantIndex);
               chatItems[assistantIndex] = AgentChatItem(
                 role: 'assistant',
                 content: fullText,
@@ -149,6 +154,10 @@ class AgentController extends GetxController {
         }
       }
     } catch (e) {
+      // 移除占位消息
+      if (chatItems[assistantIndex].content.isEmpty) {
+        chatItems.removeAt(assistantIndex);
+      }
       chatItems.add(AgentChatItem(
         role: 'assistant',
         content: '出错了：$e',
