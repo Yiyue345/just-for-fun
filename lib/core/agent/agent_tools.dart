@@ -20,7 +20,7 @@ const List<Map<String, dynamic>> agentTools = [
           },
           'content': {
             'type': 'string',
-            'description': '文章正文内容',
+            'description': '文章正文内容（使用 markdown 格式）',
           },
           'summary': {
             'type': 'string',
@@ -73,7 +73,7 @@ const List<Map<String, dynamic>> agentTools = [
       },
     },
   },
-  // TODO: 可以根据需要添加更多工具，例如删除文章、回复评论、自动总结文章等
+  // TODO: 可以根据需要添加更多工具，例如删除文章、回复评论（获取评论上下文）、自动总结文章等
   {
     'type': 'function',
     'function': {

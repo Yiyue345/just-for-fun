@@ -18,6 +18,8 @@ class ArticleController extends GetxController {
   var isLoading = false.obs;
   var isSubmitting = false.obs;
 
+  final renderMarkdown = true.obs;
+
   int articleID;
 
   ArticleController({required this.articleID});

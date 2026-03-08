@@ -14,6 +14,7 @@ import 'package:go_deeper/ui/pages/agent_page/agent_chat_page.dart';
 import 'package:go_deeper/ui/pages/agent_page/agent_controller.dart';
 import 'package:go_deeper/ui/pages/article_pages/edit_article_page.dart';
 import 'package:go_deeper/ui/pages/other_user_page/controller.dart';
+import 'package:markdown_widget/markdown_widget.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../widgets/comment_tile.dart';
@@ -37,6 +38,18 @@ class ArticlePage extends StatelessWidget {
             onPressed: () {
               _showAgentSheet(context, agentController, agentTag);
             },
+          ),
+          Obx(() => articleController.renderMarkdown.value
+              ? IconButton(onPressed: () {
+                articleController.renderMarkdown.value = false;
+          },
+              icon: Icon(Icons.code)
+          )
+              : IconButton(onPressed: () {
+                articleController.renderMarkdown.value = true;
+          },
+              icon: Icon(Icons.visibility)
+          )
           ),
           _popupMenuButton()
         ],
@@ -123,13 +136,18 @@ class ArticlePage extends StatelessWidget {
                   ))
             ],
             SizedBox(height: 16),
-            Text(
-              articleController.article.value!.content,
-              style: TextStyle(
-                fontSize: 16,
-                height: 1.5,
+            if (articleController.renderMarkdown.value)
+              MarkdownBlock(
+                  data: articleController.article.value!.content
+              )
+            else
+              Text(
+                articleController.article.value!.content,
+                style: TextStyle(
+                  fontSize: 16,
+                  height: 1.5,
+                ),
               ),
-            ),
             Divider(
               height: 16,
             ),
