@@ -12,6 +12,8 @@ class FeedItemController extends GetxController {
 
   final isEditingArticle = false.obs;
   ArticleFeed? editingArticle;
+
+  final renderMarkdown = false.obs;
   
   // Rx<ArticleFeed?> currentArticle = Rx<ArticleFeed?>(null);
 

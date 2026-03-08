@@ -10,6 +10,7 @@ import 'package:go_deeper/l10n/app_localizations.dart';
 import 'package:go_deeper/ui/pages/article_pages/article_page.dart';
 import 'package:go_deeper/ui/pages/agent_page/agent_chat_page.dart';
 import 'package:go_deeper/ui/pages/agent_page/agent_controller.dart';
+import 'package:markdown_widget/markdown_widget.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class EditArticlePage extends StatefulWidget {
@@ -41,6 +42,7 @@ class _EditArticlePageState extends State<EditArticlePage> {
   void initState() {
     super.initState();
     _feedItemController = Get.find<FeedItemController>();
+    _feedItemController.renderMarkdown.value = false;
 
     // 初始化编辑内容
     if (_feedItemController.isEditingArticle.value) {
@@ -127,6 +129,18 @@ class _EditArticlePageState extends State<EditArticlePage> {
           },
               icon: Icon(Icons.auto_awesome)
           ),
+          Obx(() => _feedItemController.renderMarkdown.value
+              ? IconButton(onPressed: () {
+            _feedItemController.renderMarkdown.value = false;
+          },
+              icon: Icon(Icons.code)
+          )
+              : IconButton(onPressed: () {
+            _feedItemController.renderMarkdown.value = true;
+          },
+              icon: Icon(Icons.visibility)
+          )
+          ),
           _updateArticleButton()
         ],
       ),
@@ -179,23 +193,27 @@ class _EditArticlePageState extends State<EditArticlePage> {
                 }
             ),
             Expanded(
-                child: TextField(
+                child: Obx(() => _feedItemController.renderMarkdown.value 
+                    ? MarkdownWidget(data: content)
+                    : TextField(
                   controller: _contentController,
-              autofocus: true,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: l10n.content,
-                hintStyle: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 16
+                  autofocus: true,
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: l10n.content,
+                      hintStyle: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 16
+                      )
+                  ),
+                  maxLines: null,
+                  onChanged: (value) {
+                    content = value;
+                    isEdited = true;
+                  },
                 )
-              ),
-              maxLines: null,
-              onChanged: (value) {
-                content = value;
-                isEdited = true;
-              },
-            ))
+                )
+            )
           ],
         ),
       ),
