@@ -12,10 +12,15 @@ Future<bool> checkForUpdate() async {
   .select()
   .eq('version_number', version);
   // print(response.toString());
+  bool result = false;
 
-  final bool? result = (response as List<Map>)[0]['can_update'] as bool?;
+  try {
+    result = (response as List<Map>)[0]['can_update'] as bool;
+  } catch(e) {
+    print('Error checking for update: $e');
+    result = false;
+  }
 
-  if (result == null) return false;
   return result;
 }
 
