@@ -5,7 +5,7 @@ import 'package:go_deeper/core/utils/article_utils.dart';
 import 'package:go_deeper/data/model/feeditem.dart';
 import 'package:go_deeper/ui/pages/article_pages/article_page.dart';
 
-import '../../core/network/user_controller.dart';
+import 'user_page/user_controller.dart';
 import '../../data/model/feeditem_controller.dart';
 
 class SuggestionPage extends StatelessWidget {

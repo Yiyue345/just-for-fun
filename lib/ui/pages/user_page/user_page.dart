@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:go_deeper/core/network/user_controller.dart';
+import 'package:go_deeper/ui/pages/user_page/user_controller.dart';
 import 'package:go_deeper/core/utils/user_utils.dart';
 import 'package:go_deeper/l10n/app_localizations.dart';
 import 'package:go_deeper/ui/pages/article_pages/user_articles_page.dart';

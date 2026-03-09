@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:go_deeper/core/utils/comment.dart';
+import 'package:go_deeper/core/utils/comment_utils.dart';
 import 'package:go_deeper/ui/pages/article_pages/article_controller.dart';
 import 'package:go_deeper/ui/widgets/comment_tile.dart';
 
@@ -30,14 +30,14 @@ class CommentPage extends StatelessWidget {
             ),
           ),
         ),
-        Padding(
+        Expanded(
+          child: Padding(
           padding: EdgeInsets.symmetric(vertical: 8),
           child: Obx(() => controller.isLoading.value
               ? Center(
             child: CircularProgressIndicator(),
           )
               : ListView.builder(
-            shrinkWrap: true,
               itemCount: controller.currentComment.value!.replies.length + 1,
               itemBuilder: (context, index) {
                 if (index == 0) {
@@ -63,6 +63,7 @@ class CommentPage extends StatelessWidget {
                   );
                 }
               }
+              )
           )
           ),
         )

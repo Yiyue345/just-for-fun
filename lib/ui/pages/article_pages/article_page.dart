@@ -3,17 +3,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:go_deeper/core/network/article.dart';
-import 'package:go_deeper/core/utils/comment.dart';
+import 'package:go_deeper/core/utils/comment_utils.dart';
 import 'package:go_deeper/core/utils/user_utils.dart';
-import 'package:go_deeper/data/model/comment.dart';
-import 'package:go_deeper/data/model/feeditem.dart';
 import 'package:go_deeper/data/model/feeditem_controller.dart';
 import 'package:go_deeper/l10n/app_localizations.dart';
 import 'package:go_deeper/ui/pages/article_pages/article_controller.dart';
 import 'package:go_deeper/ui/pages/agent_page/agent_chat_page.dart';
 import 'package:go_deeper/ui/pages/agent_page/agent_controller.dart';
 import 'package:go_deeper/ui/pages/article_pages/edit_article_page.dart';
-import 'package:go_deeper/ui/pages/other_user_page/controller.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -138,6 +135,9 @@ class ArticlePage extends StatelessWidget {
             SizedBox(height: 16),
             if (articleController.renderMarkdown.value)
               MarkdownBlock(
+                config: MarkdownConfig(
+
+                ),
                   data: articleController.article.value!.content
               )
             else
@@ -217,7 +217,8 @@ class ArticlePage extends StatelessWidget {
         '当前正在查看文章（ID: ${article.id}）\n'
         '标题: ${article.title}\n'
         '摘要: ${article.summary}\n'
-        '正文: ${article.content}',
+        '正文: ${article.content}\n'
+        '当前评论链：${articleController.currentCommentChain.map((c) => '【${c.userName}】说：${c.content}').join('\n')}',
       );
     }
 
@@ -243,6 +244,8 @@ class ArticlePage extends StatelessWidget {
       },
     );
   }
+
+
 
   /// 打开预填内容的评论对话框
   void _showPrefilledCommentDialog(String prefillContent) {

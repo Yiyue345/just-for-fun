@@ -15,6 +15,8 @@ class ArticleController extends GetxController {
 
   Rx<Comment?> currentComment = Rx<Comment?>(null);
 
+  List<Comment> currentCommentChain = [];
+
   var isLoading = false.obs;
   var isSubmitting = false.obs;
 
@@ -187,6 +189,25 @@ class ArticleController extends GetxController {
     }
   }
 
+  /// 传入一条评论，返回一个包含它本身以及所有祖先的列表（从根到该评论的顺序）
+  List<Comment> getCommentWithAncestors(Comment comment) {
+    final List<Comment> chain = [];
+    final Map<int, Comment> commentMap = {
+      for (var c in allComments) c.id: c
+    };
+
+    Comment? current = comment;
+    while (current != null) {
+      chain.add(current);
+      if (current.parentId == null) {
+        break;
+      }
+      current = commentMap[current.parentId];
+    }
+
+    // 当前顺序是从 comment 到根，反转后变为从根到 comment
+    return chain.reversed.toList();
+  }
 
 
 }

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:go_deeper/core/network/user_controller.dart';
+import 'package:go_deeper/ui/pages/user_page/user_controller.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> signUp(

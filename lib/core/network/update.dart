@@ -12,7 +12,11 @@ Future<bool> checkForUpdate() async {
   .select()
   .eq('version_number', version);
   // print(response.toString());
-  return (response as List<Map>)[0]['can_update'] as bool;
+
+  final bool? result = (response as List<Map>)[0]['can_update'] as bool?;
+
+  if (result == null) return false;
+  return result;
 }
 
 Future<Map<String, dynamic>> getUpdateURLAndDetails() async {

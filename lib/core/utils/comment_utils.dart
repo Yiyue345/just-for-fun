@@ -5,12 +5,71 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../data/model/comment.dart';
 import '../../l10n/app_localizations.dart';
+import '../../ui/pages/agent_page/agent_chat_page.dart';
+import '../../ui/pages/agent_page/agent_controller.dart';
 import '../../ui/pages/article_pages/article_controller.dart';
 import '../network/comment.dart';
 
-Future<void> showPostCommentDialog({required int articleID, Comment? parentComment, String? initialContent}) async {
-  String content = initialContent ?? '';
+Future<void> showPostCommentDialog({
+  required int articleID,
+  Comment? parentComment,
+  String? initialContent
+}) async {
+  final agentController = Get.find<AgentController>(tag: 'agent_article_$articleID');
   final context = Get.context!;
+  final agentTag = 'agent_article_$articleID';
+
+  void showAgentSheet() {
+    // 更新页面上下文
+    final articleController = Get.find<ArticleController>(tag: articleID.toString());
+    final article = articleController.article.value;
+    if (parentComment != null) {
+      articleController.currentCommentChain = articleController.getCommentWithAncestors(parentComment);
+    }
+    else {
+      articleController.currentCommentChain = [];
+    }
+
+    if (article != null) {
+      agentController.setPageContext(
+        '当前正在查看文章（ID: ${article.id}）\n'
+            '标题: ${article.title}\n'
+            '摘要: ${article.summary}\n'
+            '正文: ${article.content}\n'
+            '当前评论链：${articleController.currentCommentChain.map((c) => '【${c.userName}】说：${c.content}').join('\n')}',
+      );
+    }
+
+    // debugPrint('当前评论链：${articleController.currentCommentChain.map((c) => '【${c.userName}】说：${c.content}').join('\n')}');
+
+    void showPrefilledCommentDialog(String prefillContent, Comment? parentComment) {
+      showPostCommentDialog(articleID: articleID, initialContent: prefillContent, parentComment: parentComment);
+    }
+
+    // 设置评论填充回调：将 agent 草稿评论通过 toast 提示用户
+    agentController.onFillComment = (commentContent) {
+      // 关闭 agent sheet，然后打开评论对话框并预填
+      Get.back(); // 关闭 ModalBottomSheet
+      showPrefilledCommentDialog(commentContent, parentComment);
+    };
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        return FractionallySizedBox(
+          heightFactor: 0.85,
+          child: AgentChatPage(controllerTag: agentTag),
+        );
+      },
+    );
+  }
+
+  String content = initialContent ?? '';
   final articleController = Get.find<ArticleController>(tag: articleID.toString());
   final textController = TextEditingController(text: initialContent);
   await showModalBottomSheet(
@@ -72,7 +131,10 @@ Future<void> showPostCommentDialog({required int articleID, Comment? parentComme
                       children: [
                         IconButton(
                             onPressed: () {
-
+                              Navigator.of(context).pop();
+                              Future.delayed(const Duration(milliseconds: 350), () {
+                                showAgentSheet();
+                              });
                             },
                             icon: Icon(Icons.auto_awesome)
                         ),

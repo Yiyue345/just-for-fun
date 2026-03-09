@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:go_deeper/core/network/user_controller.dart';
+import 'package:go_deeper/ui/pages/user_page/user_controller.dart';
 import 'package:go_deeper/core/utils/user_utils.dart';
 import 'package:go_deeper/data/model/feeditem_controller.dart';
 import 'package:go_deeper/l10n/app_localizations.dart';
@@ -11,7 +11,7 @@ import 'package:go_deeper/ui/pages/other_user_page/controller.dart';
 import 'package:go_deeper/ui/pages/settings_page/settings_page.dart';
 import 'package:go_deeper/ui/pages/suggestion_page.dart';
 import 'package:go_deeper/ui/pages/test_page.dart';
-import 'package:go_deeper/ui/pages/user_page.dart';
+import 'package:go_deeper/ui/pages/user_page/user_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
