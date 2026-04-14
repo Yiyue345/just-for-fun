@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_deeper/data/repository/article_repository.dart';
 import 'package:go_deeper/ui/pages/user_page/user_controller.dart';
 import 'package:go_deeper/core/utils/user_utils.dart';
 import 'package:go_deeper/data/model/feeditem_controller.dart';
@@ -12,6 +13,10 @@ import 'package:go_deeper/ui/pages/settings_page/settings_page.dart';
 import 'package:go_deeper/ui/pages/suggestion_page.dart';
 import 'package:go_deeper/ui/pages/test_page.dart';
 import 'package:go_deeper/ui/pages/user_page/user_page.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../../core/network/article.dart';
+import '../../core/network/comment.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -41,6 +46,12 @@ class _MainPageState extends State<MainPage> {
     Get.put(FeedItemController());
     Get.put(SettingsController());
     Get.put(UserFeedItemsController());
+    final supabase = Supabase.instance.client;
+    final ArticleRepositoryImpl articleRepository = ArticleRepositoryImpl(
+        articleRemoteDataSource: ArticleRemoteDataSource(supabase),
+        commentRemoteDataSource: CommentRemoteDataSource(supabase)
+    );
+    Get.put(articleRepository);
     // Get.put(OtherUsersController());
   }
 

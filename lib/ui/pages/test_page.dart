@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:go_deeper/core/agent/agent.dart';
 import 'package:go_deeper/core/network/article.dart';
 import 'package:go_deeper/core/network/user_auth.dart';
+import 'package:go_deeper/data/repository/article_repository.dart';
 import 'package:go_deeper/ui/pages/user_page/user_controller.dart';
 import 'package:go_deeper/core/utils/user_utils.dart';
 import 'package:go_deeper/data/model/comment.dart';
@@ -21,6 +22,7 @@ class TestPage extends StatefulWidget {
 
 class _TestPageState extends State<TestPage> {
   final userController = Get.find<UserController>();
+  final ArticleRepositoryImpl repository = Get.find<ArticleRepositoryImpl>();
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +80,7 @@ class _TestPageState extends State<TestPage> {
                     child: Text('Change display name')
                 ),
                 ElevatedButton(onPressed: () async {
-                  await getArticles();
+                  await repository.fetchArticles();
                 },
                   child: Text('Get articles'),
                 ),

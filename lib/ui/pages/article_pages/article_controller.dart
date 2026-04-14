@@ -1,11 +1,13 @@
 import 'package:get/get.dart';
 import 'package:go_deeper/core/network/comment.dart';
 import 'package:go_deeper/data/model/comment.dart';
+import 'package:go_deeper/data/repository/article_repository.dart';
 
 import '../../../core/network/article.dart';
 import '../../../data/model/feeditem.dart';
 
 class ArticleController extends GetxController {
+  final ArticleRepositoryImpl repository = Get.find<ArticleRepositoryImpl>();
   Rx<ArticleFeed?> article = Rx<ArticleFeed?>(null);
   // 所有评论，包括子评论
   final RxList<Comment> allComments = <Comment>[].obs;
@@ -48,7 +50,7 @@ class ArticleController extends GetxController {
   }
 
   Future<void> loadArticle({required int articleID}) async {
-    final updatedArticle = await getArticleByID(articleID: articleID);
+    final updatedArticle = await repository.fetchArticle(articleID: articleID);
     if (updatedArticle != null) {
       article.value = updatedArticle;
     }
@@ -61,7 +63,7 @@ class ArticleController extends GetxController {
       isLoading.value = false;
       return;
     }
-    allComments.value = await getComments(articleID: articleID);
+    allComments.value = await repository.fetchArticleDetail(articleID: articleID).then((data) => data.comments);
     comments.assignAll(_buildCommentTree(allComments));
     comments.refresh();
   }

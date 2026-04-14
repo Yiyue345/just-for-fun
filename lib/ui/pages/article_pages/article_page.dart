@@ -14,6 +14,7 @@ import 'package:go_deeper/ui/pages/article_pages/edit_article_page.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../data/repository/article_repository.dart';
 import '../../widgets/comment_tile.dart';
 
 class ArticlePage extends StatelessWidget {
@@ -316,7 +317,8 @@ class ArticlePage extends StatelessWidget {
             ),
             TextButton(
                 onPressed: () async {
-                  await deleteArticle(articleID: articleController.article.value!.id);
+                  final repository = Get.find<ArticleRepositoryImpl>();
+                  await repository.deleteArticle(articleID: articleController.article.value!.id);
                   final feedController = Get.find<FeedItemController>();
                   feedController.feedItems.remove(article);
                   Fluttertoast.showToast(msg: 'Deleted article successfully.');

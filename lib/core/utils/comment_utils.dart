@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:go_deeper/data/repository/article_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../data/model/comment.dart';
 import '../../l10n/app_localizations.dart';
@@ -72,6 +73,7 @@ Future<void> showPostCommentDialog({
   String content = initialContent ?? '';
   final articleController = Get.find<ArticleController>(tag: articleID.toString());
   final textController = TextEditingController(text: initialContent);
+  final repository = Get.find<ArticleRepositoryImpl>();
   await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -147,13 +149,10 @@ Future<void> showPostCommentDialog({
                               }
                               try {
                                 articleController.isSubmitting.value = true;
-                                final newComment = await createComment(
-                                    articleID: articleController.article
-                                        .value!.id,
-                                    parentID: parentComment?.id,
-                                    userID: Supabase.instance.client.auth.currentUser!
-                                        .id,
-                                    content: content
+                                final newComment = await repository.createComment(articleID: articleController.article.value!.id,
+                                    userID: Supabase.instance.client.auth.currentUser!.id,
+                                    content: content,
+                                    parentID: parentComment?.id
                                 );
                                 articleController.isSubmitting.value = false;
                                 if (parentComment == null) {
