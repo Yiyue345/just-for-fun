@@ -13,6 +13,8 @@ import 'package:go_deeper/ui/pages/agent_page/agent_controller.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../data/repository/article_repository.dart';
+
 class EditArticlePage extends StatefulWidget {
   const EditArticlePage({
     super.key,
@@ -37,6 +39,8 @@ class _EditArticlePageState extends State<EditArticlePage> {
   final TextEditingController _contentController = TextEditingController();
   late AgentController _agentController;
   late String _agentTag;
+
+  final repository = Get.find<ArticleRepositoryImpl>();
 
   @override
   void initState() {
@@ -276,7 +280,7 @@ class _EditArticlePageState extends State<EditArticlePage> {
           isUploading = true;
           try {
             if (_feedItemController.isEditingArticle.value) {
-              final newItem = await updateArticle(
+              final newItem = await repository.updateArticle(
                   articleID: _feedItemController.editingArticle!.id,
                   title: title,
                   content: content,
@@ -290,13 +294,12 @@ class _EditArticlePageState extends State<EditArticlePage> {
               goToArticlePage(articleID: newItem.id, replace: true);
             }
             else {
-              final newItem = await createArticle(
+              final newItem = await repository.createArticle(
                   authorUUID: Supabase.instance.client.auth.currentUser!.id,
-                  // 已经……不需要了
-                  // authorName: Supabase.instance.client.auth.currentUser!.userMetadata?['display_name'],
                   title: title,
                   content: content,
-                  summary: summary
+                  summary: summary,
+                  public: publicArticle,
               );
               _feedItemController.feedItems.add(newItem);
               Fluttertoast.showToast(msg: 'Article created successfully.');

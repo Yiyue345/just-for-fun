@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:go_deeper/core/network/article.dart';
 import 'package:go_deeper/core/utils/article_utils.dart';
 import 'package:go_deeper/data/model/feeditem.dart';
+import 'package:go_deeper/data/repository/article_repository.dart';
 import 'package:go_deeper/ui/pages/article_pages/article_page.dart';
 
 import '../../../data/model/feeditem_controller.dart';
@@ -17,6 +18,8 @@ class UserFeedItemsController extends GetxController {
   String userUUID = '';
   String? userName;
 
+  final repository = Get.find<ArticleRepositoryImpl>();
+
   Future<void> loadUserFeedItems({bool refresh = false}) async {
     if (refresh) {
       page.value = 0;
@@ -30,7 +33,11 @@ class UserFeedItemsController extends GetxController {
 
     loading.value = true;
 
-    final newItems = await getArticles(authorUUID: userUUID, page: page.value, perPage: 20);
+    final newItems = await repository.fetchUserArticles(
+      userID: userUUID,
+      page: page.value,
+      pageSize: 20,
+    );
 
     if (newItems.length < 20) {
       hasMore.value = false;

@@ -1,139 +1,95 @@
 import 'package:go_deeper/data/model/feeditem.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-Future<ArticleFeed> createArticle({
-  required String authorUUID,
-  required String title,
-  required String content,
-  String? summary,
-  // String? authorName,
-  bool public = true
-}) async {
-  final supabase = Supabase.instance.client;
-  final article = await supabase
-      .from('article')
-      .insert({
-    'author': authorUUID,
-    // 'author_name': authorName,
-    'title': title,
-    'content': content,
-    'summary': summary,
-    'public': public,
-    'created_at': DateTime.now().toIso8601String()
-      })
-  .select();
-  final data = (article as List<dynamic>)[0] as Map<String, dynamic>;
-  return ArticleFeed.fromJson(data);
-}
+class ArticleRemoteDataSource {
+  final SupabaseClient supabase;
 
-Future<ArticleFeed> updateArticle({
-  required int articleID,
-  String? title,
-  String? content,
-  String? summary,
-  bool? public
-}) async {
-  final supabase = Supabase.instance.client;
-  final updates = <String, dynamic>{};
-  // print('articleID: $articleID');
-  // print('title: $title');
-  // print('content: $content');
-  // print('summary: $summary');
-  if (title != null) {
-    updates['title'] = title;
-  }
-  if (content != null) {
-    updates['content'] = content;
-  }
-  if (summary != null) {
-    updates['summary'] = summary;
-  }
-  if (public != null) {
-    updates['public'] = public;
-  }
-  final response = await supabase
-      .from('article')
-      .update(updates)
-      .eq('id', articleID)
-      .select();
-  
-  // print(response.toString());
-  final data = (response as List<dynamic>)[0] as Map<String, dynamic>;
-  return ArticleFeed.fromJson(data);
-}
+  ArticleRemoteDataSource(this.supabase);
 
-Future<void> deleteArticle({
-  required int articleID,
-}) async {
-  final supabase = Supabase.instance.client;
-  await supabase
-      .from('article')
-      .delete()
-      .eq('id', articleID);
-}
-
-/// page is zero based
-Future<List<ArticleFeed>> getArticles({
-  String? authorUUID,
-  int page = 0,
-  int perPage = 20,
-  bool reserve = false
-}) async {
-  final supabase = Supabase.instance.client;
-  late var query;
-  if (authorUUID != null) {
-    query = supabase
-        .from('article')
-        .select('''
-        id,
-        created_at,
-        title,
-        summary,
-        content,
-        public,
-        author,
-        profiles(
-          id,
-          username
-        )
-        ''')
-        .eq('author', authorUUID)
-        .order('created_at', ascending: reserve)
-        .range(page * perPage, page * perPage + perPage - 1);
-  }
-  else {
-    query = supabase
-        .from('article')
-        .select('''
-        id,
-        created_at,
-        title,
-        summary,
-        content,
-        public,
-        author,
-        profiles(
-          id,
-          username
-        )
-        ''')
-        .order('created_at', ascending: reserve)
-        .range(page * perPage, page * perPage + perPage - 1);
-  }
-  final response = await query;
-  print(response.toString());
-  final data = response as List<dynamic>;
-  return data.map((e) => ArticleFeed.fromJson(e as Map<String, dynamic>)).toList();
-}
-
-Future<ArticleFeed?> getArticleByID({
-  required int articleID
-}) async {
-  try {
+  Future<ArticleFeed> createArticle({
+    required String authorUUID,
+    required String title,
+    required String content,
+    String? summary,
+    // String? authorName,
+    bool public = true
+  }) async {
     final supabase = Supabase.instance.client;
+    final article = await supabase
+        .from('article')
+        .insert({
+      'author': authorUUID,
+      // 'author_name': authorName,
+      'title': title,
+      'content': content,
+      'summary': summary,
+      'public': public,
+      'created_at': DateTime.now().toIso8601String()
+    })
+        .select();
+    final data = (article as List<dynamic>)[0] as Map<String, dynamic>;
+    return ArticleFeed.fromJson(data);
+  }
+
+  Future<ArticleFeed> updateArticle({
+    required int articleID,
+    String? title,
+    String? content,
+    String? summary,
+    bool? public
+  }) async {
+    final supabase = Supabase.instance.client;
+    final updates = <String, dynamic>{};
+    // print('articleID: $articleID');
+    // print('title: $title');
+    // print('content: $content');
+    // print('summary: $summary');
+    if (title != null) {
+      updates['title'] = title;
+    }
+    if (content != null) {
+      updates['content'] = content;
+    }
+    if (summary != null) {
+      updates['summary'] = summary;
+    }
+    if (public != null) {
+      updates['public'] = public;
+    }
     final response = await supabase
         .from('article')
-        .select('''
+        .update(updates)
+        .eq('id', articleID)
+        .select();
+
+    // print(response.toString());
+    final data = (response as List<dynamic>)[0] as Map<String, dynamic>;
+    return ArticleFeed.fromJson(data);
+  }
+
+  Future<void> deleteArticle({
+    required int articleID,
+  }) async {
+    final supabase = Supabase.instance.client;
+    await supabase
+        .from('article')
+        .delete()
+        .eq('id', articleID);
+  }
+
+  /// page is zero based
+  Future<List<ArticleFeed>> getArticles({
+    String? authorUUID,
+    int page = 0,
+    int perPage = 20,
+    bool reserve = false
+  }) async {
+    final supabase = Supabase.instance.client;
+    late var query;
+    if (authorUUID != null) {
+      query = supabase
+          .from('article')
+          .select('''
         id,
         created_at,
         title,
@@ -146,13 +102,63 @@ Future<ArticleFeed?> getArticleByID({
           username
         )
         ''')
-        .eq('id', articleID)
-        .single();
+          .eq('author', authorUUID)
+          .order('created_at', ascending: reserve)
+          .range(page * perPage, page * perPage + perPage - 1);
+    }
+    else {
+      query = supabase
+          .from('article')
+          .select('''
+        id,
+        created_at,
+        title,
+        summary,
+        content,
+        public,
+        author,
+        profiles(
+          id,
+          username
+        )
+        ''')
+          .order('created_at', ascending: reserve)
+          .range(page * perPage, page * perPage + perPage - 1);
+    }
+    final response = await query;
     print(response.toString());
-    final data = response;
-    return ArticleFeed.fromJson(data);
-  } catch(e) {
-    print('Error fetching article by ID: $e');
-    return null;
+    final data = response as List<dynamic>;
+    return data.map((e) => ArticleFeed.fromJson(e as Map<String, dynamic>)).toList();
+  }
+
+  Future<ArticleFeed?> getArticleByID({
+    required int articleID
+  }) async {
+    try {
+      final supabase = Supabase.instance.client;
+      final response = await supabase
+          .from('article')
+          .select('''
+        id,
+        created_at,
+        title,
+        summary,
+        content,
+        public,
+        author,
+        profiles(
+          id,
+          username
+        )
+        ''')
+          .eq('id', articleID)
+          .single();
+      print(response.toString());
+      final data = response;
+      return ArticleFeed.fromJson(data);
+    } catch(e) {
+      print('Error fetching article by ID: $e');
+      return null;
+    }
   }
 }
