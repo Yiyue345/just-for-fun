@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:go_deeper/core/network/article.dart';
 import 'package:go_deeper/data/model/feeditem.dart';
+
 import 'package:go_deeper/data/repository/article_repository.dart';
 
 /// 应该是全局存在的
@@ -17,7 +18,7 @@ class FeedItemController extends GetxController {
   final renderMarkdown = false.obs;
 
   final repository = Get.find<ArticleRepositoryImpl>();
-  
+
   // Rx<ArticleFeed?> currentArticle = Rx<ArticleFeed?>(null);
 
   Future<void> loadFeeds({bool refresh = false}) async {
