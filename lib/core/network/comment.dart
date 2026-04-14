@@ -31,7 +31,6 @@ class CommentRemoteDataSource {
     )
   ''')
         .single();
-
     final comment = Comment.fromJson(response);
 
     return comment;

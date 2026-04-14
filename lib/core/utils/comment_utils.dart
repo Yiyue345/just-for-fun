@@ -149,11 +149,13 @@ Future<void> showPostCommentDialog({
                               }
                               try {
                                 articleController.isSubmitting.value = true;
-                                final newComment = await repository.createComment(articleID: articleController.article.value!.id,
+                                final newComment = await repository.createComment(
+                                    articleID: articleController.article.value!.id,
                                     userID: Supabase.instance.client.auth.currentUser!.id,
                                     content: content,
                                     parentID: parentComment?.id
                                 );
+                                // print('New comment created: ${newComment.toJson()}');
                                 articleController.isSubmitting.value = false;
                                 if (parentComment == null) {
                                   articleController.comments.add(newComment);
@@ -172,6 +174,7 @@ Future<void> showPostCommentDialog({
                               } catch (e) {
                                 articleController.isSubmitting.value = false;
                                 // todo: 修改为更友好的错误提示
+                                print(e.toString());
                                 Fluttertoast.showToast(msg: e.toString());
                               }
                             },

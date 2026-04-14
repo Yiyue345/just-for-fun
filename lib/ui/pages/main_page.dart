@@ -54,12 +54,7 @@ class _MainPageState extends State<MainPage> {
     Get.put(articleRepository);
     Get.put(FeedItemController());
     Get.put(UserFeedItemsController());
-    final supabase = Supabase.instance.client;
-    final ArticleRepositoryImpl articleRepository = ArticleRepositoryImpl(
-        articleRemoteDataSource: ArticleRemoteDataSource(supabase),
-        commentRemoteDataSource: CommentRemoteDataSource(supabase)
-    );
-    Get.put(articleRepository);
+
     // Get.put(OtherUsersController());
   }
 
