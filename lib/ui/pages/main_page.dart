@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_deeper/core/network/user_notification.dart';
 import 'package:go_deeper/data/repository/article_repository.dart';
+import 'package:go_deeper/data/repository/notification_repository.dart';
+import 'package:go_deeper/ui/pages/notifications_page/notifications_controller.dart';
 import 'package:go_deeper/ui/pages/user_page/user_controller.dart';
 import 'package:go_deeper/core/utils/user_utils.dart';
 import 'package:go_deeper/data/model/feeditem_controller.dart';
@@ -52,6 +55,11 @@ class _MainPageState extends State<MainPage> {
     );
 
     Get.put(articleRepository);
+    Get.put(NotificationRepositoryImpl(
+        notificationRemoteDataSource: UserNotificationRemoteDataSource(supabase)
+    ));
+
+    Get.put(NotificationsController());
     Get.put(FeedItemController());
     Get.put(UserFeedItemsController());
 
