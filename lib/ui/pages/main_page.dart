@@ -32,7 +32,6 @@ class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
 
 
-
   final _pages = [
     // TestPage(),
     SuggestionPage(),
