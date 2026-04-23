@@ -8,11 +8,10 @@ import 'package:go_deeper/ui/pages/settings_page/settings_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutPage extends StatelessWidget {
-
-  Future<void> _launchURL(String url) async {
+  Future<void> _launchURL(String url, AppLocalizations l10n) async {
     final uri = Uri.parse(url);
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-      Fluttertoast.showToast(msg: 'Could not launch $url');
+      Fluttertoast.showToast(msg: l10n.couldNotLaunchUrl(url));
     }
   }
 
@@ -43,7 +42,7 @@ class AboutPage extends StatelessWidget {
                       context: context,
                       builder: (context) => AlertDialog(
                         title: Text(l10n.updateAvailableDialogTitle),
-                        content: Text(updates['details'] ?? 'A new version of the app is available. Would you like to download it now?'),
+                        content: Text(updates['details'] ?? l10n.updateAvailableDialogContent),
                         actions: [
                           TextButton(
                               onPressed: () => Get.back(),
@@ -53,7 +52,7 @@ class AboutPage extends StatelessWidget {
                               onPressed: () {
                                 Get.back();
 
-                                _launchURL(updateUrl);
+                                _launchURL(updateUrl, l10n);
                               },
                               child: Text(l10n.download)
                           )

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:go_deeper/core/utils/article_utils.dart';
 import 'package:go_deeper/data/model/feeditem.dart';
+import 'package:go_deeper/l10n/app_localizations.dart';
 import 'package:go_deeper/ui/pages/article_pages/article_page.dart';
 
 import 'user_page/user_controller.dart';
@@ -12,6 +13,7 @@ class SuggestionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final userController = Get.find<UserController>();
     final feedItemController = Get.find<FeedItemController>();
     return Obx(() {
@@ -41,7 +43,7 @@ class SuggestionPage extends StatelessWidget {
                       return Center(
                         child: Padding(
                           padding: EdgeInsets.symmetric(vertical: 16),
-                          child: Text('No more suggestions.'),
+                          child: Text(l10n.suggestionNoMore),
                         ),
                       );
                     }
@@ -62,7 +64,7 @@ class SuggestionPage extends StatelessWidget {
       }
       else {
         return Center(
-          child: Text('Please log in to view more.'),
+          child: Text(l10n.suggestionLoginRequired),
         );
       }
     });

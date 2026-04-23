@@ -79,7 +79,7 @@ class UserArticlesPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(Icons.article, size: 80, color: Colors.grey),
-              Center(child: Text('No articles found.') ),
+              Center(child: Text(l10n.noArticlesFound) ),
             ],
           )
               : ListView.builder(
@@ -98,7 +98,7 @@ class UserArticlesPage extends StatelessWidget {
                     return Center(
                       child: Padding(
                         padding: EdgeInsets.symmetric(vertical: 16),
-                        child: Text('No more articles.'),
+                        child: Text(l10n.noMoreArticles),
                       ),
                     );
                   }

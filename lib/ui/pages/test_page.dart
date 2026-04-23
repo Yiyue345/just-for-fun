@@ -6,6 +6,7 @@ import 'package:go_deeper/core/agent/agent.dart';
 import 'package:go_deeper/core/network/article.dart';
 import 'package:go_deeper/core/network/user_auth.dart';
 import 'package:go_deeper/data/repository/article_repository.dart';
+import 'package:go_deeper/l10n/app_localizations.dart';
 import 'package:go_deeper/ui/pages/user_page/user_controller.dart';
 import 'package:go_deeper/core/utils/user_utils.dart';
 import 'package:go_deeper/data/model/comment.dart';
@@ -26,12 +27,13 @@ class _TestPageState extends State<TestPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
 
     // Get.put(CommentController());
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Test Page'),
+        title: Text(l10n.testPageTitle),
       ),
       body: Obx(() {
         if (userController.isLoggedIn.value) {
@@ -39,19 +41,19 @@ class _TestPageState extends State<TestPage> {
             id: 123,
             articleId: 222,
             userId: '123456',
-            userName: '测试用户',
-            content: '下面是最小改动方案：在 ArticleFeed 里增加 profiles 字段并用 readValue 把 profiles.username 映射到 authorName，然后重新生成 feeditem.g.dart。',
+            userName: l10n.testUser,
+            content: l10n.testPageSampleComment,
             createdAt: DateTime.now(),
           );
           final reply = Comment(
             id: 456,
             articleId: 222,
             userId: '654321',
-            userName: '回复用户',
-            content: '这是回复内容',
+            userName: l10n.replyUser,
+            content: l10n.testPageSampleReply,
             createdAt: DateTime.now(),
             parentId: 123,
-            parentUserName: '测试用户',
+            parentUserName: l10n.testUser,
           );
           testComment.replies.add(reply);
           testComment.replies.add(reply);
@@ -65,7 +67,7 @@ class _TestPageState extends State<TestPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text(userController.user.value!.email ?? 'No Email'),
+                Text(userController.user.value!.email ?? l10n.noEmail),
                 SizedBox(height: 20),
                 Text(getUserName() ?? ''),
                 SizedBox(height: 20),
@@ -77,17 +79,17 @@ class _TestPageState extends State<TestPage> {
                     onPressed: () async {
                       await setUserName('1112223333');
                     },
-                    child: Text('Change display name')
+                    child: Text(l10n.changeDisplayName)
                 ),
                 ElevatedButton(onPressed: () async {
                   await repository.fetchArticles();
                 },
-                  child: Text('Get articles'),
+                  child: Text(l10n.getArticles),
                 ),
                 ElevatedButton(onPressed: () async {
                   signOut();
                 },
-                    child: Text('Sign out')
+                    child: Text(l10n.signOut)
                 ),
                 SizedBox(height: 16,),
                 // CommentTile(
@@ -101,7 +103,7 @@ class _TestPageState extends State<TestPage> {
                       final res = await getReply('解释一下 Kotlin Flow');
                       print(res);
                       },
-                    child: Text('问ai')
+                    child: Text(l10n.askAi)
                 )
               ],
             ),
@@ -115,16 +117,16 @@ class _TestPageState extends State<TestPage> {
               children: [
                 ElevatedButton(
                     onPressed: () => showSignUpDialog(),
-                    child: Text('Sign up')
+                    child: Text(l10n.signup)
                 ),
                 SizedBox(height: 20),
                 ElevatedButton(
                     onPressed: () => showSignInDialog(),
-                    child: Text('Sign in')
+                    child: Text(l10n.signIn)
                 ),
                 ElevatedButton(onPressed: () {
-                  Fluttertoast.showToast(msg: '111');
-                }, child: Text('show toast'))
+                  Fluttertoast.showToast(msg: l10n.sampleToast);
+                }, child: Text(l10n.showToast))
               ],
             ),
           );

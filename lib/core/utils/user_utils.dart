@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -68,27 +67,27 @@ void showSignUpDialog() {
             TextButton(
                 onPressed: () async {
                   if (password.length < 6) {
-                    Fluttertoast.showToast(msg: 'Password must be at least 6 characters long.');
+                    Fluttertoast.showToast(msg: l10n.passwordMinLength);
                     return;
                   }
                   try {
                     await signUp(email, password);
-                    Fluttertoast.showToast(msg: 'Signed up successfully.');
+                    Fluttertoast.showToast(msg: l10n.signUpSuccess);
                     Get.back();
                   } catch (e) {
                     if (e is AuthException) {
                       print('e.message: ${e.message}');
                       if (e.message == 'Password should contain at least one character of each: abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ, 0123456789.') {
-                        Fluttertoast.showToast(msg: 'Password must include both letters and numbers.');
+                        Fluttertoast.showToast(msg: l10n.passwordLettersNumbers);
                         return;
                       }
                       else if (e.message == 'User already registered') {
-                        Fluttertoast.showToast(msg: 'This email is already registered.');
+                        Fluttertoast.showToast(msg: l10n.emailAlreadyRegistered);
                         return;
                       }
                       Fluttertoast.showToast(msg: e.message);
                     } else {
-                      Fluttertoast.showToast(msg: 'An unexpected error occurred.');
+                      Fluttertoast.showToast(msg: l10n.unexpectedError);
                     }
                   }
                 },
@@ -139,7 +138,7 @@ void showSignInDialog() {
                   showSignUpDialog();
                 },
                 child: Text(
-                  'Sign up',
+                  l10n.signup,
                   style: TextStyle(
                       color: Colors.grey
                   ),
@@ -154,22 +153,22 @@ void showSignInDialog() {
             TextButton(
                 onPressed: () async {
                   if (email.isEmpty || password.isEmpty) {
-                    Fluttertoast.showToast(msg: 'Email and password cannot be empty.');
+                    Fluttertoast.showToast(msg: l10n.emailPasswordRequired);
                     return;
                   }
                   try {
                     await signIn(email, password);
                     if (Supabase.instance.client.auth.currentUser != null) {
-                      Fluttertoast.showToast(msg: 'Signed in successfully.');
+                      Fluttertoast.showToast(msg: l10n.signInSuccess);
                       Get.back();
                     }
                     else {
-                      Fluttertoast.showToast(msg: 'Sign in failed.');
+                      Fluttertoast.showToast(msg: l10n.signInFailed);
                     }
                   } catch (e) {
                     if (e is AuthException) {
                       if (e.message == 'Invalid login credentials') {
-                        Fluttertoast.showToast(msg: 'Email or password is incorrect.');
+                        Fluttertoast.showToast(msg: l10n.invalidLoginCredentials);
                         return;
                       }
                       Fluttertoast.showToast(msg: e.message);
@@ -186,7 +185,7 @@ void showSignInDialog() {
                       //     )
                       // );
                     } else {
-                      Fluttertoast.showToast(msg: 'An unexpected error occurred.');
+                      Fluttertoast.showToast(msg: l10n.unexpectedError);
                     }
                   }
                 },
@@ -217,7 +216,7 @@ void showSignOutDialog() {
             TextButton(
                 onPressed: () async {
                   await signOut();
-                  Fluttertoast.showToast(msg: 'Signed out successfully.');
+                  Fluttertoast.showToast(msg: l10n.signOutSuccess);
                   Get.back();
                 },
                 child: Text(l10n.signOut)
@@ -258,11 +257,11 @@ Future<void> showSetUserNameDialog(BuildContext context, TextEditingController c
             TextButton(
                 onPressed: () async {
                   if (displayName == getUserName()) {
-                    Fluttertoast.showToast(msg: 'Display name is unchanged.');
+                    Fluttertoast.showToast(msg: l10n.displayNameUnchanged);
                     return;
                   }
                   await setUserName(displayName);
-                  Fluttertoast.showToast(msg: 'Display name updated.');
+                  Fluttertoast.showToast(msg: l10n.displayNameUpdated);
                   Get.back();
 
                 },

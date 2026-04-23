@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_deeper/l10n/app_localizations.dart';
 import 'package:go_deeper/ui/pages/agent_page/agent_controller.dart';
 
 /// Agent 对话页面，嵌入 ModalBottomSheet 中使用
@@ -47,6 +48,7 @@ class _AgentChatPageState extends State<AgentChatPage> {
     final controller = Get.find<AgentController>(tag: widget.controllerTag);
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final l10n = AppLocalizations.of(context)!;
 
     return Column(
       children: [
@@ -71,7 +73,7 @@ class _AgentChatPageState extends State<AgentChatPage> {
               Icon(Icons.auto_awesome, color: colorScheme.primary, size: 20),
               const SizedBox(width: 8),
               Text(
-                'AI 助手',
+                l10n.agentTitle,
                 style: theme.textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -79,7 +81,7 @@ class _AgentChatPageState extends State<AgentChatPage> {
               const Spacer(),
               IconButton(
                 icon: const Icon(Icons.delete_outline, size: 20),
-                tooltip: '清空对话',
+                tooltip: l10n.agentClearChatTooltip,
                 onPressed: () {
                   controller.clearChat();
                 },
@@ -106,14 +108,14 @@ class _AgentChatPageState extends State<AgentChatPage> {
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      '有什么可以帮你的？',
+                      l10n.agentEmptyTitle,
                       style: theme.textTheme.bodyLarge?.copyWith(
                         color: colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      '我可以帮你撰写、修改文章或发布评论',
+                      l10n.agentEmptySubtitle,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: colorScheme.onSurfaceVariant.withValues(alpha: 0.4),
                       ),
@@ -152,7 +154,7 @@ class _AgentChatPageState extends State<AgentChatPage> {
                   minLines: 1,
                   textInputAction: TextInputAction.newline,
                   decoration: InputDecoration(
-                    hintText: '输入消息...',
+                    hintText: l10n.agentInputHint,
                     filled: true,
                     fillColor: colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
                     border: OutlineInputBorder(
@@ -198,6 +200,7 @@ class _AgentChatPageState extends State<AgentChatPage> {
   /// 构建单条聊天气泡
   Widget _buildChatBubble(BuildContext context, AgentChatItem item) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final colorScheme = theme.colorScheme;
 
     switch (item.role) {
@@ -209,14 +212,14 @@ class _AgentChatPageState extends State<AgentChatPage> {
         return _ToolStatusTile(
           icon: Icons.hourglass_top,
           iconColor: Colors.orange,
-          title: '调用工具: ${item.toolName}',
+          title: l10n.agentToolCallingTitle(item.toolName ?? ''),
           subtitle: item.content,
         );
       case 'tool_result':
         return _ToolStatusTile(
           icon: Icons.check_circle,
           iconColor: Colors.green,
-          title: '${item.toolName} 执行完成',
+          title: l10n.agentToolCompletedTitle(item.toolName ?? ''),
           subtitle: item.content,
         );
       default:

@@ -236,15 +236,16 @@ class _EditArticlePageState extends State<EditArticlePage> {
 
   void _showAgentSheet(BuildContext context) {
     // 更新页面上下文为当前编辑器内容
+    final l10n = AppLocalizations.of(context)!;
     final sb = StringBuffer();
     if (_feedItemController.isEditingArticle.value) {
-      sb.writeln('当前正在编辑文章（ID: ${_feedItemController.editingArticle!.id}）');
+      sb.writeln(l10n.agentContextEditingArticle(_feedItemController.editingArticle!.id.toString()));
     } else {
-      sb.writeln('当前正在撰写新文章');
+      sb.writeln(l10n.agentContextCreatingArticle);
     }
-    sb.writeln('标题: $title');
-    sb.writeln('摘要: $summary');
-    sb.writeln('正文: $content');
+    sb.writeln(l10n.agentContextTitleLine(title));
+    sb.writeln(l10n.agentContextSummaryLine(summary));
+    sb.writeln(l10n.agentContextContentLine(content));
     _agentController.setPageContext(sb.toString());
 
     showModalBottomSheet(
@@ -264,14 +265,15 @@ class _EditArticlePageState extends State<EditArticlePage> {
   }
 
   Widget _updateArticleButton() {
+    final l10n = AppLocalizations.of(context)!;
     return IconButton(
         onPressed: () async {
           if (title.isEmpty) {
-            Fluttertoast.showToast(msg: 'Title cannot be empty.');
+            Fluttertoast.showToast(msg: l10n.titleCannotBeEmpty);
             return;
           }
           if (content.isEmpty) {
-            Fluttertoast.showToast(msg: 'Content cannot be empty.');
+            Fluttertoast.showToast(msg: l10n.contentCannotBeEmpty);
             return;
           }
           if (isUploading) {
@@ -290,7 +292,7 @@ class _EditArticlePageState extends State<EditArticlePage> {
               if (index != -1) {
                 _feedItemController.feedItems[index] = newItem;
               }
-              Fluttertoast.showToast(msg: 'Article updated successfully.');
+              Fluttertoast.showToast(msg: l10n.articleUpdatedSuccessfully);
               goToArticlePage(articleID: newItem.id, replace: true);
             }
             else {
@@ -302,11 +304,11 @@ class _EditArticlePageState extends State<EditArticlePage> {
                   public: publicArticle,
               );
               _feedItemController.feedItems.add(newItem);
-              Fluttertoast.showToast(msg: 'Article created successfully.');
+              Fluttertoast.showToast(msg: l10n.articleCreatedSuccessfully);
               Get.back();
             }
           } catch (e) {
-            Fluttertoast.showToast(msg: 'Failed to create article: $e');
+            Fluttertoast.showToast(msg: l10n.articleSaveFailed(e.toString()));
             isUploading = false;
             return;
           }

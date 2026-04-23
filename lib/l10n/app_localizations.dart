@@ -101,7 +101,7 @@ abstract class AppLocalizations {
   /// No description provided for @appTitle.
   ///
   /// In en, this message translates to:
-  /// **'My Application'**
+  /// **'Go Deeper'**
   String get appTitle;
 
   /// No description provided for @home.
@@ -314,6 +314,12 @@ abstract class AppLocalizations {
   /// **'Update Available'**
   String get updateAvailableDialogTitle;
 
+  /// No description provided for @updateAvailableDialogContent.
+  ///
+  /// In en, this message translates to:
+  /// **'A new version of the app is available. Would you like to download it now?'**
+  String get updateAvailableDialogContent;
+
   /// No description provided for @about.
   ///
   /// In en, this message translates to:
@@ -482,11 +488,437 @@ abstract class AppLocalizations {
   /// **'Comment posted'**
   String get commentPostedToast;
 
+  /// No description provided for @commentCannotBeEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment cannot be empty.'**
+  String get commentCannotBeEmpty;
+
   /// No description provided for @loadArticleFailedRetry.
   ///
   /// In en, this message translates to:
   /// **'Load article failed, tap to retry.'**
   String get loadArticleFailedRetry;
+
+  /// No description provided for @suggestionNoMore.
+  ///
+  /// In en, this message translates to:
+  /// **'No more suggestions.'**
+  String get suggestionNoMore;
+
+  /// No description provided for @suggestionLoginRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please log in to view more.'**
+  String get suggestionLoginRequired;
+
+  /// No description provided for @noArticlesFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No articles found.'**
+  String get noArticlesFound;
+
+  /// No description provided for @noMoreArticles.
+  ///
+  /// In en, this message translates to:
+  /// **'No more articles.'**
+  String get noMoreArticles;
+
+  /// No description provided for @articleDeletedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Article deleted successfully.'**
+  String get articleDeletedSuccessfully;
+
+  /// No description provided for @articleUpdatedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Article updated successfully.'**
+  String get articleUpdatedSuccessfully;
+
+  /// No description provided for @articleCreatedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Article created successfully.'**
+  String get articleCreatedSuccessfully;
+
+  /// No description provided for @articleSaveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save article: {error}'**
+  String articleSaveFailed(Object error);
+
+  /// No description provided for @titleCannotBeEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Title cannot be empty.'**
+  String get titleCannotBeEmpty;
+
+  /// No description provided for @contentCannotBeEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Content cannot be empty.'**
+  String get contentCannotBeEmpty;
+
+  /// No description provided for @articleByAuthor.
+  ///
+  /// In en, this message translates to:
+  /// **'By {authorName}'**
+  String articleByAuthor(Object authorName);
+
+  /// No description provided for @articleByUnknownAuthor.
+  ///
+  /// In en, this message translates to:
+  /// **'By Unknown Author'**
+  String get articleByUnknownAuthor;
+
+  /// No description provided for @agentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Assistant'**
+  String get agentTitle;
+
+  /// No description provided for @agentClearChatTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear conversation'**
+  String get agentClearChatTooltip;
+
+  /// No description provided for @agentEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How can I help?'**
+  String get agentEmptyTitle;
+
+  /// No description provided for @agentEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'I can help you write, edit articles, or draft comments.'**
+  String get agentEmptySubtitle;
+
+  /// No description provided for @agentInputHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Type a message...'**
+  String get agentInputHint;
+
+  /// No description provided for @agentToolCalling.
+  ///
+  /// In en, this message translates to:
+  /// **'Calling tool...'**
+  String get agentToolCalling;
+
+  /// No description provided for @agentToolCallingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Calling tool: {toolName}'**
+  String agentToolCallingTitle(Object toolName);
+
+  /// No description provided for @agentToolCompletedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{toolName} completed'**
+  String agentToolCompletedTitle(Object toolName);
+
+  /// No description provided for @agentError.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong: {error}'**
+  String agentError(Object error);
+
+  /// No description provided for @agentMaxRoundsReached.
+  ///
+  /// In en, this message translates to:
+  /// **'[Agent reached the maximum tool-calling rounds]'**
+  String get agentMaxRoundsReached;
+
+  /// No description provided for @agentSystemPromptLine1.
+  ///
+  /// In en, this message translates to:
+  /// **'You are an intelligent assistant that helps users write articles, edit articles, and post comments.'**
+  String get agentSystemPromptLine1;
+
+  /// No description provided for @agentSystemPromptLine2.
+  ///
+  /// In en, this message translates to:
+  /// **'When the user asks for these actions, call the appropriate tools.'**
+  String get agentSystemPromptLine2;
+
+  /// No description provided for @agentSystemPromptLine3.
+  ///
+  /// In en, this message translates to:
+  /// **'When no tool is needed, reply directly in plain text.'**
+  String get agentSystemPromptLine3;
+
+  /// No description provided for @agentContextHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Here is the context of what the user is currently working on:'**
+  String get agentContextHeader;
+
+  /// No description provided for @agentContextCurrentArticle.
+  ///
+  /// In en, this message translates to:
+  /// **'Currently viewing article (ID: {id})'**
+  String agentContextCurrentArticle(Object id);
+
+  /// No description provided for @agentContextEditingArticle.
+  ///
+  /// In en, this message translates to:
+  /// **'Currently editing article (ID: {id})'**
+  String agentContextEditingArticle(Object id);
+
+  /// No description provided for @agentContextCreatingArticle.
+  ///
+  /// In en, this message translates to:
+  /// **'Currently writing a new article'**
+  String get agentContextCreatingArticle;
+
+  /// No description provided for @agentContextTitleLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Title: {value}'**
+  String agentContextTitleLine(Object value);
+
+  /// No description provided for @agentContextSummaryLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary: {value}'**
+  String agentContextSummaryLine(Object value);
+
+  /// No description provided for @agentContextContentLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Content: {value}'**
+  String agentContextContentLine(Object value);
+
+  /// No description provided for @agentContextCommentChainLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Current comment chain: {value}'**
+  String agentContextCommentChainLine(Object value);
+
+  /// No description provided for @agentContextCommentEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'[{userName}] said: {content}'**
+  String agentContextCommentEntry(Object content, Object userName);
+
+  /// No description provided for @toolDraftArticleDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate an article draft and fill it into the editor for user review before publishing.'**
+  String get toolDraftArticleDescription;
+
+  /// No description provided for @toolDraftArticleTitleParam.
+  ///
+  /// In en, this message translates to:
+  /// **'Article title'**
+  String get toolDraftArticleTitleParam;
+
+  /// No description provided for @toolDraftArticleContentParam.
+  ///
+  /// In en, this message translates to:
+  /// **'Article body content in Markdown format'**
+  String get toolDraftArticleContentParam;
+
+  /// No description provided for @toolDraftArticleSummaryParam.
+  ///
+  /// In en, this message translates to:
+  /// **'Article summary (optional)'**
+  String get toolDraftArticleSummaryParam;
+
+  /// No description provided for @toolDraftEditArticleDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate revised article content and fill it into the editor for user review before saving.'**
+  String get toolDraftEditArticleDescription;
+
+  /// No description provided for @toolDraftEditArticleTitleParam.
+  ///
+  /// In en, this message translates to:
+  /// **'Updated title (optional; keep the current title if omitted)'**
+  String get toolDraftEditArticleTitleParam;
+
+  /// No description provided for @toolDraftEditArticleContentParam.
+  ///
+  /// In en, this message translates to:
+  /// **'Updated body content (optional; keep the current body if omitted)'**
+  String get toolDraftEditArticleContentParam;
+
+  /// No description provided for @toolDraftEditArticleSummaryParam.
+  ///
+  /// In en, this message translates to:
+  /// **'Updated summary (optional; keep the current summary if omitted)'**
+  String get toolDraftEditArticleSummaryParam;
+
+  /// No description provided for @toolDraftCommentDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate a comment draft and fill it into the input box for user review before posting.'**
+  String get toolDraftCommentDescription;
+
+  /// No description provided for @toolDraftCommentContentParam.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment content'**
+  String get toolDraftCommentContentParam;
+
+  /// No description provided for @toolChangeLocalizationDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch the user interface language.'**
+  String get toolChangeLocalizationDescription;
+
+  /// No description provided for @toolChangeLocalizationLanguageCodeParam.
+  ///
+  /// In en, this message translates to:
+  /// **'Target ISO 639-1 language code. Currently supports \"en\" and \"zh\". Use \"follow_system\" to follow system language.'**
+  String get toolChangeLocalizationLanguageCodeParam;
+
+  /// No description provided for @toolDraftArticleFilled.
+  ///
+  /// In en, this message translates to:
+  /// **'The article draft has been filled into the editor. Title: {title}. Please let the user review it before publishing.'**
+  String toolDraftArticleFilled(Object title);
+
+  /// No description provided for @toolDraftArticleUnsupported.
+  ///
+  /// In en, this message translates to:
+  /// **'The draft was generated, but the current page does not support filling articles. Title: {title}'**
+  String toolDraftArticleUnsupported(Object title);
+
+  /// No description provided for @toolDraftEditArticleFilled.
+  ///
+  /// In en, this message translates to:
+  /// **'The revised content has been filled into the editor. Please let the user review it before saving.'**
+  String get toolDraftEditArticleFilled;
+
+  /// No description provided for @toolDraftEditArticleUnsupported.
+  ///
+  /// In en, this message translates to:
+  /// **'The draft was generated, but the current page does not support filling articles.'**
+  String get toolDraftEditArticleUnsupported;
+
+  /// No description provided for @toolDraftCommentFilled.
+  ///
+  /// In en, this message translates to:
+  /// **'The comment draft has been filled into the input box: \"{content}\". Please let the user review it before posting.'**
+  String toolDraftCommentFilled(Object content);
+
+  /// No description provided for @toolDraftCommentUnsupported.
+  ///
+  /// In en, this message translates to:
+  /// **'The draft was generated, but the current page does not support filling comments. Content: {content}'**
+  String toolDraftCommentUnsupported(Object content);
+
+  /// No description provided for @toolLanguageFollowSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'The language has been switched to follow the system.'**
+  String get toolLanguageFollowSystem;
+
+  /// No description provided for @toolLanguageChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'The interface language has been changed to {code}.'**
+  String toolLanguageChanged(Object code);
+
+  /// No description provided for @toolLanguageUnsupported.
+  ///
+  /// In en, this message translates to:
+  /// **'Unsupported language code: {code}'**
+  String toolLanguageUnsupported(Object code);
+
+  /// No description provided for @toolUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown tool: {name}'**
+  String toolUnknown(Object name);
+
+  /// No description provided for @toolExecutionFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Tool execution failed: {error}'**
+  String toolExecutionFailed(Object error);
+
+  /// No description provided for @couldNotLaunchUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not launch {url}'**
+  String couldNotLaunchUrl(Object url);
+
+  /// No description provided for @passwordMinLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 6 characters long.'**
+  String get passwordMinLength;
+
+  /// No description provided for @signUpSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed up successfully.'**
+  String get signUpSuccess;
+
+  /// No description provided for @passwordLettersNumbers.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must include both letters and numbers.'**
+  String get passwordLettersNumbers;
+
+  /// No description provided for @emailAlreadyRegistered.
+  ///
+  /// In en, this message translates to:
+  /// **'This email is already registered.'**
+  String get emailAlreadyRegistered;
+
+  /// No description provided for @unexpectedError.
+  ///
+  /// In en, this message translates to:
+  /// **'An unexpected error occurred.'**
+  String get unexpectedError;
+
+  /// No description provided for @emailPasswordRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Email and password cannot be empty.'**
+  String get emailPasswordRequired;
+
+  /// No description provided for @signInSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed in successfully.'**
+  String get signInSuccess;
+
+  /// No description provided for @signInFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in failed.'**
+  String get signInFailed;
+
+  /// No description provided for @invalidLoginCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Email or password is incorrect.'**
+  String get invalidLoginCredentials;
+
+  /// No description provided for @signOutSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed out successfully.'**
+  String get signOutSuccess;
+
+  /// No description provided for @displayNameUnchanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Display name is unchanged.'**
+  String get displayNameUnchanged;
+
+  /// No description provided for @displayNameUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Display name updated.'**
+  String get displayNameUpdated;
 
   /// No description provided for @secondsAgo.
   ///
@@ -535,6 +967,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Version: {version}'**
   String currentVersion(Object version);
+
+  /// No description provided for @testPageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Test Page'**
+  String get testPageTitle;
+
+  /// No description provided for @noEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'No Email'**
+  String get noEmail;
+
+  /// No description provided for @changeDisplayName.
+  ///
+  /// In en, this message translates to:
+  /// **'Change display name'**
+  String get changeDisplayName;
+
+  /// No description provided for @getArticles.
+  ///
+  /// In en, this message translates to:
+  /// **'Get articles'**
+  String get getArticles;
+
+  /// No description provided for @askAi.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask AI'**
+  String get askAi;
+
+  /// No description provided for @showToast.
+  ///
+  /// In en, this message translates to:
+  /// **'Show toast'**
+  String get showToast;
+
+  /// No description provided for @sampleToast.
+  ///
+  /// In en, this message translates to:
+  /// **'111'**
+  String get sampleToast;
+
+  /// No description provided for @testUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Test User'**
+  String get testUser;
+
+  /// No description provided for @replyUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply User'**
+  String get replyUser;
+
+  /// No description provided for @testPageSampleComment.
+  ///
+  /// In en, this message translates to:
+  /// **'Below is the minimal-change approach: add a profiles field to ArticleFeed and use readValue to map profiles.username to authorName, then regenerate feeditem.g.dart.'**
+  String get testPageSampleComment;
+
+  /// No description provided for @testPageSampleReply.
+  ///
+  /// In en, this message translates to:
+  /// **'This is a reply.'**
+  String get testPageSampleReply;
 }
 
 class _AppLocalizationsDelegate

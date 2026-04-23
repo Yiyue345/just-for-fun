@@ -18,6 +18,7 @@ Future<void> showPostCommentDialog({
 }) async {
   final agentController = Get.find<AgentController>(tag: 'agent_article_$articleID');
   final context = Get.context!;
+  final l10n = AppLocalizations.of(context)!;
   final agentTag = 'agent_article_$articleID';
 
   void showAgentSheet() {
@@ -32,12 +33,15 @@ Future<void> showPostCommentDialog({
     }
 
     if (article != null) {
+      final commentChain = articleController.currentCommentChain
+          .map((c) => l10n.agentContextCommentEntry(c.userName, c.content))
+          .join('\n');
       agentController.setPageContext(
-        '当前正在查看文章（ID: ${article.id}）\n'
-            '标题: ${article.title}\n'
-            '摘要: ${article.summary}\n'
-            '正文: ${article.content}\n'
-            '当前评论链：${articleController.currentCommentChain.map((c) => '【${c.userName}】说：${c.content}').join('\n')}',
+        '${l10n.agentContextCurrentArticle(article.id.toString())}\n'
+        '${l10n.agentContextTitleLine(article.title)}\n'
+        '${l10n.agentContextSummaryLine(article.summary)}\n'
+        '${l10n.agentContextContentLine(article.content)}\n'
+        '${l10n.agentContextCommentChainLine(commentChain)}',
       );
     }
 
@@ -144,7 +148,7 @@ Future<void> showPostCommentDialog({
                         ElevatedButton(
                             onPressed: () async {
                               if (content.isEmpty) {
-                                Fluttertoast.showToast(msg: '评论不能为空！');
+                                Fluttertoast.showToast(msg: l10n.commentCannotBeEmpty);
                                 return;
                               }
                               try {

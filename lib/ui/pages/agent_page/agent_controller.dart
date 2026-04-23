@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:go_deeper/core/agent/agent.dart';
 import 'package:go_deeper/data/model/chat_message.dart';
+import 'package:go_deeper/l10n/app_localizations.dart';
 
 /// Agent 对话中一条 UI 消息
 class AgentChatItem {
@@ -61,14 +62,18 @@ class AgentController extends GetxController {
 
   /// 构建系统提示词，包含页面上下文
   String _buildSystemPrompt() {
+    final l10n = Get.context != null ? AppLocalizations.of(Get.context!) : null;
     final sb = StringBuffer();
-    sb.writeln('你是一个智能助手，可以帮助用户撰写文章、修改文章、发布评论。');
-    sb.writeln('当用户要求你执行这些操作时，请调用对应的工具。');
-    sb.writeln('当不需要调用工具时，直接用文字回复用户。');
+    sb.writeln(l10n?.agentSystemPromptLine1 ??
+        'You are an intelligent assistant that helps users write articles, edit articles, and post comments.');
+    sb.writeln(l10n?.agentSystemPromptLine2 ??
+        'When the user asks for these actions, call the appropriate tools.');
+    sb.writeln(l10n?.agentSystemPromptLine3 ??
+        'When no tool is needed, reply directly in plain text.');
 
     if (_pageContext.isNotEmpty) {
       sb.writeln();
-      sb.writeln('以下是用户当前正在操作的内容上下文：');
+      sb.writeln(l10n?.agentContextHeader ?? 'Here is the context of what the user is currently working on:');
       sb.writeln(_pageContext);
     }
 
@@ -77,6 +82,7 @@ class AgentController extends GetxController {
 
   /// 发送用户消息，调用 Agent
   Future<void> sendMessage(String text) async {
+    final l10n = Get.context != null ? AppLocalizations.of(Get.context!) : null;
     if (text.trim().isEmpty || isGenerating.value) return;
 
     // 添加用户消息到 UI
@@ -119,7 +125,7 @@ class AgentController extends GetxController {
           case AgentToolCallStart(:final toolName):
             chatItems.add(AgentChatItem(
               role: 'tool_start',
-              content: '正在调用工具...',
+              content: l10n?.agentToolCalling ?? 'Calling tool...',
               toolName: toolName,
             ));
             break;
@@ -160,7 +166,7 @@ class AgentController extends GetxController {
       }
       chatItems.add(AgentChatItem(
         role: 'assistant',
-        content: '出错了：$e',
+        content: (l10n?.agentError(e.toString())) ?? 'Something went wrong: $e',
       ));
     } finally {
       isGenerating.value = false;

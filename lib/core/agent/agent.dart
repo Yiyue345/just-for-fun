@@ -6,6 +6,8 @@ import 'package:go_deeper/core/network/article.dart';
 import 'package:go_deeper/core/network/comment.dart' as comment_api;
 import 'package:go_deeper/core/network/dio_client.dart';
 import 'package:go_deeper/data/model/chat_message.dart';
+import 'package:go_deeper/l10n/app_localizations.dart';
+import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 // ╔═══════════════════════════════════════════════════════════╗
@@ -243,7 +245,8 @@ Stream<AgentEvent> runAgent({
   }
 
   // 超出最大轮次
-  yield AgentDone('[Agent 达到最大工具调用轮次限制]');
+  final l10n = Get.context != null ? AppLocalizations.of(Get.context!) : null;
+  yield AgentDone(l10n?.agentMaxRoundsReached ?? '[Agent reached the maximum tool-calling rounds]');
 }
 
 // ╔═══════════════════════════════════════════════════════════╗

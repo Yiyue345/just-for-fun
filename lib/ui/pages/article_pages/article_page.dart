@@ -27,6 +27,7 @@ class ArticlePage extends StatelessWidget {
     final ArticleController articleController = Get.find<ArticleController>(tag: articleID.toString());
     final agentTag = 'agent_article_$articleID';
     final AgentController agentController = Get.find<AgentController>(tag: agentTag);
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         title: Obx(() => Text(articleController.article.value?.title ?? '')),
@@ -71,7 +72,7 @@ class ArticlePage extends StatelessWidget {
           child: TextButton(onPressed: () {
             articleController.refresh();
           }, 
-              child: Text(AppLocalizations.of(context)!.loadArticleFailedRetry)
+              child: Text(l10n.loadArticleFailedRetry)
           ),
         )
               : ListView(
@@ -94,7 +95,7 @@ class ArticlePage extends StatelessWidget {
                   },
                   child: Text.rich(
                       TextSpan(
-                          text: 'By ',
+                          text: l10n.articleByAuthor(''),
                           style: TextStyle(
                             fontSize: 14,
                             fontStyle: FontStyle.italic,
@@ -126,7 +127,7 @@ class ArticlePage extends StatelessWidget {
             ]
             else ...[
               Text(
-                  'by Unknown Author',
+                  l10n.articleByUnknownAuthor,
                   style: TextStyle(
                     fontSize: 14,
                     fontStyle: FontStyle.italic,
@@ -159,7 +160,7 @@ class ArticlePage extends StatelessWidget {
               )
             else if (articleController.comments.isNotEmpty) ...[
               Text(
-                AppLocalizations.of(context)!.comments,
+                l10n.comments,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -185,7 +186,7 @@ class ArticlePage extends StatelessWidget {
             ]
             else ...[
                 Text(
-                  AppLocalizations.of(context)!.noComments,
+                  l10n.noComments,
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.grey[600],
@@ -213,13 +214,17 @@ class ArticlePage extends StatelessWidget {
     // 更新页面上下文
     final articleController = Get.find<ArticleController>(tag: articleID.toString());
     final article = articleController.article.value;
+    final l10n = AppLocalizations.of(context)!;
     if (article != null) {
+      final commentChain = articleController.currentCommentChain
+          .map((c) => l10n.agentContextCommentEntry(c.userName, c.content))
+          .join('\n');
       agentController.setPageContext(
-        '当前正在查看文章（ID: ${article.id}）\n'
-        '标题: ${article.title}\n'
-        '摘要: ${article.summary}\n'
-        '正文: ${article.content}\n'
-        '当前评论链：${articleController.currentCommentChain.map((c) => '【${c.userName}】说：${c.content}').join('\n')}',
+        '${l10n.agentContextCurrentArticle(article.id.toString())}\n'
+        '${l10n.agentContextTitleLine(article.title)}\n'
+        '${l10n.agentContextSummaryLine(article.summary)}\n'
+        '${l10n.agentContextContentLine(article.content)}\n'
+        '${l10n.agentContextCommentChainLine(commentChain)}',
       );
     }
 
@@ -321,7 +326,7 @@ class ArticlePage extends StatelessWidget {
                   await repository.deleteArticle(articleID: articleController.article.value!.id);
                   final feedController = Get.find<FeedItemController>();
                   feedController.feedItems.remove(article);
-                  Fluttertoast.showToast(msg: 'Deleted article successfully.');
+                  Fluttertoast.showToast(msg: l10n.articleDeletedSuccessfully);
                   Get.back();
                   Get.back();
                 },

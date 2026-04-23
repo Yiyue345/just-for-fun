@@ -1,97 +1,109 @@
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:go_deeper/l10n/app_localizations.dart';
 
 import '../../ui/pages/settings_page/change_language_page.dart';
 import 'agent.dart';
 
 /// 工具定义 ─ 传给 DeepSeek 的 function schema
-const List<Map<String, dynamic>> agentTools = [
-  {
-    'type': 'function',
-    'function': {
-      'name': 'draft_article',
-      'description': '生成文章草稿并填充到编辑器中，供用户审核后决定是否发布。',
-      'parameters': {
-        'type': 'object',
-        'properties': {
-          'title': {
-            'type': 'string',
-            'description': '文章标题',
+List<Map<String, dynamic>> get agentTools {
+  final l10n = Get.context != null ? AppLocalizations.of(Get.context!) : null;
+
+  return [
+    {
+      'type': 'function',
+      'function': {
+        'name': 'draft_article',
+        'description': l10n?.toolDraftArticleDescription ??
+            'Generate an article draft and fill it into the editor for user review before publishing.',
+        'parameters': {
+          'type': 'object',
+          'properties': {
+            'title': {
+              'type': 'string',
+              'description': l10n?.toolDraftArticleTitleParam ?? 'Article title',
+            },
+            'content': {
+              'type': 'string',
+              'description': l10n?.toolDraftArticleContentParam ?? 'Article body content in Markdown format',
+            },
+            'summary': {
+              'type': 'string',
+              'description': l10n?.toolDraftArticleSummaryParam ?? 'Article summary (optional)',
+            },
           },
-          'content': {
-            'type': 'string',
-            'description': '文章正文内容（使用 markdown 格式）',
-          },
-          'summary': {
-            'type': 'string',
-            'description': '文章摘要（可选）',
-          },
+          'required': ['title', 'content'],
         },
-        'required': ['title', 'content'],
       },
     },
-  },
-  {
-    'type': 'function',
-    'function': {
-      'name': 'draft_edit_article',
-      'description': '生成修改后的文章内容并填充到编辑器中，供用户审核后决定是否保存。',
-      'parameters': {
-        'type': 'object',
-        'properties': {
-          'title': {
-            'type': 'string',
-            'description': '修改后的标题（可选，不提供则保持原标题）',
+    {
+      'type': 'function',
+      'function': {
+        'name': 'draft_edit_article',
+        'description': l10n?.toolDraftEditArticleDescription ??
+            'Generate revised article content and fill it into the editor for user review before saving.',
+        'parameters': {
+          'type': 'object',
+          'properties': {
+            'title': {
+              'type': 'string',
+              'description': l10n?.toolDraftEditArticleTitleParam ??
+                  'Updated title (optional; keep the current title if omitted)',
+            },
+            'content': {
+              'type': 'string',
+              'description': l10n?.toolDraftEditArticleContentParam ??
+                  'Updated body content (optional; keep the current body if omitted)',
+            },
+            'summary': {
+              'type': 'string',
+              'description': l10n?.toolDraftEditArticleSummaryParam ??
+                  'Updated summary (optional; keep the current summary if omitted)',
+            },
           },
-          'content': {
-            'type': 'string',
-            'description': '修改后的正文（可选，不提供则保持原正文）',
-          },
-          'summary': {
-            'type': 'string',
-            'description': '修改后的摘要（可选，不提供则保持原摘要）',
-          },
+          'required': [],
         },
-        'required': [],
       },
     },
-  },
-  {
-    'type': 'function',
-    'function': {
-      'name': 'draft_comment',
-      'description': '生成评论草稿并填充到评论输入框中，供用户审核后决定是否发布。',
-      'parameters': {
-        'type': 'object',
-        'properties': {
-          'content': {
-            'type': 'string',
-            'description': '评论内容',
+    {
+      'type': 'function',
+      'function': {
+        'name': 'draft_comment',
+        'description': l10n?.toolDraftCommentDescription ??
+            'Generate a comment draft and fill it into the input box for user review before posting.',
+        'parameters': {
+          'type': 'object',
+          'properties': {
+            'content': {
+              'type': 'string',
+              'description': l10n?.toolDraftCommentContentParam ?? 'Comment content',
+            },
           },
+          'required': ['content'],
         },
-        'required': ['content'],
       },
     },
-  },
-  // TODO: 可以根据需要添加更多工具，例如删除文章、回复评论（获取评论上下文）、自动总结文章等
-  {
-    'type': 'function',
-    'function': {
-      'name': 'change_localization',
-      'description': '切换用户界面语言。',
-      'parameters': {
-        'type': 'object',
-        'properties': {
-          'language_code': {
-            'type': 'string',
-            'description': '目标语言的 ISO 639-1 代码，目前支持 "en"、"zh"，若返回 "follow_system"，则切换为跟随系统',
+    {
+      'type': 'function',
+      'function': {
+        'name': 'change_localization',
+        'description': l10n?.toolChangeLocalizationDescription ??
+            'Switch the user interface language.',
+        'parameters': {
+          'type': 'object',
+          'properties': {
+            'language_code': {
+              'type': 'string',
+              'description': l10n?.toolChangeLocalizationLanguageCodeParam ??
+                  'Target ISO 639-1 language code. Currently supports "en" and "zh". Use "follow_system" to follow system language.',
+            },
           },
+          'required': ['language_code'],
         },
-        'required': ['language_code'],
       },
     },
-  },
-];
+  ];
+}
 
 
 /// 执行工具调用并返回结果字符串
@@ -100,6 +112,7 @@ Future<String> executeTool(
     Map<String, dynamic> args, {
       AgentToolCallbacks callbacks = const AgentToolCallbacks(),
     }) async {
+  final l10n = Get.context != null ? AppLocalizations.of(Get.context!) : null;
   try {
     switch (name) {
       case 'draft_article':
@@ -108,9 +121,11 @@ Future<String> executeTool(
         final summary = args['summary'] as String?;
         if (callbacks.onFillArticle != null) {
           callbacks.onFillArticle!(title, content, summary);
-          return '已将文章草稿填充到编辑器，标题: $title。请用户审核后决定是否发布。';
+          return l10n?.toolDraftArticleFilled(title) ??
+              'The article draft has been filled into the editor. Title: $title. Please let the user review it before publishing.';
         }
-        return '草稿已生成，但当前页面不支持填充文章。标题: $title';
+        return l10n?.toolDraftArticleUnsupported(title) ??
+            'The draft was generated, but the current page does not support filling articles. Title: $title';
 
       case 'draft_edit_article':
         final title = args['title'] as String?;
@@ -118,37 +133,44 @@ Future<String> executeTool(
         final summary = args['summary'] as String?;
         if (callbacks.onFillArticle != null && (title != null || content != null)) {
           callbacks.onFillArticle!(title ?? '', content ?? '', summary);
-          return '已将修改后的内容填充到编辑器。请用户审核后决定是否保存。';
+          return l10n?.toolDraftEditArticleFilled ??
+              'The revised content has been filled into the editor. Please let the user review it before saving.';
         }
-        return '草稿已生成，但当前页面不支持填充文章。';
+        return l10n?.toolDraftEditArticleUnsupported ??
+            'The draft was generated, but the current page does not support filling articles.';
 
       case 'draft_comment':
         final content = args['content'] as String;
         if (callbacks.onFillComment != null) {
           callbacks.onFillComment!(content);
-          return '已将评论草稿填充到输入框: "$content"。请用户审核后决定是否发布。';
+          return l10n?.toolDraftCommentFilled(content) ??
+              'The comment draft has been filled into the input box: "$content". Please let the user review it before posting.';
         }
-        return '草稿已生成，但当前页面不支持填充评论。内容: $content';
+        return l10n?.toolDraftCommentUnsupported(content) ??
+            'The draft was generated, but the current page does not support filling comments. Content: $content';
 
       case 'change_localization':
         final code = args['language_code'] as String;
         final languageController = Get.put(LanguageController());
         if (code == 'follow_system') {
           languageController.followSystemLanguage();
-          return '已将语言切换为跟随系统';
+          return l10n?.toolLanguageFollowSystem ??
+              'The language has been switched to follow the system.';
         }
 
         try {
           languageController.changeLocale(code);
-          return '已将界面语言切换为 $code';
+          return l10n?.toolLanguageChanged(code) ??
+              'The interface language has been changed to $code.';
         } catch(e) {
-          return '不支持的语言代码: $code';
+          return l10n?.toolLanguageUnsupported(code) ??
+              'Unsupported language code: $code';
         }
 
       default:
-        return '未知工具: $name';
+        return l10n?.toolUnknown(name) ?? 'Unknown tool: $name';
     }
   } catch (e) {
-    return '工具执行失败: $e';
+    return l10n?.toolExecutionFailed(e.toString()) ?? 'Tool execution failed: $e';
   }
 }
