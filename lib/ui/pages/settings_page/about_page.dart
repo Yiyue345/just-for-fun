@@ -3,8 +3,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:go_deeper/core/network/update.dart';
+import 'package:go_deeper/data/repository/update_repository.dart';
 import 'package:go_deeper/l10n/app_localizations.dart';
 import 'package:go_deeper/ui/pages/settings_page/settings_page.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutPage extends StatelessWidget {
@@ -32,17 +34,18 @@ class AboutPage extends StatelessWidget {
               onTap: () async {
                 Fluttertoast.showToast(msg: l10n.checkingForUpdates);
                 settingsController.checkingUpdate.value = true;
-                bool update = await checkForUpdate();
+                UpdateRepositoryImpl repository = UpdateRepositoryImpl(updateRemoteDataSource: UpdateRemoteDataSource());
+                final UpdateModel updateInfo = await repository.checkForUpdate();
+                bool update = updateInfo.canUpdate;
                 settingsController.checkingUpdate.value = false;
                 if (update) {
                   Fluttertoast.showToast(msg: l10n.updateAvailable);
-                  Map updates = await getUpdateURLAndDetails();
-                  String updateUrl = updates['link'] ?? '';
+                  String updateUrl = updateInfo.link!;
                   showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
                         title: Text(l10n.updateAvailableDialogTitle),
-                        content: Text(updates['details'] ?? l10n.updateAvailableDialogContent),
+                        content: Text(updateInfo.details ?? l10n.updateAvailableDialogContent),
                         actions: [
                           TextButton(
                               onPressed: () => Get.back(),
