@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:go_deeper/core/network/update.dart';
+import 'package:go_deeper/core/utils/update_utils.dart';
+import 'package:path_provider/path_provider.dart';
 
 class UpdateModel {
   final String? version;
@@ -59,8 +61,11 @@ class UpdateRepositoryImpl implements UpdateRepository {
   }
 
   @override
-  Future<File> downloadUpdate(String url, String sha256, Function(double progress) onProgress) {
-    // TODO: implement downloadUpdate
-    throw UnimplementedError();
+  Future<File> downloadUpdate(String url, String sha256, Function(double progress) onProgress) async {
+    final file = await updateRemoteDataSource.downloadUpdate(url, onProgress);
+    if (await calculateSHA256(file) != sha256) {
+      throw Exception('Downloaded file is corrupted (SHA256 mismatch)');
+    }
+    return file;
   }
 }

@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:crypto/crypto.dart';
+import 'package:dio/dio.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UpdateRemoteDataSource {
@@ -36,6 +38,23 @@ class UpdateRemoteDataSource {
         .select();
 
     return response[0];
+  }
+
+  Future<File> downloadUpdate(String url, Function(double progress) onProgress) async {
+    final dir = await getTemporaryDirectory();
+    final file = File('${dir.path}/update_package');
+    final dio = Dio();
+    await dio.download(
+        url,
+        file.path,
+      onReceiveProgress: (received, total) {
+        if (total > 0) {
+          onProgress(received / total);
+        }
+      }
+    );
+
+    return file;
   }
 }
 
