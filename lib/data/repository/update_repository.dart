@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:go_deeper/core/network/update.dart';
 
 class UpdateModel {
@@ -19,6 +21,11 @@ class UpdateModel {
 // todo: 测试与完善功能
 abstract class UpdateRepository {
   Future<UpdateModel> checkForUpdate();
+  Future<File> downloadUpdate(
+      String url,
+      String sha256,
+      Function(double progress) onProgress,
+      );
 }
 
 class UpdateRepositoryImpl implements UpdateRepository {
@@ -49,5 +56,11 @@ class UpdateRepositoryImpl implements UpdateRepository {
         sha256: infos['sha256'],
       );
     }
+  }
+
+  @override
+  Future<File> downloadUpdate(String url, String sha256, Function(double progress) onProgress) {
+    // TODO: implement downloadUpdate
+    throw UnimplementedError();
   }
 }

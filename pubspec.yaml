@@ -65,6 +65,8 @@ dependencies:
   path_provider: ^2.1.5
   # 计算哈希值
   crypto: ^3.0.7
+  # 调用系统打开文件
+  open_filex: ^4.7.0
 
 dev_dependencies:
   flutter_test:
