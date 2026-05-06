@@ -17,6 +17,7 @@ class AboutPage extends StatelessWidget {
     }
   }
 
+  // todo: 更新的下载和安装
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:go_deeper/core/network/article.dart';
 import 'package:go_deeper/core/utils/article_utils.dart';
 import 'package:go_deeper/data/model/feeditem.dart';
 import 'package:go_deeper/data/repository/article_repository.dart';
-import 'package:go_deeper/ui/pages/article_pages/article_page.dart';
+import 'package:go_deeper/ui/widgets/article_feed_card.dart';
 
-import '../../../data/model/feeditem_controller.dart';
 import '../../../l10n/app_localizations.dart';
 
 class UserFeedItemsController extends GetxController {
@@ -50,71 +48,87 @@ class UserFeedItemsController extends GetxController {
 }
 
 class UserArticlesPage extends StatelessWidget {
+  const UserArticlesPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final userFeedItemsController = Get.find<UserFeedItemsController>();
     userFeedItemsController.loadUserFeedItems(refresh: true);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            userFeedItemsController.userName != null
-                ? l10n.whoseArticles(userFeedItemsController.userName!)
-                : l10n.whoseArticles(l10n.user)
+          userFeedItemsController.userName != null
+              ? l10n.whoseArticles(userFeedItemsController.userName!)
+              : l10n.whoseArticles(l10n.user),
         ),
       ),
-      body: Obx(() => RefreshIndicator(
+      body: Obx(
+        () => RefreshIndicator(
           onRefresh: () {
             return userFeedItemsController.loadUserFeedItems(refresh: true);
           },
           child: userFeedItemsController.feedItems.isEmpty
-              ? userFeedItemsController.hasMore.value
-                ? Center(
-            child: CircularProgressIndicator(
-              // value: 0.6,
-              strokeWidth: 3.3,
-            ),
-          )
-                : Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.article, size: 80, color: Colors.grey),
-              Center(child: Text(l10n.noArticlesFound) ),
-            ],
-          )
+              ? _buildEmptyState(l10n, userFeedItemsController)
               : ListView.builder(
-              itemCount: userFeedItemsController.feedItems.length + 1,
-              itemBuilder: (context, index) {
-                if (index == userFeedItemsController.feedItems.length) {
-                  if (userFeedItemsController.hasMore.value) {
-                    userFeedItemsController.loadUserFeedItems();
-                    return Center(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 8),
-                        child: CircularProgressIndicator(),
-                      ),
+                  padding: const EdgeInsets.fromLTRB(12, 12, 12, 24),
+                  itemCount: userFeedItemsController.feedItems.length + 1,
+                  itemBuilder: (context, index) {
+                    if (index == userFeedItemsController.feedItems.length) {
+                      if (userFeedItemsController.hasMore.value) {
+                        userFeedItemsController.loadUserFeedItems();
+                        return Center(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 8),
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      }
+
+                      return Center(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          child: Text(l10n.noMoreArticles),
+                        ),
+                      );
+                    }
+
+                    final item = userFeedItemsController.feedItems[index];
+                    return ArticleFeedCard(
+                      item: item,
+                      showAuthor: false,
+                      onTap: () {
+                        goToArticlePage(articleID: item.id);
+                      },
                     );
-                  } else {
-                    return Center(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 16),
-                        child: Text(l10n.noMoreArticles),
-                      ),
-                    );
-                  }
-                } else {
-                  final item = userFeedItemsController.feedItems[index];
-                  return ListTile(
-                    title: Text(item.title),
-                    subtitle: Text(item.summary),
-                    onTap: () {
-                      goToArticlePage(articleID: item.id);
-                    },
-                  );
-                }
-              }
-          )
-      )),
+                  },
+                ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEmptyState(
+    AppLocalizations l10n,
+    UserFeedItemsController controller,
+  ) {
+    if (controller.hasMore.value) {
+      return Center(
+        child: CircularProgressIndicator(
+          strokeWidth: 3.3,
+        ),
+      );
+    }
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(Icons.article, size: 80, color: Colors.grey),
+        Center(
+          child: Text(l10n.noArticlesFound),
+        ),
+      ],
     );
   }
 }

@@ -2,8 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:go_deeper/core/agent/agent_tools.dart';
-import 'package:go_deeper/core/network/article.dart';
-import 'package:go_deeper/core/network/comment.dart' as comment_api;
 import 'package:go_deeper/core/network/dio_client.dart';
 import 'package:go_deeper/data/model/chat_message.dart';
 import 'package:go_deeper/l10n/app_localizations.dart';
