@@ -67,6 +67,8 @@ dependencies:
   crypto: ^3.0.7
   # 调用系统打开文件
   open_filex: ^4.7.0
+  # 本地通知
+  flutter_local_notifications: ^21.0.0
 
 dev_dependencies:
   flutter_test:
